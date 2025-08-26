@@ -1,0 +1,38 @@
+// =============================================================================
+// MAIN SCSS FILE
+// =============================================================================
+
+// 1. Variables and Configuration
+@import 'abstracts/variables';
+@import 'abstracts/functions';
+@import 'abstracts/mixins';
+@import 'abstracts/breakpoints';
+
+// 2. Base Styles
+@import 'base/reset';
+@import 'base/typography';
+@import 'base/base';
+
+// 3. Layout Components
+@import 'layout/navbar';
+
+// 4. Components
+@import 'components/circular-progress-bar';
+@import 'components/basic-popup';
+@import 'components/error-boundary';
+@import 'components/basic-accordion';
+@import 'components/basic-checkbox';
+@import 'components/basic-chip';
+@import 'components/basic-radio';
+@import 'components/basic-range';
+@import 'components/side-panel';
+
+// 5. Pages
+@import 'pages/home';
+@import 'pages/auth';
+@import 'pages/not-found';
+@import 'pages/radio-demo';
+@import 'pages/range-demo';
+
+// 6. Utilities (should be last for specificity)
+@import 'utilities/spacing';
