@@ -1,0 +1,8 @@
+{
+  "label": "Basic Components",
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Fundamental UI components including popups, modals, and utility components."
+  }
+}

@@ -10,10 +10,9 @@ Welcome to our comprehensive collection of **custom React UI components** built 
 
 This library provides a complete set of reusable React components that you can easily integrate into your projects:
 
-- **Form Components** - Custom checkboxes, radio buttons, inputs, and selects
+- **Input Components** - Custom checkboxes, radio buttons, inputs, and selects
 - **Layout Components** - Cards, containers, and grid systems
-- **Interactive Elements** - Buttons, modals, and navigation components
-- **Utility Components** - Loading states, notifications, and feedback elements
+- **Basic Components** - Popups, modals, and utility elements
 
 ## Quick Start
 
@@ -52,26 +51,49 @@ function MyForm() {
 
 ## Customization
 
-All components are built with SCSS and can be easily customized:
+All components are built with CSS custom properties and can be easily customized:
 
-```scss
-// Customize theme variables
-$primary-color: #007bff;
-$border-radius: 8px;
-$font-family: 'Inter', sans-serif;
-
-// Import your custom styles
-@import '@your-org/react-ui-components/styles';
+```css
+/* Customize theme variables */
+:root {
+  --primary-color: #007bff;
+  --border-radius: 8px;
+  --font-family: 'Inter', sans-serif;
+}
 ```
 
 ## Getting Started
 
 Choose your path:
 
-- **[View All Components](/docs/components)** - Browse the complete component library
-- **[Tutorial](/docs/tutorial-basics/create-a-document)** - Step-by-step guide to using components
-- **[Customization Guide](/docs/tutorial-extras/manage-docs-versions)** - Learn how to theme and customize
+- **[View All Components](/docs/components)** - Browse the complete component library organized by categories
+- **[Input Components](/docs/components/input)** - Form elements like checkboxes and radio buttons
+- **[Layout Components](/docs/components/layout)** - Navigation and structural components
+- **[Basic Components](/docs/components/basic)** - Popups, modals, and utility components
+
+## Component Categories
+
+### 🎯 Input Components
+Form elements and interactive controls:
+- **Checkbox** - Custom checkbox with multiple sizes and states
+- **Radio** - Radio buttons with color variants and sizes
+- **Input** - Text inputs with validation states
+- **Select** - Dropdown select components
+
+### 🏗️ Layout Components
+Structural and navigation components:
+- **Navbar** - Responsive navigation bar
+- **Header** - Page header components
+- **Sidebar** - Collapsible sidebar navigation
+- **Container** - Layout containers and grids
+
+### 🔧 Basic Components
+Fundamental UI building blocks:
+- **Popup** - Modal popup with backdrop
+- **Accordion** - Collapsible content sections
+- **Chip** - Tag and badge components
+- **Button** - Button variants and states
 
 ---
 
-*Ready to build beautiful user interfaces? Let's get started!*
+*Ready to build beautiful user interfaces? Explore our components and start building!*
