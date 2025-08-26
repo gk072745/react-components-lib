@@ -13,14 +13,17 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          {siteConfig.title}
+          React UI Components Library
         </Heading>
-        <p className="hero__subtitle">{siteConfig.tagline}</p>
+        <p className="hero__subtitle">
+          Beautiful, customizable React components built with SCSS. 
+          From checkboxes to complex form elements, everything you need for modern web applications.
+        </p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            Get Started - View Components ��
           </Link>
         </div>
       </div>
@@ -32,8 +35,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title="React UI Components Library"
+      description="A comprehensive collection of custom React UI components built with SCSS for modern web applications">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
