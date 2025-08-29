@@ -9,6 +9,20 @@ description: 'Custom checkbox component with multiple sizes and states'
 
 A customizable checkbox component built with React and CSS.
 
+## 🎯 Interactive Demo
+
+<div style={{ textAlign: 'center', margin: '2rem 0', padding: '2rem', backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+  <h3>Try the Interactive Demo</h3>
+  <p>Experience all checkbox features with live examples and customization options.</p>
+  <a 
+    href="/checkbox-demo" 
+    className="button button--primary button--lg"
+    style={{ textDecoration: 'none', display: 'inline-block', marginTop: '1rem' }}
+  >
+    🚀 Launch Interactive Demo
+  </a>
+</div>
+
 ## Basic Usage
 
 ```jsx
