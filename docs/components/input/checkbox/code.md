@@ -205,12 +205,13 @@ export default BasicCheckbox;
 
 **File:** `./assets/scss/components/_basic-checkbox.scss`
 
-```css
+```scss
 // =============================================================================
 // BASIC CHECKBOX COMPONENT
 // =============================================================================
 // This file contains all styles for the BasicCheckbox component.
 // The checkbox supports multiple sizes, disabled/readonly states, and custom styling.
+@use '../abstracts' as *;
 
 .checkbox-container {
 
@@ -223,13 +224,15 @@ export default BasicCheckbox;
         box-sizing: border-box;
     }
 
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    user-select: none;
-    color: #000000;
-    position: relative;
+    &{
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        user-select: none;
+        color: #000000;
+        position: relative;
+    }
 
     // =============================================================================
     // HIDDEN INPUT STYLES
