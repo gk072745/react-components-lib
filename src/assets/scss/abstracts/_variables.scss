@@ -1,6 +1,7 @@
 // =============================================================================
 // VARIABLES
 // =============================================================================
+@use "sass:color";
 
 // Color Palette
 $primary-color: #007bff;
@@ -13,10 +14,10 @@ $light-color: #f8f9fa;
 $dark-color: #343a40;
 
 // Color Variations
-$primary-light: lighten($primary-color, 10%);
-$primary-dark: darken($primary-color, 10%);
-$secondary-light: lighten($secondary-color, 10%);
-$secondary-dark: darken($secondary-color, 10%);
+$primary-light: color.scale($primary-color, $lightness: 10%);
+$primary-dark: color.scale($primary-color, $lightness: -10%);
+$secondary-light: color.scale($secondary-color, $lightness: 10%);
+$secondary-dark: color.scale($secondary-color, $lightness: -10%);
 
 // Neutral Colors
 $white: #ffffff;
@@ -73,15 +74,3 @@ $error-bg-1: #ffe0e0;
 $error-border-1: #ff6b6b;
 $error-button-bg-1: #0984e3;
 $error-button-bg-2: #0770c4;
-
-// Accordion Colors
-@import 'variables/accordion-variables';
-
-// Chip Variables
-@import 'variables/chip-variables';
-
-// Radio Variables
-@import 'variables/radio-variables';
-
-// Range Variables
-@import 'variables/range-variables';
