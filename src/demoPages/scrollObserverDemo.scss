@@ -1,0 +1,252 @@
+// =============================================================================
+// SCROLL OBSERVER DEMO STYLES
+// =============================================================================
+
+.scroll-observer-demo-container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+    // =============================================================================
+    // DEMO SECTIONS
+    // =============================================================================
+    .demo-section {
+        margin-bottom: 3rem;
+        padding: 2rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 12px;
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
+
+        &:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .demo-title {
+            margin: 0 0 1.5rem 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            border-bottom: 2px solid #4299e1;
+            padding-bottom: 0.5rem;
+        }
+
+        .demo-content {
+            .scroll-area {
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                overflow-y: auto;
+                max-height: 400px;
+                margin-bottom: 1rem;
+            }
+
+            .infinite-list {
+                max-height: 300px;
+                overflow-y: auto;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+                padding: 1rem;
+
+                .list-item {
+                    padding: 0.75rem 1rem;
+                    margin-bottom: 0.5rem;
+                    background: #f7fafc;
+                    border: 1px solid #e2e8f0;
+                    border-radius: 6px;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background: #edf2f7;
+                        border-color: #cbd5e0;
+                    }
+                }
+
+                .loading-indicator {
+                    text-align: center;
+                    padding: 1rem;
+                    color: #4a5568;
+                    font-style: italic;
+                }
+            }
+
+            .threshold-info {
+                background: #f7fafc;
+                padding: 1rem;
+                border-radius: 8px;
+                margin-bottom: 1rem;
+
+                .trigger-counts {
+                    display: flex;
+                    gap: 1rem;
+                    margin-top: 0.5rem;
+
+                    span {
+                        padding: 0.25rem 0.5rem;
+                        background: #e2e8f0;
+                        border-radius: 4px;
+                        font-size: 0.875rem;
+                    }
+                }
+            }
+
+            .lazy-section {
+                margin: 2rem 0;
+                padding: 1.5rem;
+                border: 1px solid #e2e8f0;
+                border-radius: 8px;
+
+                .placeholder {
+                    text-align: center;
+                    padding: 2rem;
+                    background: #f7fafc;
+                    border-radius: 6px;
+                    color: #4a5568;
+                }
+
+                .loaded-content {
+                    h4 {
+                        margin: 0 0 1rem 0;
+                        color: #2d3748;
+                    }
+
+                    .content-block {
+                        padding: 0.75rem;
+                        margin: 0.5rem 0;
+                        background: #edf2f7;
+                        border-radius: 4px;
+                    }
+                }
+            }
+
+            .demo-note {
+                margin-top: 1rem;
+                padding: 0.75rem;
+                background: #e6fffa;
+                border: 1px solid #81e6d9;
+                border-radius: 6px;
+                color: #234e52;
+            }
+
+            .demo-status {
+                margin-top: 1rem;
+                text-align: center;
+                font-weight: 500;
+                color: #4a5568;
+            }
+        }
+    }
+
+    // =============================================================================
+    // RESPONSIVE DESIGN
+    // =============================================================================
+    @media (max-width: 768px) {
+        padding: 1rem;
+
+        .demo-section {
+            padding: 1.5rem;
+
+            .demo-title {
+                font-size: 1.25rem;
+            }
+
+            .demo-content {
+                .threshold-info .trigger-counts {
+                    flex-direction: column;
+                    gap: 0.5rem;
+                }
+            }
+        }
+    }
+
+    // =============================================================================
+    // DARK MODE SUPPORT
+    // =============================================================================
+    [data-theme='dark'] &,
+    .theme-dark &,
+    html[data-theme='dark'] &,
+    .dark &,
+    [class*="dark"] & {
+        .demo-section {
+            background: #2a2a2a;
+            border-color: #555555;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            }
+
+            .demo-title {
+                color: #ffffff;
+                border-bottom-color: #4299e1;
+            }
+
+            .demo-content {
+
+                .scroll-area,
+                .infinite-list {
+                    border-color: #555555;
+                    background: #1a1a1a;
+                }
+
+                .list-item {
+                    background: #3a3a3a;
+                    border-color: #555555;
+                    color: #e0e0e0;
+
+                    &:hover {
+                        background: #4a4a4a;
+                        border-color: #666666;
+                    }
+                }
+
+                .loading-indicator {
+                    color: #b0b0b0;
+                }
+
+                .threshold-info {
+                    background: #3a3a3a;
+                    color: #e0e0e0;
+
+                    .trigger-counts span {
+                        background: #4a4a4a;
+                        color: #e0e0e0;
+                    }
+                }
+
+                .lazy-section {
+                    border-color: #555555;
+                    background: #2a2a2a;
+
+                    .placeholder {
+                        background: #3a3a3a;
+                        color: #b0b0b0;
+                    }
+
+                    .loaded-content {
+                        h4 {
+                            color: #ffffff;
+                        }
+
+                        .content-block {
+                            background: #3a3a3a;
+                            color: #e0e0e0;
+                        }
+                    }
+                }
+
+                .demo-note {
+                    background: #234e52;
+                    border-color: #2c7a7b;
+                    color: #e6fffa;
+                }
+
+                .demo-status {
+                    color: #b0b0b0;
+                }
+            }
+        }
+    }
+}
