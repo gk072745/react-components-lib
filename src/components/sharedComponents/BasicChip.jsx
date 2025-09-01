@@ -1,21 +1,22 @@
-import React, { useMemo, useCallback, memo } from 'react';
-import PropTypes from 'prop-types';
+import React, { useMemo, useCallback, memo } from "react";
+import PropTypes from "prop-types";
+import "@site/src/assets/scss/components/_basic-chip.scss";
 
 const BasicChip = memo(
   ({
     chip,
-    textKey = 'text',
-    valueKey = 'value',
+    textKey = "text",
+    valueKey = "value",
     closable = false,
     onDeleteChip,
     children,
     prepend,
     append,
     close,
-    variant = 'default',
-    variantType = 'solid',
+    variant = "default",
+    variantType = "solid",
     disabled = false,
-    className = '',
+    className = "",
     style = {},
     onClick,
   }) => {
@@ -23,14 +24,14 @@ const BasicChip = memo(
     // COMPUTED VALUES
     // =============================================================================
     const displayText = useMemo(() => {
-      if (typeof chip === 'string') {
+      if (typeof chip === "string") {
         return chip;
       }
-      return chip[textKey] || '';
+      return chip[textKey] || "";
     }, [chip, textKey]);
 
     const chipValue = useMemo(() => {
-      if (typeof chip === 'string') {
+      if (typeof chip === "string") {
         return chip;
       }
       return chip[valueKey] || chip;
@@ -40,7 +41,7 @@ const BasicChip = memo(
     // EVENT HANDLERS
     // =============================================================================
     const handleDelete = useCallback(
-      event => {
+      (event) => {
         if (event && event.stopPropagation) {
           event.stopPropagation();
         }
@@ -52,7 +53,7 @@ const BasicChip = memo(
     );
 
     const handleClick = useCallback(
-      event => {
+      (event) => {
         if (disabled) {
           event.preventDefault();
           return;
@@ -66,26 +67,26 @@ const BasicChip = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ['basic-chip'];
+      const classes = ["basic-chip"];
 
       // Handle variant type and variant combination
-      if (variantType === 'outlined') {
+      if (variantType === "outlined") {
         classes.push(`outlined-${variant}`);
-      } else if (variantType === 'filled') {
+      } else if (variantType === "filled") {
         classes.push(`filled-${variant}`);
       } else {
         classes.push(variant);
       }
 
-      if (disabled) classes.push('disabled');
+      if (disabled) classes.push("disabled");
       if (className) classes.push(className);
-      return classes.join(' ');
+      return classes.join(" ");
     }, [variant, variantType, disabled, className]);
 
     const chipStyle = useMemo(
       () => ({
         ...style,
-        cursor: disabled ? 'not-allowed' : 'pointer',
+        cursor: disabled ? "not-allowed" : "pointer",
       }),
       [style, disabled]
     );
@@ -98,7 +99,9 @@ const BasicChip = memo(
 
       return (
         <div className="chip-prepend">
-          {typeof prepend === 'function' ? prepend({ chip, isDisabled: disabled }) : prepend}
+          {typeof prepend === "function"
+            ? prepend({ chip, isDisabled: disabled })
+            : prepend}
         </div>
       );
     }, [prepend, chip, disabled]);
@@ -107,7 +110,7 @@ const BasicChip = memo(
       return (
         <div className="chip-content">
           {children
-            ? typeof children === 'function'
+            ? typeof children === "function"
               ? children({ chip, isDisabled: disabled })
               : children
             : displayText}
@@ -120,21 +123,34 @@ const BasicChip = memo(
 
       return (
         <div className="chip-append">
-          {typeof append === 'function' ? append({ chip, isDisabled: disabled }) : append}
+          {typeof append === "function"
+            ? append({ chip, isDisabled: disabled })
+            : append}
         </div>
       );
     }, [append, chip, disabled]);
 
     const renderClose = useMemo(() => {
       if (close) {
-        return typeof close === 'function'
-          ? close({ chip, chipValue, isDisabled: disabled, onDelete: handleDelete })
+        return typeof close === "function"
+          ? close({
+              chip,
+              chipValue,
+              isDisabled: disabled,
+              onDelete: handleDelete,
+            })
           : close;
       }
 
-      if (closable && !disabled) {
+      if (closable) {
         return (
-          <button className="chip-close" onClick={handleDelete} aria-label="Remove chip" type="button">
+          <button
+            className="chip-close"
+            onClick={handleDelete}
+            aria-label="Remove chip"
+            type="button"
+            disabled={disabled}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -190,14 +206,21 @@ BasicChip.propTypes = {
   prepend: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   append: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   close: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
-  variantType: PropTypes.oneOf(['solid', 'outlined', 'filled']),
+  variant: PropTypes.oneOf([
+    "default",
+    "primary",
+    "success",
+    "warning",
+    "danger",
+    "info",
+  ]),
+  variantType: PropTypes.oneOf(["solid", "outlined", "filled"]),
   disabled: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
   onClick: PropTypes.func,
 };
 
-BasicChip.displayName = 'BasicChip';
+BasicChip.displayName = "BasicChip";
 
 export default BasicChip;
