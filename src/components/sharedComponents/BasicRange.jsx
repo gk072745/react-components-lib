@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback, memo, useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDeepCompareEffect } from 'use-deep-compare';
+import '@site/src/assets/scss/components/_basic-range.scss';
 
 const BasicRange = memo(
   ({
