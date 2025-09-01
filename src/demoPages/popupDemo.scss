@@ -1,0 +1,559 @@
+// =============================================================================
+// POPUP DEMO STYLES
+// =============================================================================
+
+.popup-demo-container {
+    // =============================================================================
+    // CONTAINER STYLES
+    // =============================================================================
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: inherit;
+
+    // =============================================================================
+    // DEMO SECTION STYLES
+    // =============================================================================
+    .demo-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+        // =============================================================================
+        // DEMO TITLE STYLES
+        // =============================================================================
+        .demo-title {
+            margin: 0 0 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333333;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+
+        // =============================================================================
+        // DEMO CONTENT STYLES
+        // =============================================================================
+        .demo-content {
+
+            // =============================================================================
+            // BUTTON STYLES
+            // =============================================================================
+            .demo-button {
+                padding: 0.75rem 1.5rem;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                margin-right: 0.5rem;
+                margin-bottom: 0.5rem;
+
+                &:hover {
+                    background-color: #0056b3;
+                    transform: translateY(-1px);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+
+                &.danger {
+                    background-color: #dc3545;
+
+                    &:hover {
+                        background-color: #c82333;
+                    }
+                }
+
+                &.warning {
+                    background-color: #ffc107;
+                    color: #212529;
+
+                    &:hover {
+                        background-color: #e0a800;
+                    }
+                }
+            }
+
+            // =============================================================================
+            // BUTTON GROUP STYLES
+            // =============================================================================
+            .button-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            // =============================================================================
+            // POPUP CONTENT STYLES
+            // =============================================================================
+            .popup-content {
+                padding: 1.5rem;
+                background-color: #ffffff;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+
+                h3,
+                h4 {
+                    margin: 0 0 1rem 0;
+                    color: #333333;
+                }
+
+                p {
+                    margin: 0.5rem 0;
+                    line-height: 1.5;
+                    color: #666666;
+                }
+
+                // =============================================================================
+                // POPUP GRID STYLES
+                // =============================================================================
+                .popup-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                    gap: 1rem;
+                    margin: 1rem 0;
+
+                    .grid-item {
+                        padding: 1rem;
+                        background-color: #f8f9fa;
+                        border: 1px solid #e9ecef;
+                        border-radius: 6px;
+                        text-align: center;
+                        font-weight: 500;
+                    }
+                }
+
+                // =============================================================================
+                // FORM STYLES
+                // =============================================================================
+                .popup-form {
+                    .form-group {
+                        margin-bottom: 1rem;
+
+                        label {
+                            display: block;
+                            margin-bottom: 0.5rem;
+                            font-weight: 500;
+                            color: #333333;
+                        }
+
+                        input {
+                            width: 100%;
+                            padding: 0.75rem;
+                            border: 1px solid #ced4da;
+                            border-radius: 4px;
+                            font-size: 14px;
+                            transition: border-color 0.2s ease;
+
+                            &:focus {
+                                outline: none;
+                                border-color: #007bff;
+                                box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+                            }
+                        }
+                    }
+
+                    .form-actions {
+                        display: flex;
+                        gap: 0.5rem;
+                        margin-top: 1.5rem;
+
+                        button {
+                            padding: 0.75rem 1.5rem;
+                            border: none;
+                            border-radius: 4px;
+                            font-size: 14px;
+                            font-weight: 500;
+                            cursor: pointer;
+                            transition: all 0.2s ease;
+
+                            &[type="submit"] {
+                                background-color: #28a745;
+                                color: white;
+
+                                &:hover {
+                                    background-color: #218838;
+                                }
+                            }
+
+                            &[type="button"] {
+                                background-color: #6c757d;
+                                color: white;
+
+                                &:hover {
+                                    background-color: #5a6268;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // =============================================================================
+                // CONFIRMATION STYLES
+                // =============================================================================
+                .warning-text {
+                    color: #dc3545;
+                    font-weight: 500;
+                    margin: 1rem 0;
+                }
+
+                .confirmation-actions {
+                    display: flex;
+                    gap: 0.5rem;
+                    margin-top: 1.5rem;
+
+                    .confirm-button {
+                        padding: 0.75rem 1.5rem;
+                        background-color: #dc3545;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+
+                        &:hover {
+                            background-color: #c82333;
+                        }
+                    }
+
+                    .cancel-button {
+                        padding: 0.75rem 1.5rem;
+                        background-color: #6c757d;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        cursor: pointer;
+                        transition: all 0.2s ease;
+
+                        &:hover {
+                            background-color: #5a6268;
+                        }
+                    }
+                }
+
+                // =============================================================================
+                // CONTENT HEADER STYLES
+                // =============================================================================
+                .content-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-bottom: 1.5rem;
+                    padding-bottom: 1rem;
+                    border-bottom: 1px solid #e9ecef;
+
+                    .close-button {
+                        background: none;
+                        border: none;
+                        font-size: 1.5rem;
+                        font-weight: bold;
+                        color: #6c757d;
+                        cursor: pointer;
+                        padding: 0;
+                        width: 30px;
+                        height: 30px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 50%;
+                        transition: all 0.2s ease;
+
+                        &:hover {
+                            background-color: #f8f9fa;
+                            color: #333333;
+                        }
+                    }
+                }
+
+                // =============================================================================
+                // CONTENT BODY STYLES
+                // =============================================================================
+                .content-body {
+                    flex: 1;
+                    overflow-y: auto;
+
+                    ul {
+                        margin: 1rem 0;
+                        padding-left: 1.5rem;
+
+                        li {
+                            margin: 0.5rem 0;
+                            line-height: 1.5;
+                            color: #666666;
+                        }
+                    }
+                }
+
+                // =============================================================================
+                // GENERAL BUTTON STYLES
+                // =============================================================================
+                button {
+                    padding: 0.5rem 1rem;
+                    background-color: #007bff;
+                    color: white;
+                    border: none;
+                    border-radius: 4px;
+                    font-size: 14px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: all 0.2s ease;
+
+                    &:hover {
+                        background-color: #0056b3;
+                    }
+                }
+            }
+        }
+    }
+
+    // =============================================================================
+    // DARK MODE SUPPORT
+    // =============================================================================
+    [data-theme='dark'] &,
+    .theme-dark &,
+    html[data-theme='dark'] &,
+    .dark &,
+    [class*="dark"] & {
+        .demo-section {
+            background-color: #2a2a2a;
+            border-color: #555555;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+            .demo-title {
+                color: #ffffff;
+                border-bottom-color: #555555;
+            }
+
+            .demo-content {
+                .demo-button {
+                    background-color: #4dabf7;
+
+                    &:hover {
+                        background-color: #3a8fd9;
+                    }
+
+                    &.danger {
+                        background-color: #e74c3c;
+
+                        &:hover {
+                            background-color: #c0392b;
+                        }
+                    }
+
+                    &.warning {
+                        background-color: #f39c12;
+                        color: #ffffff;
+
+                        &:hover {
+                            background-color: #e67e22;
+                        }
+                    }
+                }
+
+                .popup-content {
+                    background-color: #3a3a3a;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+                    h3,
+                    h4 {
+                        color: #ffffff;
+                    }
+
+                    p {
+                        color: #cccccc;
+                    }
+
+                    .popup-grid .grid-item {
+                        background-color: #4a4a4a;
+                        border-color: #666666;
+                        color: #cccccc;
+                    }
+
+                    .popup-form {
+                        .form-group {
+                            label {
+                                color: #ffffff;
+                            }
+
+                            input {
+                                background-color: #4a4a4a;
+                                border-color: #666666;
+                                color: #ffffff;
+
+                                &:focus {
+                                    border-color: #4dabf7;
+                                    box-shadow: 0 0 0 2px rgba(77, 171, 247, 0.25);
+                                }
+                            }
+                        }
+
+                        .form-actions button {
+                            &[type="submit"] {
+                                background-color: #27ae60;
+
+                                &:hover {
+                                    background-color: #229954;
+                                }
+                            }
+
+                            &[type="button"] {
+                                background-color: #7f8c8d;
+
+                                &:hover {
+                                    background-color: #6c7b7d;
+                                }
+                            }
+                        }
+                    }
+
+                    .warning-text {
+                        color: #e74c3c;
+                    }
+
+                    .confirmation-actions {
+                        .confirm-button {
+                            background-color: #e74c3c;
+
+                            &:hover {
+                                background-color: #c0392b;
+                            }
+                        }
+
+                        .cancel-button {
+                            background-color: #7f8c8d;
+
+                            &:hover {
+                                background-color: #6c7b7d;
+                            }
+                        }
+                    }
+
+                    .content-header {
+                        border-bottom-color: #666666;
+
+                        .close-button {
+                            color: #7f8c8d;
+
+                            &:hover {
+                                background-color: #4a4a4a;
+                                color: #ffffff;
+                            }
+                        }
+                    }
+
+                    .content-body {
+                        ul li {
+                            color: #cccccc;
+                        }
+                    }
+
+                    button {
+                        background-color: #4dabf7;
+
+                        &:hover {
+                            background-color: #3a8fd9;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // =============================================================================
+    // RESPONSIVE DESIGN
+    // =============================================================================
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+
+        .demo-section {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+
+            .demo-title {
+                font-size: 1.1rem;
+            }
+
+            .demo-content {
+                .demo-button {
+                    padding: 0.5rem 1rem;
+                    font-size: 13px;
+                }
+
+                .button-group {
+                    flex-direction: column;
+                }
+
+                .popup-content {
+                    padding: 1rem;
+
+                    .popup-grid {
+                        grid-template-columns: 1fr;
+                    }
+
+                    .form-actions,
+                    .confirmation-actions {
+                        flex-direction: column;
+                    }
+                }
+            }
+        }
+    }
+
+    // =============================================================================
+    // ACCESSIBILITY
+    // =============================================================================
+    .demo-section:focus-within {
+        outline: 2px solid #007bff;
+        outline-offset: 2px;
+    }
+
+    // =============================================================================
+    // ANIMATIONS
+    // =============================================================================
+    .demo-section {
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+    }
+
+    // =============================================================================
+    // PRINT STYLES
+    // =============================================================================
+    @media print {
+        .popup-demo-container {
+            .demo-section {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #000000;
+
+                .demo-title {
+                    color: #000000;
+                }
+
+                .demo-content p {
+                    color: #000000;
+                }
+            }
+        }
+    }
+}
