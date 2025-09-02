@@ -255,6 +255,60 @@ const InteractiveExample = () => {
 
 This demo shows various implementation patterns for the BasicBreadCrumb component.
 
+#### Basic Implementation:
+
+```jsx
+import BasicBreadCrumb from "./components/BasicBreadCrumb";
+
+const breadcrumbItems = [
+  { label: "Home", to: "/" },
+  { label: "Section", to: "/section" },
+  { label: "Current", to: null, disabled: true },
+];
+
+<BasicBreadCrumb items={breadcrumbItems} separator="›" gap="0.5rem" />;
+```
+
+#### SVG Separator:
+
+```jsx
+<BasicBreadCrumb
+  items={breadcrumbItems}
+  separator={
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+    </svg>
+  }
+  gap="0.5rem"
+/>
+```
+
+#### Function Separator:
+
+```jsx
+<BasicBreadCrumb
+  items={breadcrumbItems}
+  separator={() => (
+    <span style={{ color: "#007bff", fontSize: "1.2rem" }}>→</span>
+  )}
+  gap="0.5rem"
+/>
+```
+
+#### Custom Click Handler:
+
+```jsx
+<BasicBreadCrumb
+  items={breadcrumbItems}
+  separator="›"
+  gap="0.5rem"
+  onItemClick={(item, event) => {
+    console.log("Custom click:", item);
+    // Custom navigation logic
+  }}
+/>
+```
+
 ### Interactive Demo
 
 <CodeExamplesDemo />
