@@ -31,7 +31,7 @@
 
 The component uses the following CSS classes:
 
-- `.basic-slider-input-wrapper` - Main container
+- `.basic-range-input-wrapper` - Main container
 - `.slider-track` - The track element
 - `.slider-filled` - The filled portion of the track
 - `.slider-thumb` - Thumb handles

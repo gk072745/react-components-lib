@@ -328,7 +328,7 @@ const BasicRange = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["basic-slider-input-wrapper", size];
+      const classes = ["basic-range-input-wrapper", size];
       if (disabled) classes.push("disabled");
       if (readonly) classes.push("readonly");
       if (label) classes.push("has-label");
@@ -514,7 +514,7 @@ src/
 @use "../abstracts" as *;
 @use "sass:math";
 
-.basic-slider-input-wrapper {
+.basic-range-input-wrapper {
   width: 100%;
   display: grid;
   grid-template-columns: max-content 1fr;

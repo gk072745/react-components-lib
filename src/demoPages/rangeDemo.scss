@@ -42,7 +42,7 @@
                 margin-bottom: 1rem;
 
                 // Range slider spacing
-                .basic-slider-input-wrapper {
+                .basic-range-input-wrapper {
                     margin-bottom: 0.5rem;
                 }
             }
@@ -131,7 +131,7 @@
     // =============================================================================
     // ACCESSIBILITY
     // =============================================================================
-    .basic-slider-input-wrapper {
+    .basic-range-input-wrapper {
         &:focus-within {
             outline: 2px solid #007bff;
             outline-offset: 2px;

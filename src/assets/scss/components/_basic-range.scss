@@ -4,7 +4,7 @@
 @use '../abstracts' as *;
 @use "sass:math";
 
-.basic-slider-input-wrapper {
+.basic-range-input-wrapper {
     width: 100%;
     display: grid;
     grid-template-columns: max-content 1fr;
