@@ -1,0 +1,109 @@
+.vertical-app-bar-demo {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+
+  h1 { margin: 0 0 1.5rem 0; font-size: 1.75rem; font-weight: 700; }
+  h3 { margin: 1.75rem 0 0.75rem; font-size: 1.1rem; }
+
+  .app-bar-container {
+    display: flex;
+    position: relative;
+    border: 1px solid #e1e5e9;
+    border-radius: 12px;
+    background: #ffffff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    margin-bottom: 1.25rem;
+    overflow: hidden;
+
+    &.two-bars { min-height: 14rem; }
+
+    .content {
+      flex: 1;
+      padding: 1rem;
+      min-height: 12rem;
+
+      // Button group for action buttons
+      .button-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 0.75rem;
+      }
+
+      // Consistent demo button styling (aligned with other demos)
+      .demo-button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #0056b3;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+
+        &.danger {
+          background-color: #dc3545;
+
+          &:hover {
+            background-color: #c82333;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// Fallback: when examples are rendered without the `.vertical-app-bar-demo` wrapper (e.g., in docs)
+.app-bar-container {
+  .content {
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .demo-button {
+      padding: 0.5rem 1rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &.danger {
+        background-color: #dc3545;
+
+        &:hover {
+          background-color: #c82333;
+        }
+      }
+    }
+  }
+}
