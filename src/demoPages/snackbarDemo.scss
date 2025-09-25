@@ -1,0 +1,246 @@
+// =============================================================================
+// SNACKBAR DEMO STYLES
+// =============================================================================
+
+.snackbar-demo-container {
+    // =============================================================================
+    // CONTAINER STYLES
+    // =============================================================================
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: inherit;
+
+    // =============================================================================
+    // DEMO SECTION STYLES
+    // =============================================================================
+    .demo-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        border: 1px solid #e1e5e9;
+        border-radius: 8px;
+        background-color: #ffffff;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+        // =============================================================================
+        // DEMO TITLE STYLES
+        // =============================================================================
+        .demo-title {
+            margin: 0 0 1rem 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #333333;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+
+        // =============================================================================
+        // DEMO CONTENT STYLES
+        // =============================================================================
+        .demo-content {
+
+            // =============================================================================
+            // DEMO CONTROLS STYLES
+            // =============================================================================
+            .demo-controls {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+                margin-bottom: 1rem;
+            }
+
+            // =============================================================================
+            // DEMO INPUT GROUP STYLES
+            // =============================================================================
+            .demo-input-group {
+                margin-bottom: 1rem;
+
+                .input-group {
+                    margin-bottom: 1rem;
+
+                    label {
+                        display: block;
+                        margin-bottom: 0.5rem;
+                        color: #333333;
+                        font-weight: 500;
+                        font-size: 0.875rem;
+                    }
+
+                    .demo-input {
+                        width: 100%;
+                        padding: 0.5rem;
+                        border: 1px solid #ced4da;
+                        border-radius: 4px;
+                        font-size: 0.875rem;
+                        font-family: inherit;
+                        transition: border-color 0.2s ease;
+
+                        &:focus {
+                            outline: none;
+                            border-color: #007bff;
+                            box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+                        }
+                    }
+                }
+            }
+
+            // =============================================================================
+            // DEMO BUTTON STYLES
+            // =============================================================================
+            .demo-button {
+                padding: 0.5rem 1rem;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-family: inherit;
+                font-size: 0.875rem;
+                font-weight: 500;
+                transition: all 0.2s ease;
+                min-width: 120px;
+
+                &:hover {
+                    background-color: #4dabf7;
+                    color: #ffffff;
+                }
+
+                &:focus {
+                    outline: 2px solid #4dabf7;
+                    outline-offset: 2px;
+                }
+
+                &.success {
+                    background-color: #28a745;
+                    color: white;
+
+                    &:hover {
+                        background-color: #218838;
+                    }
+
+                    &:focus {
+                        outline-color: #28a745;
+                    }
+                }
+
+                &.error {
+                    background-color: #dc3545;
+                    color: white;
+
+                    &:hover {
+                        background-color: #c82333;
+                    }
+
+                    &:focus {
+                        outline-color: #dc3545;
+                    }
+                }
+
+                &.warning {
+                    background-color: #ffc107;
+                    color: #212529;
+
+                    &:hover {
+                        background-color: #e0a800;
+                    }
+
+                    &:focus {
+                        outline-color: #ffc107;
+                    }
+                }
+
+                &.info {
+                    background-color: #17a2b8;
+                    color: white;
+
+                    &:hover {
+                        background-color: #138496;
+                    }
+
+                    &:focus {
+                        outline-color: #17a2b8;
+                    }
+                }
+
+                &.custom {
+                    background-color: #6f42c1;
+                    color: white;
+
+                    &:hover {
+                        background-color: #5a32a3;
+                    }
+
+                    &:focus {
+                        outline-color: #6f42c1;
+                    }
+                }
+
+                &.clear {
+                    background-color: #6c757d;
+                    color: white;
+
+                    &:hover {
+                        background-color: #5a6268;
+                    }
+
+                    &:focus {
+                        outline-color: #6c757d;
+                    }
+                }
+
+                &.active {
+                    background-color: #007bff;
+                    color: white;
+                    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+
+                    &:hover {
+                        background-color: #4dabf7;
+                    }
+
+                    &:focus {
+                        outline-color: #007bff;
+                    }
+                }
+            }
+        }
+    }
+
+    // =============================================================================
+    // RESPONSIVE DESIGN
+    // =============================================================================
+    @media (max-width: 768px) {
+        padding: 0.5rem;
+
+        .demo-section {
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+
+            .demo-title {
+                font-size: 1.125rem;
+            }
+
+            .demo-content {
+                .demo-controls {
+                    .demo-button {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+
+    @media (max-width: 480px) {
+        .demo-section {
+            .demo-content {
+                .demo-controls {
+                    .demo-button {
+                        min-width: 100px;
+                        padding: 0.6rem 1rem;
+                        font-size: 0.85rem;
+                    }
+                }
+            }
+        }
+    }
+}
