@@ -1,5 +1,5 @@
 import React from 'react';
-import OToast from '../components/sharedComponents/OToast';
+import OToast from '../components/sharedComponents/BasicToast';
 import { useToast } from '../customHooks/useToast';
 import './toastDemo.scss';
 
