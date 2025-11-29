@@ -1,53 +1,133 @@
 # API
 
-## Props
+## BasicAccordion Component
 
-| Prop            | Type        | Default             | Description                                              |
-| --------------- | ----------- | ------------------- | -------------------------------------------------------- |
-| `prepend`       | `function`  | -                   | Function to render content before the title              |
-| `title`         | `string`    | `'Accordion Title'` | Title text for the accordion                             |
-| `append`        | `function`  | -                   | Function to render content after the title (custom icon) |
-| `children`      | `ReactNode` | -                   | Content to display when accordion is expanded            |
-| `initialIsOpen` | `boolean`   | `false`             | Whether the accordion starts in open state               |
-| `onToggle`      | `function`  | -                   | Callback when accordion state changes                    |
-| `disabled`      | `boolean`   | `false`             | Whether the accordion is disabled                        |
+The main accordion component that provides expandable/collapsible content sections.
 
-## Events
+### Props
 
-| Event      | Parameters | Description                        |
-| ---------- | ---------- | ---------------------------------- |
-| `onToggle` | `(isOpen)` | Fired when accordion state changes |
+| Prop            | Type        | Default             | Required | Description                                                        |
+| --------------- | ----------- | ------------------- | -------- | ------------------------------------------------------------------ |
+| `prepend`       | `function`  | -                   | No       | Function to render content before the title                        |
+| `title`         | `string`    | `'Accordion Title'` | No       | Title text for the accordion header                                |
+| `append`        | `function`  | -                   | No       | Function to render content after the title (replaces default icon) |
+| `children`      | `ReactNode` | -                   | No       | Content to display when accordion is expanded                      |
+| `initialIsOpen` | `boolean`   | `false`             | No       | Whether the accordion starts in open state                         |
+| `onToggle`      | `function`  | -                   | No       | Callback function fired when accordion state changes               |
+| `disabled`      | `boolean`   | `false`             | No       | Whether the accordion is disabled (prevents interaction)           |
 
-### Event Parameters
+### Event Handlers
 
-- **`isOpen`** (`boolean`): The new open/closed state of the accordion
+#### onToggle
 
-## Slots (Custom Components)
+Callback function that is called whenever the accordion state changes.
 
-| Slot      | Props                                | Description                                   |
-| --------- | ------------------------------------ | --------------------------------------------- |
-| `prepend` | `{ isOpen, handleToggle, disabled }` | Content to render before the title            |
-| `append`  | `{ isOpen, handleToggle, disabled }` | Custom icon/content to render after the title |
+**Signature:**
 
-### Slot Props
+```typescript
+onToggle: (isOpen: boolean) => void
+```
 
-- **`isOpen`** (`boolean`): Whether the accordion is currently open
-- **`handleToggle`** (`function`): Function to toggle the accordion state
-- **`disabled`** (`boolean`): Whether the accordion is disabled
+**Parameters:**
 
-## Methods
+- `isOpen` (`boolean`): The new open/closed state of the accordion (`true` = open, `false` = closed)
 
-The component doesn't expose any methods via refs.
+**Example:**
+
+```jsx
+<BasicAccordion
+  title="My Accordion"
+  onToggle={(isOpen) => {
+    console.log('Accordion is now:', isOpen ? 'open' : 'closed');
+  }}
+>
+  <p>Content here</p>
+</BasicAccordion>
+```
+
+### Slot Functions
+
+#### prepend
+
+Function that renders content before the title in the accordion header.
+
+**Signature:**
+
+```typescript
+prepend: (props: { isOpen: boolean; handleToggle: () => void; disabled: boolean }) => ReactNode;
+```
+
+**Parameters:**
+
+- `isOpen` (`boolean`): Whether the accordion is currently open
+- `handleToggle` (`function`): Function to toggle the accordion state
+- `disabled` (`boolean`): Whether the accordion is disabled
+
+**Example:**
+
+```jsx
+const customPrepend = ({ isOpen, handleToggle, disabled }) => (
+  <div style={{ color: isOpen ? 'green' : 'red' }}>{isOpen ? '✓' : '✗'}</div>
+);
+
+<BasicAccordion title="Status" prepend={customPrepend}>
+  <p>Content</p>
+</BasicAccordion>;
+```
+
+#### append
+
+Function that renders content after the title (replaces the default chevron icon).
+
+**Signature:**
+
+```typescript
+append: (props: { isOpen: boolean; handleToggle: () => void; disabled: boolean }) => ReactNode;
+```
+
+**Parameters:**
+
+- `isOpen` (`boolean`): Whether the accordion is currently open
+- `handleToggle` (`function`): Function to toggle the accordion state
+- `disabled` (`boolean`): Whether the accordion is disabled
+
+**Example:**
+
+```jsx
+const customAppend = ({ isOpen }) => (
+  <div style={{ transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+    <svg>...</svg>
+  </div>
+);
+
+<BasicAccordion title="Custom Icon" append={customAppend}>
+  <p>Content</p>
+</BasicAccordion>;
+```
+
+### Accessibility Attributes
+
+The component automatically applies the following accessibility attributes:
+
+- `role="button"`: Indicates the header is a button
+- `tabIndex`: `0` when enabled, `-1` when disabled
+- `aria-expanded`: `true` when open, `false` when closed
+- `aria-disabled`: `true` when disabled, `false` when enabled
+
+### Keyboard Support
+
+- **Enter**: Toggles the accordion
+- **Space**: Toggles the accordion
+- **Tab**: Navigates to/from the accordion (when enabled)
 
 ## Example Usage
 
 ### Basic Usage
 
 ```jsx
-import React from "react";
-import { BasicAccordion } from "@your-org/react-ui-components";
+import BasicAccordion from '@/src/components/sharedComponents/BasicAccordion';
 
-function MyAccordion() {
+function MyComponent() {
   return (
     <BasicAccordion title="Click to expand">
       <p>This is the accordion content that will be shown when expanded.</p>
@@ -67,20 +147,20 @@ function MyAccordion() {
 ### With Toggle Callback
 
 ```jsx
-import React, { useState } from "react";
-import { BasicAccordion } from "@your-org/react-ui-components";
+import { useState } from 'react';
+import BasicAccordion from '@/src/components/sharedComponents/BasicAccordion';
 
 function AccordionWithCallback() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = (newIsOpen) => {
     setIsOpen(newIsOpen);
-    console.log("Accordion is now:", newIsOpen ? "open" : "closed");
+    console.log('Accordion is now:', newIsOpen ? 'open' : 'closed');
   };
 
   return (
     <BasicAccordion title="Accordion with Callback" onToggle={handleToggle}>
-      <p>Current state: {isOpen ? "Open" : "Closed"}</p>
+      <p>Current state: {isOpen ? 'Open' : 'Closed'}</p>
     </BasicAccordion>
   );
 }
@@ -100,12 +180,12 @@ function AccordionWithCallback() {
 const CustomPrepend = ({ isOpen, handleToggle, disabled }) => (
   <div
     style={{
-      marginRight: "8px",
-      color: isOpen ? "#007bff" : "#666",
-      fontSize: "14px",
+      marginRight: '8px',
+      color: isOpen ? '#007bff' : '#666',
+      fontSize: '14px',
     }}
   >
-    {isOpen ? "▼" : "▶"}
+    {isOpen ? '▼' : '▶'}
   </div>
 );
 
@@ -120,9 +200,9 @@ const CustomPrepend = ({ isOpen, handleToggle, disabled }) => (
 const CustomAppend = ({ isOpen, handleToggle, disabled }) => (
   <div
     style={{
-      color: isOpen ? "#007bff" : "#666",
-      transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-      transition: "transform 0.2s ease",
+      color: isOpen ? '#007bff' : '#666',
+      transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+      transition: 'transform 0.2s ease',
     }}
   >
     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
@@ -136,11 +216,35 @@ const CustomAppend = ({ isOpen, handleToggle, disabled }) => (
 </BasicAccordion>;
 ```
 
+### Both Prepend and Append
+
+```jsx
+const StatusPrepend = ({ isOpen }) => <div style={{ color: isOpen ? 'green' : 'red' }}>{isOpen ? '✓' : '✗'}</div>;
+
+const BadgeAppend = ({ isOpen }) => (
+  <div
+    style={{
+      padding: '4px 8px',
+      backgroundColor: isOpen ? '#4CAF50' : '#f44336',
+      color: 'white',
+      borderRadius: '12px',
+      fontSize: '10px',
+    }}
+  >
+    {isOpen ? 'OPEN' : 'CLOSED'}
+  </div>
+);
+
+<BasicAccordion title="Status Accordion" prepend={StatusPrepend} append={BadgeAppend}>
+  <p>This accordion has both custom prepend and append content.</p>
+</BasicAccordion>;
+```
+
 ### Complex Content
 
 ```jsx
 <BasicAccordion title="Complex Content">
-  <div style={{ padding: "16px" }}>
+  <div>
     <h4>Section Title</h4>
     <p>This is a paragraph with some content.</p>
     <ul>
@@ -148,7 +252,7 @@ const CustomAppend = ({ isOpen, handleToggle, disabled }) => (
       <li>List item 2</li>
       <li>List item 3</li>
     </ul>
-    <button onClick={() => alert("Button clicked!")}>Click me</button>
+    <button onClick={() => alert('Button clicked!')}>Click me</button>
   </div>
 </BasicAccordion>
 ```
@@ -156,8 +260,8 @@ const CustomAppend = ({ isOpen, handleToggle, disabled }) => (
 ### Multiple Accordions
 
 ```jsx
-import React, { useState } from "react";
-import { BasicAccordion } from "@your-org/react-ui-components";
+import { useState } from 'react';
+import BasicAccordion from '@/src/components/sharedComponents/BasicAccordion';
 
 function AccordionGroup() {
   const [openStates, setOpenStates] = useState({});
@@ -170,13 +274,13 @@ function AccordionGroup() {
   };
 
   const accordionData = [
-    { id: 1, title: "First Section", content: "Content for first section" },
-    { id: 2, title: "Second Section", content: "Content for second section" },
-    { id: 3, title: "Third Section", content: "Content for third section" },
+    { id: 1, title: 'First Section', content: 'Content for first section' },
+    { id: 2, title: 'Second Section', content: 'Content for second section' },
+    { id: 3, title: 'Third Section', content: 'Content for third section' },
   ];
 
   return (
-    <div className="accordion-group">
+    <div>
       {accordionData.map((item) => (
         <BasicAccordion
           key={item.id}
@@ -190,62 +294,4 @@ function AccordionGroup() {
     </div>
   );
 }
-```
-
-### With Custom Styling
-
-```jsx
-const StyledPrepend = ({ isOpen }) => (
-  <div
-    style={{
-      width: "24px",
-      height: "24px",
-      borderRadius: "50%",
-      backgroundColor: isOpen ? "#007bff" : "#e9ecef",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      marginRight: "12px",
-      color: isOpen ? "white" : "#666",
-      fontSize: "12px",
-      fontWeight: "bold",
-    }}
-  >
-    {isOpen ? "−" : "+"}
-  </div>
-);
-
-<BasicAccordion title="Styled Accordion" prepend={StyledPrepend}>
-  <div
-    style={{
-      backgroundColor: "#f8f9fa",
-      padding: "16px",
-      borderTop: "1px solid #e9ecef",
-    }}
-  >
-    <p>This accordion has custom styling.</p>
-  </div>
-</BasicAccordion>;
-```
-
-### Accessibility Example
-
-```jsx
-<BasicAccordion
-  title="Accessible Accordion"
-  onToggle={(isOpen) => {
-    // Announce state change to screen readers
-    const message = isOpen ? "Accordion expanded" : "Accordion collapsed";
-    // You can use a screen reader announcement library here
-    console.log(message);
-  }}
->
-  <p>This accordion includes proper accessibility features:</p>
-  <ul>
-    <li>Keyboard navigation (Enter/Space to toggle)</li>
-    <li>ARIA attributes (aria-expanded, aria-disabled)</li>
-    <li>Proper focus management</li>
-    <li>Screen reader announcements</li>
-  </ul>
-</BasicAccordion>
 ```
