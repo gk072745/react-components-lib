@@ -1,22 +1,21 @@
-import React, { useMemo, useCallback, memo } from "react";
-import PropTypes from "prop-types";
+import React, { useMemo, useCallback, memo } from 'react';
+import PropTypes from 'prop-types';
 import "@site/src/assets/scss/components/_basic-radio.scss";
 
 const BasicRadio = memo(
   ({
-    size = "sm",
+    size = 'sm',
+    variant = 'default',
     disabled = false,
     readonly = false,
     toggle = false,
-    label = "",
+    label = '',
     value,
     multiple = false,
     modelValue,
     selected,
     valueComparator,
-    color = "green",
-    labelColor = "#000",
-    className = "",
+    className = '',
     style = {},
     onChange,
     onUpdateModelValue,
@@ -31,23 +30,23 @@ const BasicRadio = memo(
       if (multiple) {
         val = modelValue?.length ? modelValue : selected;
       }
-      return multiple ? (Array.isArray(val) ? val : []) : val || "";
+      return multiple ? (Array.isArray(val) ? val : []) : val || '';
     }, [modelValue, selected, multiple]);
 
     const isChecked = useMemo(() => {
-      if (internalValue === "" && value === "") return false;
+      if (internalValue === '' && value === '') return false;
       return valueComparator
         ? valueComparator(internalValue, value, multiple)
         : multiple
-        ? Array.isArray(internalValue) && internalValue.includes(value)
-        : internalValue === value;
+          ? Array.isArray(internalValue) && internalValue.includes(value)
+          : internalValue === value;
     }, [internalValue, value, multiple, valueComparator]);
 
     // =============================================================================
     // EVENT HANDLERS
     // =============================================================================
     const handleClick = useCallback(
-      (event) => {
+      event => {
         // Skip if disabled or readonly
         if (disabled || readonly) return;
 
@@ -58,15 +57,13 @@ const BasicRadio = memo(
         // Handle multiple selection mode
         if (multiple) {
           const isSelected = isChecked;
-          const currentValues = Array.isArray(internalValue)
-            ? internalValue
-            : [];
+          const currentValues = Array.isArray(internalValue) ? internalValue : [];
 
           let newValue;
           if (isSelected) {
             // Only allow removing all options if toggle is true
             if (toggle || currentValues.length > 1) {
-              newValue = currentValues.filter((v) => v !== value);
+              newValue = currentValues.filter(v => v !== value);
             } else {
               // Keep the current value if it's the only one and toggle is false
               newValue = currentValues;
@@ -81,62 +78,37 @@ const BasicRadio = memo(
         // Handle single selection mode
         else {
           const isSelected = isChecked;
-          const newValue = toggle && isSelected ? "" : value;
+          const newValue = toggle && isSelected ? '' : value;
           if (onUpdateModelValue) onUpdateModelValue(newValue);
           if (onChange) onChange(newValue, value, event);
         }
       },
-      [
-        disabled,
-        readonly,
-        multiple,
-        isChecked,
-        internalValue,
-        toggle,
-        value,
-        onUpdateModelValue,
-        onChange,
-      ]
+      [disabled, readonly, multiple, isChecked, internalValue, toggle, value, onUpdateModelValue, onChange]
     );
 
     // =============================================================================
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["radio-container", size];
-      if (disabled) classes.push("disabled");
-      if (readonly) classes.push("readonly");
+      const classes = ['radio-container', size, variant];
+      if (disabled) classes.push('disabled');
+      if (readonly) classes.push('readonly');
       if (className) classes.push(className);
-      return classes.join(" ");
-    }, [size, disabled, readonly, className]);
+      return classes.join(' ');
+    }, [size, variant, disabled, readonly, className]);
 
     const containerStyle = useMemo(
       () => ({
-        color: labelColor,
         ...style,
       }),
-      [labelColor, style]
-    );
-
-    const radioStyle = useMemo(
-      () => ({
-        borderColor: color,
-      }),
-      [color]
-    );
-
-    const innerCircleStyle = useMemo(
-      () => ({
-        backgroundColor: color,
-      }),
-      [color]
+      [style]
     );
 
     // =============================================================================
     // RENDER FUNCTIONS
     // =============================================================================
     const renderIcon = useMemo(() => {
-      if (children && typeof children === "function") {
+      if (children && typeof children === 'function') {
         return children({ isChecked, disabled, readonly });
       }
       if (children) {
@@ -144,11 +116,11 @@ const BasicRadio = memo(
       }
 
       return (
-        <div className="radio" style={radioStyle}>
-          <div className="inner-circle" style={innerCircleStyle}></div>
+        <div className="radio">
+          <div className="inner-circle"></div>
         </div>
       );
-    }, [children, isChecked, disabled, readonly, radioStyle, innerCircleStyle]);
+    }, [children, isChecked, disabled, readonly]);
 
     const renderLabel = useMemo(() => {
       if (label) {
@@ -176,8 +148,8 @@ const BasicRadio = memo(
           checked={isChecked}
           disabled={disabled}
           readOnly={readonly}
-          style={{ display: "none" }}
-          onChange={(e) => {
+          style={{ display: 'none' }}
+          onChange={e => {
             // Prevent the native radio input from triggering additional events
             e.preventDefault();
             e.stopPropagation();
@@ -194,32 +166,17 @@ const BasicRadio = memo(
 // PROP TYPES
 // =============================================================================
 BasicRadio.propTypes = {
-  size: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   toggle: PropTypes.bool,
   label: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
   multiple: PropTypes.bool,
-  modelValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-    PropTypes.array,
-  ]),
-  selected: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-    PropTypes.array,
-  ]),
+  modelValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]),
+  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]),
   valueComparator: PropTypes.func,
-  color: PropTypes.string,
-  labelColor: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
   className: PropTypes.string,
   style: PropTypes.object,
   onChange: PropTypes.func,
@@ -227,6 +184,6 @@ BasicRadio.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-BasicRadio.displayName = "BasicRadio";
+BasicRadio.displayName = 'BasicRadio';
 
 export default BasicRadio;

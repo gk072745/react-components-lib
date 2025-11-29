@@ -1,17 +1,10 @@
-import React, { useState, useCallback, useMemo, memo } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useCallback, useMemo, memo } from 'react';
+import PropTypes from 'prop-types';
 import "@site/src/assets/scss/components/_basic-accordion.scss";
 
+
 const BasicAccordion = memo(
-  ({
-    prepend,
-    title,
-    append,
-    children,
-    initialIsOpen = false,
-    onToggle,
-    disabled = false,
-  }) => {
+  ({ prepend, title, append, children, initialIsOpen = false, onToggle, disabled = false }) => {
     // =============================================================================
     // STATE MANAGEMENT
     // =============================================================================
@@ -23,7 +16,7 @@ const BasicAccordion = memo(
     const handleToggle = useCallback(() => {
       if (disabled) return;
 
-      setIsOpen((prevIsOpen) => {
+      setIsOpen(prevIsOpen => {
         const newIsOpen = !prevIsOpen;
         onToggle?.(newIsOpen);
         return newIsOpen;
@@ -31,10 +24,10 @@ const BasicAccordion = memo(
     }, [onToggle, disabled]);
 
     const handleKeyDown = useCallback(
-      (e) => {
+      e => {
         if (disabled) return;
 
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           handleToggle();
         }
@@ -45,22 +38,13 @@ const BasicAccordion = memo(
     // =============================================================================
     // COMPUTED VALUES
     // =============================================================================
-    const accordionContentClass = useMemo(
-      () => `accordion-content-slot ${isOpen ? "open" : ""}`,
-      [isOpen]
-    );
+    const accordionContentClass = useMemo(() => `accordion-content-slot ${isOpen ? 'open' : ''}`, [isOpen]);
 
-    const accordionHeaderClass = useMemo(() => "accordion-header", []);
+    const accordionHeaderClass = useMemo(() => 'accordion-header', []);
 
-    const accordionContainerClass = useMemo(
-      () => `basic-accordion ${disabled ? "disabled" : ""}`,
-      [disabled]
-    );
+    const accordionContainerClass = useMemo(() => `basic-accordion ${disabled ? 'disabled' : ''}`, [disabled]);
 
-    const defaultAppendIconClass = useMemo(
-      () => `default-append-icon ${isOpen ? "rotated" : ""}`,
-      [isOpen]
-    );
+    const defaultAppendIconClass = useMemo(() => `default-append-icon ${isOpen ? 'rotated' : ''}`, [isOpen]);
 
     // =============================================================================
     // RENDER FUNCTIONS
@@ -78,10 +62,7 @@ const BasicAccordion = memo(
       return (
         <div className={defaultAppendIconClass}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M8 12L2 6L3.4 4.6L8 9.2L12.6 4.6L14 6L8 12Z"
-              fill="currentColor"
-            />
+            <path d="M8 12L2 6L3.4 4.6L8 9.2L12.6 4.6L14 6L8 12Z" fill="currentColor" />
           </svg>
         </div>
       );
@@ -92,10 +73,10 @@ const BasicAccordion = memo(
     // =============================================================================
     const accessibilityProps = useMemo(
       () => ({
-        role: "button",
+        role: 'button',
         tabIndex: disabled ? -1 : 0,
-        "aria-expanded": isOpen,
-        "aria-disabled": disabled,
+        'aria-expanded': isOpen,
+        'aria-disabled': disabled,
       }),
       [disabled, isOpen]
     );
@@ -105,14 +86,9 @@ const BasicAccordion = memo(
     // =============================================================================
     return (
       <div className={accordionContainerClass}>
-        <div
-          className={accordionHeaderClass}
-          onClick={handleToggle}
-          onKeyDown={handleKeyDown}
-          {...accessibilityProps}
-        >
+        <div className={accordionHeaderClass} onClick={handleToggle} onKeyDown={handleKeyDown} {...accessibilityProps}>
           {renderPrepend}
-          <div className="accordion-title">{title || "Accordion Title"}</div>
+          <div className="accordion-title">{title || 'Accordion Title'}</div>
           <div className="append-slot">{renderAppend}</div>
         </div>
 
@@ -135,6 +111,6 @@ BasicAccordion.propTypes = {
   disabled: PropTypes.bool,
 };
 
-BasicAccordion.displayName = "BasicAccordion";
+BasicAccordion.displayName = 'BasicAccordion';
 
 export default BasicAccordion;

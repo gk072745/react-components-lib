@@ -1,34 +1,27 @@
-import React, {
-  useMemo,
-  useCallback,
-  memo,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
-import PropTypes from "prop-types";
+import React, { useMemo, useCallback, memo, useRef, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import "@site/src/assets/scss/components/_basic-input.scss";
 
 const BasicInput = memo(
   ({
     prepend = false,
     prependInner = false,
-    label = "",
+    label = '',
     appendInner = false,
     append = false,
     clearable = false,
     hideDetails = false,
-    hint = "",
+    hint = '',
     loading = false,
     disabled = false,
     readonly = false,
-    placeholder = "",
-    type = "text",
+    placeholder = '',
+    type = 'text',
     persistentDetails = false,
-    value = "",
+    value = '',
     rules = [],
     hideSpinButtons = false,
-    className = "",
+    className = '',
     style = {},
     onChange,
     onFocus,
@@ -86,7 +79,7 @@ const BasicInput = memo(
     const [internalType, setInternalType] = useState(type);
     const [focused, setFocused] = useState(false);
     const [error, setError] = useState(false);
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
 
     // =============================================================================
     // EFFECTS
@@ -104,36 +97,36 @@ const BasicInput = memo(
     // =============================================================================
     const getDefaultErrorMessage = useCallback((rule, condition) => {
       switch (rule) {
-        case "required":
-          return "This field is required";
-        case "minLength":
+        case 'required':
+          return 'This field is required';
+        case 'minLength':
           return `This field must be at least ${condition} characters long`;
-        case "maxLength":
+        case 'maxLength':
           return `This field must be no more than ${condition} characters long`;
-        case "email":
-          return "Invalid email address";
-        case "number":
-          return "Invalid number";
-        case "tel":
-          return "Invalid phone number (must be 10 digits)";
-        case "url":
-          return "Invalid URL";
+        case 'email':
+          return 'Invalid email address';
+        case 'number':
+          return 'Invalid number';
+        case 'tel':
+          return 'Invalid phone number (must be 10 digits)';
+        case 'url':
+          return 'Invalid URL';
         default:
-          return "Field is invalid";
+          return 'Field is invalid';
       }
     }, []);
 
     const handleStringRule = useCallback((rule, value, condition) => {
       switch (rule) {
-        case "required":
-          if (value === null || value === undefined || value === "") {
+        case 'required':
+          if (value === null || value === undefined || value === '') {
             return false;
           }
 
           switch (typeof value) {
-            case "string":
+            case 'string':
               return value.trim().length > 0;
-            case "object":
+            case 'object':
               if (Array.isArray(value)) {
                 return value.length > 0;
               }
@@ -145,46 +138,45 @@ const BasicInput = memo(
               return true;
           }
 
-        case "minLength":
+        case 'minLength':
           return value.length >= condition;
 
-        case "maxLength":
+        case 'maxLength':
           return value.length <= condition;
 
-        case "email": {
-          const emailPattern =
-            /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        case 'email': {
+          const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
           return emailPattern.test(value);
         }
 
-        case "number": {
+        case 'number': {
           const numValue = Number(value);
           return (
             !isNaN(numValue) &&
-            (typeof value === "string"
+            (typeof value === 'string'
               ? value.trim().length > 0
-              : value !== null && value !== undefined && value !== "")
+              : value !== null && value !== undefined && value !== '')
           );
         }
 
-        case "minValue": {
+        case 'minValue': {
           const minValue = condition;
           const minNumValue = Number(value);
           return !isNaN(minNumValue) && minNumValue >= minValue;
         }
 
-        case "maxValue": {
+        case 'maxValue': {
           const maxValue = condition;
           const maxNumValue = Number(value);
           return !isNaN(maxNumValue) && maxNumValue <= maxValue;
         }
 
-        case "phone": {
+        case 'phone': {
           const phonePattern = /^[0-9]{10}$/;
           return phonePattern.test(value);
         }
 
-        case "url": {
+        case 'url': {
           const urlPattern =
             /^(https?:\/\/)([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}(\/[-a-zA-Z0-9()@:%_+.~#?&//=]*)?$/;
           return urlPattern.test(value);
@@ -202,26 +194,18 @@ const BasicInput = memo(
           const result = await asyncValidation(internalValue);
           if (!result.valid) {
             setError(true);
-            setErrorMessage(result.message || "Validation failed");
-            onValidate?.(
-              false,
-              internalValue,
-              result.message || "Validation failed"
-            );
+            setErrorMessage(result.message || 'Validation failed');
+            onValidate?.(false, internalValue, result.message || 'Validation failed');
             return false;
           }
           setError(false);
-          setErrorMessage("");
-          onValidate?.(true, internalValue, "");
+          setErrorMessage('');
+          onValidate?.(true, internalValue, '');
           return true;
         } catch (error) {
           setError(true);
-          setErrorMessage(error.message || "Validation error");
-          onValidate?.(
-            false,
-            internalValue,
-            error.message || "Validation error"
-          );
+          setErrorMessage(error.message || 'Validation error');
+          onValidate?.(false, internalValue, error.message || 'Validation error');
           return false;
         }
       }
@@ -238,51 +222,47 @@ const BasicInput = memo(
       }
 
       setError(false);
-      setErrorMessage("");
+      setErrorMessage('');
 
       if (
-        internalValue === "" ||
+        internalValue === '' ||
         internalValue === null ||
         internalValue === undefined ||
         (Array.isArray(internalValue) && internalValue.length === 0)
       ) {
-        const requiredRule = rules.find((rule) => rule.rule === "required");
-        if (requiredRule && !handleStringRule("required", internalValue)) {
+        const requiredRule = rules.find(rule => rule.rule === 'required');
+        if (requiredRule && !handleStringRule('required', internalValue)) {
           setError(true);
-          setErrorMessage(getDefaultErrorMessage("required"));
-          onValidate?.(
-            false,
-            internalValue,
-            getDefaultErrorMessage("required")
-          );
+          setErrorMessage(getDefaultErrorMessage('required'));
+          onValidate?.(false, internalValue, getDefaultErrorMessage('required'));
           return;
         }
       } else {
-        if (type === "email" && !handleStringRule("email", internalValue)) {
+        if (type === 'email' && !handleStringRule('email', internalValue)) {
           setError(true);
-          setErrorMessage(getDefaultErrorMessage("email"));
-          onValidate?.(false, internalValue, getDefaultErrorMessage("email"));
+          setErrorMessage(getDefaultErrorMessage('email'));
+          onValidate?.(false, internalValue, getDefaultErrorMessage('email'));
           return;
         }
 
-        if (type === "number" && !handleStringRule("number", internalValue)) {
+        if (type === 'number' && !handleStringRule('number', internalValue)) {
           setError(true);
-          setErrorMessage(getDefaultErrorMessage("number"));
-          onValidate?.(false, internalValue, getDefaultErrorMessage("number"));
+          setErrorMessage(getDefaultErrorMessage('number'));
+          onValidate?.(false, internalValue, getDefaultErrorMessage('number'));
           return;
         }
 
-        if (type === "tel" && !handleStringRule("phone", internalValue)) {
+        if (type === 'tel' && !handleStringRule('phone', internalValue)) {
           setError(true);
-          setErrorMessage(getDefaultErrorMessage("tel"));
-          onValidate?.(false, internalValue, getDefaultErrorMessage("tel"));
+          setErrorMessage(getDefaultErrorMessage('tel'));
+          onValidate?.(false, internalValue, getDefaultErrorMessage('tel'));
           return;
         }
 
-        if (type === "url" && !handleStringRule("url", internalValue)) {
+        if (type === 'url' && !handleStringRule('url', internalValue)) {
           setError(true);
-          setErrorMessage(getDefaultErrorMessage("url"));
-          onValidate?.(false, internalValue, getDefaultErrorMessage("url"));
+          setErrorMessage(getDefaultErrorMessage('url'));
+          onValidate?.(false, internalValue, getDefaultErrorMessage('url'));
           return;
         }
 
@@ -290,9 +270,9 @@ const BasicInput = memo(
           let result;
 
           try {
-            if (typeof rule === "function") {
+            if (typeof rule === 'function') {
               result = rule(internalValue);
-            } else if (typeof rule === "string") {
+            } else if (typeof rule === 'string') {
               result = handleStringRule(rule, internalValue, condition);
             } else if (rule instanceof RegExp) {
               result = rule.test(internalValue);
@@ -302,13 +282,11 @@ const BasicInput = memo(
 
             if (result !== true) {
               setError(true);
-              setErrorMessage(
-                message || getDefaultErrorMessage(rule, condition)
-              );
+              setErrorMessage(message || getDefaultErrorMessage(rule, condition));
               break;
             }
           } catch (e) {
-            console.error("Validation error:", e.message);
+            console.error('Validation error:', e.message);
             setError(true);
             setErrorMessage(`Invalid rule: ${e.message}`);
             onValidate?.(false, internalValue, `Invalid rule: ${e.message}`);
@@ -317,7 +295,7 @@ const BasicInput = memo(
         }
       }
 
-      onValidate?.(true, internalValue, "");
+      onValidate?.(true, internalValue, '');
     }, [
       internalValue,
       rules,
@@ -333,23 +311,23 @@ const BasicInput = memo(
     // EVENT HANDLERS
     // =============================================================================
     const handlePrependClick = useCallback(
-      (e) => {
+      e => {
         onPrependClick?.(e);
       },
       [onPrependClick]
     );
 
     const handlePrependInnerClick = useCallback(
-      (e) => {
+      e => {
         onPrependInnerClick?.(e);
       },
       [onPrependInnerClick]
     );
 
     const handleClearClick = useCallback(
-      (e) => {
-        setInternalValue("");
-        onChange?.("");
+      e => {
+        setInternalValue('');
+        onChange?.('');
         onClearClick?.(e);
         validate();
       },
@@ -357,38 +335,38 @@ const BasicInput = memo(
     );
 
     const handleAppendInnerClick = useCallback(
-      (e) => {
+      e => {
         onAppendInnerClick?.(e);
       },
       [onAppendInnerClick]
     );
 
     const handleAppendClick = useCallback(
-      (e) => {
+      e => {
         onAppendClick?.(e);
       },
       [onAppendClick]
     );
 
-    const changeInternalType = useCallback((newType) => {
+    const changeInternalType = useCallback(newType => {
       setInternalType(newType);
     }, []);
 
-    const setInternalValueDirect = useCallback((newValue) => {
+    const setInternalValueDirect = useCallback(newValue => {
       setInternalValue(newValue);
     }, []);
 
     const triggerEvent = useCallback(
       (eventName, payload) => {
         switch (eventName) {
-          case "focus":
+          case 'focus':
             setFocused(true);
             break;
-          case "blur":
+          case 'blur':
             setFocused(false);
             validate();
             break;
-          case "input":
+          case 'input':
             setInternalValue(payload.target.value);
             onChange?.(payload.target.value);
             onInput?.(payload);
@@ -406,7 +384,7 @@ const BasicInput = memo(
     // =============================================================================
     useEffect(() => {
       if (ref) {
-        if (typeof ref === "function") {
+        if (typeof ref === 'function') {
           ref({
             validate,
             setInternalValue: setInternalValueDirect,
@@ -428,41 +406,40 @@ const BasicInput = memo(
     // COMPUTED VALUES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["basic-input-wrapper"];
-      if (disabled) classes.push("disabled");
-      if (readonly) classes.push("readonly");
+      const classes = ['basic-input-wrapper'];
+      if (disabled) classes.push('disabled');
+      if (readonly) classes.push('readonly');
       if (className) classes.push(className);
-      return classes.join(" ");
+      return classes.join(' ');
     }, [disabled, readonly, className]);
 
     const labelClass = useMemo(() => {
-      const classes = ["label"];
-      if (focused || internalValue) classes.push("floating");
-      if (prependInner) classes.push("has-inner-prepend");
-      if (!focused && !internalValue && prependInner)
-        classes.push("un-floating");
-      return classes.join(" ");
+      const classes = ['label'];
+      if (focused || internalValue) classes.push('floating');
+      if (prependInner) classes.push('has-inner-prepend');
+      if (!focused && !internalValue && prependInner) classes.push('un-floating');
+      return classes.join(' ');
     }, [focused, internalValue, prependInner]);
 
     const inputClass = useMemo(() => {
-      const classes = ["input-field"];
-      if (hideSpinButtons) classes.push("hideSpinButtons");
-      return classes.join(" ");
+      const classes = ['input-field'];
+      if (hideSpinButtons) classes.push('hideSpinButtons');
+      return classes.join(' ');
     }, [hideSpinButtons]);
 
     const clearWrapperClass = useMemo(() => {
-      const classes = ["clear-wrapper"];
-      if (internalValue) classes.push("has-value");
-      return classes.join(" ");
+      const classes = ['clear-wrapper'];
+      if (internalValue) classes.push('has-value');
+      return classes.join(' ');
     }, [internalValue]);
 
     const messageClass = useMemo(() => {
-      const classes = ["message"];
-      if (hint && !error) classes.push("hint");
-      if (error) classes.push("error");
-      if (persistentDetails) classes.push("persistentDetails");
-      if (focused) classes.push("focused");
-      return classes.join(" ");
+      const classes = ['message'];
+      if (hint && !error) classes.push('hint');
+      if (error) classes.push('error');
+      if (persistentDetails) classes.push('persistentDetails');
+      if (focused) classes.push('focused');
+      return classes.join(' ');
     }, [hint, error, persistentDetails, focused]);
 
     // =============================================================================
@@ -475,18 +452,9 @@ const BasicInput = memo(
           {prependIcon ? (
             <div onClick={handlePrependClick}>{prependIcon}</div>
           ) : (
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              onClick={handlePrependClick}
-            >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handlePrependClick}>
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 <path
                   d="M20.5348 3.46447C19.0704 2 16.7133 2 11.9993 2C7.28525 2 4.92823 2 3.46377 3.46447C2.70628 4.22195 2.3406 5.21824 2.16406 6.65598C2.69473 6.06532 3.33236 5.57328 4.04836 5.20846C4.82984 4.81027 5.66664 4.6488 6.59316 4.5731C7.48829 4.49997 8.58971 4.49998 9.93646 4.5H14.0621C15.4089 4.49998 16.5103 4.49997 17.4054 4.5731C18.332 4.6488 19.1688 4.81027 19.9502 5.20846C20.6662 5.57328 21.3039 6.06532 21.8345 6.65598C21.658 5.21824 21.2923 4.22195 20.5348 3.46447Z"
@@ -512,18 +480,9 @@ const BasicInput = memo(
           {prependInnerIcon ? (
             <div onClick={handlePrependInnerClick}>{prependInnerIcon}</div>
           ) : (
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              onClick={handlePrependInnerClick}
-            >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handlePrependInnerClick}>
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 <path
                   d="M20.5348 3.46447C19.0704 2 16.7133 2 11.9993 2C7.28525 2 4.92823 2 3.46377 3.46447C2.70628 4.22195 2.3406 5.21824 2.16406 6.65598C2.69473 6.06532 3.33236 5.57328 4.04836 5.20846C4.82984 4.81027 5.66664 4.6488 6.59316 4.5731C7.48829 4.49997 8.58971 4.49998 9.93646 4.5H14.0621C15.4089 4.49998 16.5103 4.49997 17.4054 4.5731C18.332 4.6488 19.1688 4.81027 19.9502 5.20846C20.6662 5.57328 21.3039 6.06532 21.8345 6.65598C21.658 5.21824 21.2923 4.22195 20.5348 3.46447Z"
@@ -546,19 +505,9 @@ const BasicInput = memo(
       if (!clearable) return null;
       return (
         <div className={clearWrapperClass} onClick={handleClearClick}>
-          <svg
-            width="16px"
-            height="16px"
-            viewBox="0 0 16 16"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#000000"
-          >
+          <svg width="16px" height="16px" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" fill="#000000">
             <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            ></g>
+            <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
             <g id="SVGRepo_iconCarrier">
               <path
                 fill="#000000"
@@ -579,28 +528,17 @@ const BasicInput = memo(
         return (
           <div className="append-inner-wrapper">
             <div className="loader-container">
-              <svg
-                className="default-loader"
-                viewBox="0 0 50 50"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <circle
-                  className="path"
-                  cx="25"
-                  cy="25"
-                  r="20"
-                  fill="none"
-                  strokeWidth="4"
-                />
+              <svg className="default-loader" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="4" />
               </svg>
             </div>
             <div className="append-button-container">
               {appendInnerIcon ? (
                 <div onClick={handleAppendInnerClick}>{appendInnerIcon}</div>
-              ) : type === "password" ? (
-                internalType === "password" ? (
+              ) : type === 'password' ? (
+                internalType === 'password' ? (
                   <svg
-                    onClick={() => changeInternalType("text")}
+                    onClick={() => changeInternalType('text')}
                     width="16px"
                     height="16px"
                     viewBox="0 0 24 24"
@@ -608,11 +546,7 @@ const BasicInput = memo(
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
+                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
                       <path
                         d="M14.83 9.17999C14.2706 8.61995 13.5576 8.23846 12.7813 8.08386C12.0049 7.92926 11.2002 8.00851 10.4689 8.31152C9.73758 8.61453 9.11264 9.12769 8.67316 9.78607C8.23367 10.4444 7.99938 11.2184 8 12.01C7.99916 13.0663 8.41619 14.08 9.16004 14.83"
@@ -660,7 +594,7 @@ const BasicInput = memo(
                   </svg>
                 ) : (
                   <svg
-                    onClick={() => changeInternalType("password")}
+                    onClick={() => changeInternalType('password')}
                     width="16px"
                     height="16px"
                     viewBox="0 0 24 24"
@@ -668,11 +602,7 @@ const BasicInput = memo(
                     xmlns="http://www.w3.org/2000/svg"
                   >
                     <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                    <g
-                      id="SVGRepo_tracerCarrier"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    ></g>
+                    <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                     <g id="SVGRepo_iconCarrier">
                       <path
                         d="M12 16.01C14.2091 16.01 16 14.2191 16 12.01C16 9.80087 14.2091 8.01001 12 8.01001C9.79086 8.01001 8 9.80087 8 12.01C8 14.2191 9.79086 16.01 12 16.01Z"
@@ -706,11 +636,7 @@ const BasicInput = memo(
                   onClick={handleAppendInnerClick}
                 >
                   <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  ></g>
+                  <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                   <g id="SVGRepo_iconCarrier">
                     <path
                       d="M20.5348 3.46447C19.0704 2 16.7133 2 11.9993 2C7.28525 2 4.92823 2 3.46377 3.46447C2.70628 4.22195 2.3406 5.21824 2.16406 6.65598C2.69473 6.06532 3.33236 5.57328 4.04836 5.20846C4.82984 4.81027 5.66664 4.6488 6.59316 4.5731C7.48829 4.49997 8.58971 4.49998 9.93646 4.5H14.0621C15.4089 4.49998 16.5103 4.49997 17.4054 4.5731C18.332 4.6488 19.1688 4.81027 19.9502 5.20846C20.6662 5.57328 21.3039 6.06532 21.8345 6.65598C21.658 5.21824 21.2923 4.22195 20.5348 3.46447Z"
@@ -734,30 +660,19 @@ const BasicInput = memo(
       if (loading) {
         return (
           <div className="append-inner-wrapper">
-            <svg
-              className="default-loader"
-              viewBox="0 0 50 50"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle
-                className="path"
-                cx="25"
-                cy="25"
-                r="20"
-                fill="none"
-                strokeWidth="4"
-              />
+            <svg className="default-loader" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+              <circle className="path" cx="25" cy="25" r="20" fill="none" strokeWidth="4" />
             </svg>
           </div>
         );
       }
 
-      if (type === "password") {
+      if (type === 'password') {
         return (
           <div className="append-inner-wrapper">
-            {internalType === "password" ? (
+            {internalType === 'password' ? (
               <svg
-                onClick={() => changeInternalType("text")}
+                onClick={() => changeInternalType('text')}
                 width="64px"
                 height="64px"
                 viewBox="0 0 24 24"
@@ -765,11 +680,7 @@ const BasicInput = memo(
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></g>
+                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                   <path
                     d="M14.83 9.17999C14.2706 8.61995 13.5576 8.23846 12.7813 8.08386C12.0049 7.92926 11.2002 8.00851 10.4689 8.31152C9.73758 8.61453 9.11264 9.12769 8.67316 9.78607C8.23367 10.4444 7.99938 11.2184 8 12.01C7.99916 13.0663 8.41619 14.08 9.16004 14.83"
@@ -817,7 +728,7 @@ const BasicInput = memo(
               </svg>
             ) : (
               <svg
-                onClick={() => changeInternalType("password")}
+                onClick={() => changeInternalType('password')}
                 width="64px"
                 height="64px"
                 viewBox="0 0 24 24"
@@ -825,11 +736,7 @@ const BasicInput = memo(
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                ></g>
+                <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                 <g id="SVGRepo_iconCarrier">
                   <path
                     d="M12 16.01C14.2091 16.01 16 14.2191 16 12.01C16 9.80087 14.2091 8.01001 12 8.01001C9.79086 8.01001 8 9.80087 8 12.01C8 14.2191 9.79086 16.01 12 16.01Z"
@@ -864,18 +771,9 @@ const BasicInput = memo(
           {appendInnerIcon ? (
             <div onClick={handleAppendInnerClick}>{appendInnerIcon}</div>
           ) : (
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              onClick={handleAppendInnerClick}
-            >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handleAppendInnerClick}>
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 <path
                   d="M20.5348 3.46447C19.0704 2 16.7133 2 11.9993 2C7.28525 2 4.92823 2 3.46377 3.46447C2.70628 4.22195 2.3406 5.21824 2.16406 6.65598C2.69473 6.06532 3.33236 5.57328 4.04836 5.20846C4.82984 4.81027 5.66664 4.6488 6.59316 4.5731C7.48829 4.49997 8.58971 4.49998 9.93646 4.5H14.0621C15.4089 4.49998 16.5103 4.49997 17.4054 4.5731C18.332 4.6488 19.1688 4.81027 19.9502 5.20846C20.6662 5.57328 21.3039 6.06532 21.8345 6.65598C21.658 5.21824 21.2923 4.22195 20.5348 3.46447Z"
@@ -892,15 +790,7 @@ const BasicInput = memo(
           )}
         </div>
       );
-    }, [
-      appendInner,
-      loading,
-      type,
-      internalType,
-      changeInternalType,
-      handleAppendInnerClick,
-      appendInnerIcon,
-    ]);
+    }, [appendInner, loading, type, internalType, changeInternalType, handleAppendInnerClick, appendInnerIcon]);
 
     const renderAppend = useMemo(() => {
       if (!append) return null;
@@ -909,18 +799,9 @@ const BasicInput = memo(
           {appendIcon ? (
             <div onClick={handleAppendClick}>{appendIcon}</div>
           ) : (
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              onClick={handleAppendClick}
-            >
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={handleAppendClick}>
               <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-              <g
-                id="SVGRepo_tracerCarrier"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              ></g>
+              <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
               <g id="SVGRepo_iconCarrier">
                 <path
                   d="M20.5348 3.46447C19.0704 2 16.7133 2 11.9993 2C7.28525 2 4.92823 2 3.46377 3.46447C2.70628 4.22195 2.3406 5.21824 2.16406 6.65598C2.69473 6.06532 3.33236 5.57328 4.04836 5.20846C4.82984 4.81027 5.66664 4.6488 6.59316 4.5731C7.48829 4.49997 8.58971 4.49998 9.93646 4.5H14.0621C15.4089 4.49998 16.5103 4.49997 17.4054 4.5731C18.332 4.6488 19.1688 4.81027 19.9502 5.20846C20.6662 5.57328 21.3039 6.06532 21.8345 6.65598C21.658 5.21824 21.2923 4.22195 20.5348 3.46447Z"
@@ -947,19 +828,19 @@ const BasicInput = memo(
         {renderPrepend}
         <div
           className="input-wrapper"
-          onDragEnter={(e) => {
+          onDragEnter={e => {
             e.preventDefault();
             onParentDragEnter?.(e);
           }}
-          onDragOver={(e) => {
+          onDragOver={e => {
             e.preventDefault();
             onParentDragOver?.(e);
           }}
-          onDragLeave={(e) => {
+          onDragLeave={e => {
             e.preventDefault();
             onParentDragLeave?.(e);
           }}
-          onDrop={(e) => {
+          onDrop={e => {
             e.preventDefault();
             onParentDrop?.(e);
           }}
@@ -1010,14 +891,14 @@ const BasicInput = memo(
                 disabled={disabled}
                 placeholder={placeholder}
                 value={internalValue}
-                onInput={(e) => triggerEvent("input", e)}
-                onChange={(e) => onChangeEvent?.(e)}
-                onFocus={(e) => {
-                  triggerEvent("focus", e);
+                onInput={e => triggerEvent('input', e)}
+                onChange={e => onChangeEvent?.(e)}
+                onFocus={e => {
+                  triggerEvent('focus', e);
                   onFocus?.(e);
                 }}
-                onBlur={(e) => {
-                  triggerEvent("blur", e);
+                onBlur={e => {
+                  triggerEvent('blur', e);
                   onBlur?.(e);
                 }}
                 onKeyDown={onKeyDown}
@@ -1086,12 +967,7 @@ BasicInput.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
   persistentDetails: PropTypes.bool,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.object,
-    PropTypes.array,
-  ]),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.object, PropTypes.array]),
   rules: PropTypes.array,
   hideSpinButtons: PropTypes.bool,
   className: PropTypes.string,
@@ -1133,6 +1009,6 @@ BasicInput.propTypes = {
   onValidate: PropTypes.func,
 };
 
-BasicInput.displayName = "BasicInput";
+BasicInput.displayName = 'BasicInput';
 
 export default BasicInput;

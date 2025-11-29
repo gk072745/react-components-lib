@@ -5,16 +5,13 @@ import "@site/src/assets/scss/components/_circular-progress-bar.scss";
 const CircularProgressBar = () => {
   const { appImages } = useAppContext();
 
-  const handleMouseUp = (e) => {
+  const handleMouseUp = e => {
     e.stopPropagation();
   };
 
   return (
-    <div
-      className="loading-animation initial-loader translucent-background"
-      onMouseUp={handleMouseUp}
-    >
-      <img src={appImages["loader.gif"]} alt="Loading..." />
+    <div className="loading-animation initial-loader translucent-background" onMouseUp={handleMouseUp}>
+      <img src={appImages['loader.gif']} alt="Loading..." />
     </div>
   );
 };

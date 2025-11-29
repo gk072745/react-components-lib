@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import { useToast } from '@site/src/customHooks/useToast';
 import { useRemToPixels } from '@site/src/customHooks/useRemToPixels';
-import '@site/src/assets/scss/components/_toast.scss';
+import '@site/src/assets/scss/components/_basic-toast.scss';
 
 const positions = new Set(['top-left', 'top', 'top-right', 'bottom-left', 'bottom', 'bottom-right']);
 
