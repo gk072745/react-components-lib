@@ -5,35 +5,42 @@
 This component requires:
 
 - React 18+
-- SCSS for styling
 - PropTypes for prop validation
+- SCSS for styling
 
 ## Component Files
 
 ### React Component
 
-**File:** `./sharedComponents/BasicChip.jsx`
+```
+src/
+├── components/
+    └── sharedComponents/
+        └── BasicChip.jsx
+```
+
+- **Path**: `src/components/sharedComponents/BasicChip.jsx`
+- **Description**: Main chip component implementation
 
 ```jsx
-import React, { useMemo, useCallback, memo } from "react";
-import PropTypes from "prop-types";
-import "@site/src/assets/scss/components/_basic-chip.scss";
+import React, { useMemo, useCallback, memo } from 'react';
+import PropTypes from 'prop-types';
 
 const BasicChip = memo(
   ({
     chip,
-    textKey = "text",
-    valueKey = "value",
+    textKey = 'text',
+    valueKey = 'value',
     closable = false,
     onDeleteChip,
     children,
     prepend,
     append,
     close,
-    variant = "default",
-    variantType = "solid",
+    variant = 'default',
+    variantType = 'solid',
     disabled = false,
-    className = "",
+    className = '',
     style = {},
     onClick,
   }) => {
@@ -41,14 +48,14 @@ const BasicChip = memo(
     // COMPUTED VALUES
     // =============================================================================
     const displayText = useMemo(() => {
-      if (typeof chip === "string") {
+      if (typeof chip === 'string') {
         return chip;
       }
-      return chip[textKey] || "";
+      return chip[textKey] || '';
     }, [chip, textKey]);
 
     const chipValue = useMemo(() => {
-      if (typeof chip === "string") {
+      if (typeof chip === 'string') {
         return chip;
       }
       return chip[valueKey] || chip;
@@ -84,26 +91,26 @@ const BasicChip = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["basic-chip"];
+      const classes = ['basic-chip'];
 
       // Handle variant type and variant combination
-      if (variantType === "outlined") {
+      if (variantType === 'outlined') {
         classes.push(`outlined-${variant}`);
-      } else if (variantType === "filled") {
+      } else if (variantType === 'filled') {
         classes.push(`filled-${variant}`);
       } else {
         classes.push(variant);
       }
 
-      if (disabled) classes.push("disabled");
+      if (disabled) classes.push('disabled');
       if (className) classes.push(className);
-      return classes.join(" ");
+      return classes.join(' ');
     }, [variant, variantType, disabled, className]);
 
     const chipStyle = useMemo(
       () => ({
         ...style,
-        cursor: disabled ? "not-allowed" : "pointer",
+        cursor: disabled ? 'not-allowed' : 'pointer',
       }),
       [style, disabled]
     );
@@ -116,9 +123,7 @@ const BasicChip = memo(
 
       return (
         <div className="chip-prepend">
-          {typeof prepend === "function"
-            ? prepend({ chip, isDisabled: disabled })
-            : prepend}
+          {typeof prepend === 'function' ? prepend({ chip, isDisabled: disabled }) : prepend}
         </div>
       );
     }, [prepend, chip, disabled]);
@@ -127,7 +132,7 @@ const BasicChip = memo(
       return (
         <div className="chip-content">
           {children
-            ? typeof children === "function"
+            ? typeof children === 'function'
               ? children({ chip, isDisabled: disabled })
               : children
             : displayText}
@@ -140,32 +145,26 @@ const BasicChip = memo(
 
       return (
         <div className="chip-append">
-          {typeof append === "function"
-            ? append({ chip, isDisabled: disabled })
-            : append}
+          {typeof append === 'function' ? append({ chip, isDisabled: disabled }) : append}
         </div>
       );
     }, [append, chip, disabled]);
 
     const renderClose = useMemo(() => {
       if (close) {
-        return typeof close === "function"
-          ? close({
-              chip,
-              chipValue,
-              isDisabled: disabled,
-              onDelete: handleDelete,
-            })
+        return typeof close === 'function'
+          ? close({ chip, chipValue, isDisabled: disabled, onDelete: handleDelete })
           : close;
       }
 
-      if (closable && !disabled) {
+      if (closable) {
         return (
           <button
             className="chip-close"
             onClick={handleDelete}
             aria-label="Remove chip"
             type="button"
+            disabled={disabled}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -222,36 +221,39 @@ BasicChip.propTypes = {
   prepend: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   append: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   close: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  variant: PropTypes.oneOf([
-    "default",
-    "primary",
-    "success",
-    "warning",
-    "danger",
-    "info",
-  ]),
-  variantType: PropTypes.oneOf(["solid", "outlined", "filled"]),
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
+  variantType: PropTypes.oneOf(['solid', 'outlined', 'filled']),
   disabled: PropTypes.bool,
   className: PropTypes.string,
   style: PropTypes.object,
   onClick: PropTypes.func,
 };
 
-BasicChip.displayName = "BasicChip";
+BasicChip.displayName = 'BasicChip';
 
 export default BasicChip;
 ```
 
 ### SCSS Component
 
-- **Accordion Main SCSS**
-  **File:** `./assets/scss/components/_basic-chip.scss`
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _basic-chip.scss
+```
+
+- **Path**: `src/assets/scss/components/_basic-chip.scss`
+- **Description**: Chip component styles
+
+**Note:** This component uses SCSS variables from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
 // BASIC CHIP COMPONENT STYLES
 // =============================================================================
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 .basic-chip {
   display: inline-flex;
@@ -275,13 +277,328 @@ export default BasicChip;
     outline-offset: 0.125rem;
   }
 
-  // Generate all variants using mixin
-  @include generate-chip-variants;
-
   // Disabled state
   &.disabled {
     opacity: 0.6;
     pointer-events: none;
+  }
+
+  // =============================================================================
+  // VARIANT STYLES - SOLID
+  // =============================================================================
+
+  // Default Solid
+  &.default {
+    background-color: #e9ecef;
+    color: #343a40;
+    border-color: #e9ecef;
+
+    &:hover:not(.disabled) {
+      background-color: #dee2e6;
+      border-color: #dee2e6;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #ced4da;
+      border-color: #ced4da;
+    }
+  }
+
+  // Primary Solid
+  &.primary {
+    background-color: #007bff;
+    color: #ffffff;
+    border-color: #007bff;
+
+    &:hover:not(.disabled) {
+      background-color: #0069d9;
+      border-color: #0069d9;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  }
+
+  // Success Solid
+  &.success {
+    background-color: #28a745;
+    color: #ffffff;
+    border-color: #28a745;
+
+    &:hover:not(.disabled) {
+      background-color: #218838;
+      border-color: #218838;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #1e7e34;
+      border-color: #1e7e34;
+    }
+  }
+
+  // Warning Solid
+  &.warning {
+    background-color: #ffc107;
+    color: #343a40;
+    border-color: #ffc107;
+
+    &:hover:not(.disabled) {
+      background-color: #e0a800;
+      border-color: #e0a800;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #d39e00;
+      border-color: #d39e00;
+    }
+  }
+
+  // Danger Solid
+  &.danger {
+    background-color: #dc3545;
+    color: #ffffff;
+    border-color: #dc3545;
+
+    &:hover:not(.disabled) {
+      background-color: #c82333;
+      border-color: #c82333;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #bd2130;
+      border-color: #bd2130;
+    }
+  }
+
+  // Info Solid
+  &.info {
+    background-color: #17a2b8;
+    color: #ffffff;
+    border-color: #17a2b8;
+
+    &:hover:not(.disabled) {
+      background-color: #138496;
+      border-color: #138496;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #117a8b;
+      border-color: #117a8b;
+    }
+  }
+
+  // =============================================================================
+  // VARIANT STYLES - OUTLINED
+  // =============================================================================
+
+  // Default Outlined
+  &.outlined-default {
+    background-color: transparent;
+    color: #495057;
+    border-color: #e9ecef;
+
+    &:hover:not(.disabled) {
+      background-color: rgba(233, 236, 239, 0.1);
+      border-color: #dee2e6;
+    }
+
+    &:active:not(.disabled) {
+      background-color: rgba(233, 236, 239, 0.2);
+      border-color: #ced4da;
+    }
+  }
+
+  // Primary Outlined
+  &.outlined-primary {
+    background-color: transparent;
+    color: #007bff;
+    border-color: #007bff;
+
+    &:hover:not(.disabled) {
+      background-color: rgba(0, 123, 255, 0.1);
+      border-color: #0069d9;
+    }
+
+    &:active:not(.disabled) {
+      background-color: rgba(0, 123, 255, 0.2);
+      border-color: #0056b3;
+    }
+  }
+
+  // Success Outlined
+  &.outlined-success {
+    background-color: transparent;
+    color: #28a745;
+    border-color: #28a745;
+
+    &:hover:not(.disabled) {
+      background-color: rgba(40, 167, 69, 0.1);
+      border-color: #218838;
+    }
+
+    &:active:not(.disabled) {
+      background-color: rgba(40, 167, 69, 0.2);
+      border-color: #1e7e34;
+    }
+  }
+
+  // Warning Outlined
+  &.outlined-warning {
+    background-color: transparent;
+    color: #ffc107;
+    border-color: #ffc107;
+
+    &:hover:not(.disabled) {
+      background-color: rgba(255, 193, 7, 0.1);
+      border-color: #e0a800;
+    }
+
+    &:active:not(.disabled) {
+      background-color: rgba(255, 193, 7, 0.2);
+      border-color: #d39e00;
+    }
+  }
+
+  // Danger Outlined
+  &.outlined-danger {
+    background-color: transparent;
+    color: #dc3545;
+    border-color: #dc3545;
+
+    &:hover:not(.disabled) {
+      background-color: rgba(220, 53, 69, 0.1);
+      border-color: #c82333;
+    }
+
+    &:active:not(.disabled) {
+      background-color: rgba(220, 53, 69, 0.2);
+      border-color: #bd2130;
+    }
+  }
+
+  // Info Outlined
+  &.outlined-info {
+    background-color: transparent;
+    color: #17a2b8;
+    border-color: #17a2b8;
+
+    &:hover:not(.disabled) {
+      background-color: rgba(23, 162, 184, 0.1);
+      border-color: #138496;
+    }
+
+    &:active:not(.disabled) {
+      background-color: rgba(23, 162, 184, 0.2);
+      border-color: #117a8b;
+    }
+  }
+
+  // =============================================================================
+  // VARIANT STYLES - FILLED
+  // =============================================================================
+
+  // Default Filled
+  &.filled-default {
+    background-color: #f8f9fa;
+    color: #212529;
+    border-color: #e9ecef;
+
+    &:hover:not(.disabled) {
+      background-color: #e9ecef;
+      border-color: #dee2e6;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #dee2e6;
+      border-color: #ced4da;
+    }
+  }
+
+  // Primary Filled
+  &.filled-primary {
+    background-color: #cfe2ff;
+    color: #084298;
+    border-color: #b6d4fe;
+
+    &:hover:not(.disabled) {
+      background-color: #b6d4fe;
+      border-color: #9ec5fe;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #9ec5fe;
+      border-color: #86b7fe;
+    }
+  }
+
+  // Success Filled
+  &.filled-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+    border-color: #badbcc;
+
+    &:hover:not(.disabled) {
+      background-color: #badbcc;
+      border-color: #a3cfbb;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #a3cfbb;
+      border-color: #8bcaaa;
+    }
+  }
+
+  // Warning Filled
+  &.filled-warning {
+    background-color: #fff3cd;
+    color: #664d03;
+    border-color: #ffecb5;
+
+    &:hover:not(.disabled) {
+      background-color: #ffecb5;
+      border-color: #ffe69c;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #ffe69c;
+      border-color: #ffe082;
+    }
+  }
+
+  // Danger Filled
+  &.filled-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border-color: #f5c2c7;
+
+    &:hover:not(.disabled) {
+      background-color: #f5c2c7;
+      border-color: #f1aeb5;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #f1aeb5;
+      border-color: #ee9ca4;
+    }
+  }
+
+  // Info Filled
+  &.filled-info {
+    background-color: #cff4fc;
+    color: #055160;
+    border-color: #b6effb;
+
+    &:hover:not(.disabled) {
+      background-color: #b6effb;
+      border-color: #9eeaf9;
+    }
+
+    &:active:not(.disabled) {
+      background-color: #9eeaf9;
+      border-color: #86e5f6;
+    }
   }
 }
 
@@ -358,11 +675,20 @@ export default BasicChip;
 }
 ```
 
-- **SCSS Abstracts Index**
-  **File:** `./assets/scss/abstracts/index.scss`
+### SCSS Abstracts
 
-> **Note:**  
-> This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like chip variables) are available when importing abstracts.
+```
+src/
+├── assets/
+    └── scss/
+        └── abstracts/
+            └── index.scss
+```
+
+- **Path**: `src/assets/scss/abstracts/index.scss`
+- **Description**: Global SCSS variables, mixins, and functions
+
+**Note:** The chip component uses variables from the abstracts directory. These are imported via the abstracts index file.
 
 ```scss
 // =============================================================================
@@ -370,204 +696,16 @@ export default BasicChip;
 // =============================================================================
 
 // variables
-@forward "variables";
-@forward "variables/chip-variables";
+@forward 'variables';
 
 // functions
-@forward "functions";
+@forward 'functions';
 
 // mixins
-@forward "mixins";
-@forward "mixins/chip-mixins";
+@forward 'mixins';
 
 // breakpoints
-@forward "breakpoints";
+@forward 'breakpoints';
 ```
 
-- **Chip SCSS Variables**
-  **File:** `./assets/scss/abstracts/variables/_chip-variables.scss`
-
-> **Note:**  
-> All base color, spacing, and typography variables should be defined in `variables.scss` for consistency and theme support.  
-> In this file, import those variables and use them to define chip-specific variables. This ensures that the chip component inherits the global theme and can be easily updated by changing the main variables file.
-
-```scss
-// =============================================================================
-// CHIP VARIABLES - COMPLETE SYSTEM
-// =============================================================================
-@use "../variables" as *;
-@use "sass:color";
-
-// Base chip variables
-$chip-variants: (
-  "default": (
-    "bg": $gray-200,
-    "color": $gray-800,
-    "border": $gray-200,
-    "outlined-color": $gray-700,
-    "filled-bg": $gray-100,
-    "filled-color": $gray-900,
-    "filled-border": $gray-200,
-  ),
-  "primary": (
-    "bg": $primary-color,
-    "color": $white,
-    "border": $primary-color,
-    "outlined-color": $primary-color,
-    "filled-bg": color.scale($primary-color, $lightness: 45%),
-    "filled-color": color.scale($primary-color, $lightness: -15%),
-    "filled-border": color.scale($primary-color, $lightness: 35%),
-  ),
-  "success": (
-    "bg": $success-color,
-    "color": $white,
-    "border": $success-color,
-    "outlined-color": $success-color,
-    "filled-bg": color.scale($success-color, $lightness: 45%),
-    "filled-color": color.scale($success-color, $lightness: -15%),
-    "filled-border": color.scale($success-color, $lightness: 35%),
-  ),
-  "warning": (
-    "bg": $warning-color,
-    "color": $gray-800,
-    "border": $warning-color,
-    "outlined-color": $warning-color,
-    "filled-bg": color.scale($warning-color, $lightness: 45%),
-    "filled-color": color.scale($warning-color, $lightness: -15%),
-    "filled-border": color.scale($warning-color, $lightness: 35%),
-  ),
-  "danger": (
-    "bg": $danger-color,
-    "color": $white,
-    "border": $danger-color,
-    "outlined-color": $danger-color,
-    "filled-bg": color.scale($danger-color, $lightness: 45%),
-    "filled-color": color.scale($danger-color, $lightness: -15%),
-    "filled-border": color.scale($danger-color, $lightness: 35%),
-  ),
-  "info": (
-    "bg": $info-color,
-    "color": $white,
-    "border": $info-color,
-    "outlined-color": $info-color,
-    "filled-bg": color.scale($info-color, $lightness: 45%),
-    "filled-color": color.scale($info-color, $lightness: -15%),
-    "filled-border": color.scale($info-color, $lightness: 35%),
-  ),
-);
-
-// Chip type variables
-$chip-types: (
-  "solid": (
-    "bg-key": "bg",
-    "color-key": "color",
-    "border-key": "border",
-  ),
-  "outlined": (
-    "bg-key": "transparent",
-    "color-key": "outlined-color",
-    "border-key": "border",
-  ),
-  "filled": (
-    "bg-key": "filled-bg",
-    "color-key": "filled-color",
-    "border-key": "filled-border",
-  ),
-);
-```
-
-- **Chip SCSS Mixins**
-  **File:** `./assets/scss/abstracts/mixins/_chip-mixins.scss`
-
-> **Note:**  
-> All base mixins should be defined in `mixins.scss` for consistency and theme support.  
-> In this file, import those mixins and use them to define chip-specific mixins. This ensures that the chip component inherits the global theme and can be easily updated by changing the main mixins file.
-
-```scss
-// =============================================================================
-// CHIP MIXINS
-// =============================================================================
-@use "../variables" as *;
-@use "../functions" as *;
-@use "../mixins" as *;
-
-@use "../variables/chip-variables" as *;
-@use "sass:color";
-@use "sass:map";
-
-@mixin chip-variant($variant, $type: "solid") {
-  $variant-config: map.get($chip-variants, $variant);
-  $type-config: map.get($chip-types, $type);
-
-  @if $variant-config and $type-config {
-    $bg-key: map.get($type-config, "bg-key");
-    $color-key: map.get($type-config, "color-key");
-    $border-key: map.get($type-config, "border-key");
-
-    background-color: if(
-      $bg-key == "transparent",
-      transparent,
-      map.get($variant-config, $bg-key)
-    );
-    color: map.get($variant-config, $color-key);
-    border-color: map.get($variant-config, $border-key);
-
-    &:hover:not(.disabled) {
-      @if $type == "outlined" {
-        background-color: rgba(map.get($variant-config, $border-key), 0.1);
-        border-color: color.scale(
-          map.get($variant-config, $border-key),
-          $lightness: -10%
-        );
-      } @else {
-        background-color: color.scale(
-          map.get($variant-config, $bg-key),
-          $lightness: -10%
-        );
-        border-color: color.scale(
-          map.get($variant-config, $border-key),
-          $lightness: -10%
-        );
-      }
-    }
-
-    &:active:not(.disabled) {
-      @if $type == "outlined" {
-        background-color: rgba(map.get($variant-config, $border-key), 0.2);
-        border-color: color.scale(
-          map.get($variant-config, $border-key),
-          $lightness: -15%
-        );
-      } @else {
-        background-color: color.scale(
-          map.get($variant-config, $bg-key),
-          $lightness: -15%
-        );
-        border-color: color.scale(
-          map.get($variant-config, $border-key),
-          $lightness: -15%
-        );
-      }
-    }
-  }
-}
-
-@mixin generate-chip-variants {
-  @each $variant, $config in $chip-variants {
-    // Solid variants
-    &.#{$variant} {
-      @include chip-variant($variant, "solid");
-    }
-
-    // Outlined variants
-    &.outlined-#{$variant} {
-      @include chip-variant($variant, "outlined");
-    }
-
-    // Filled variants
-    &.filled-#{$variant} {
-      @include chip-variant($variant, "filled");
-    }
-  }
-}
-```
+**Note:** The chip component uses variables, functions, mixins, and breakpoints from the abstracts directory. These are imported via the abstracts index file.
