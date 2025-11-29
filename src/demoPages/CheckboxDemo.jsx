@@ -131,14 +131,9 @@ export const StatesDemo = () => {
   );
 };
 
-// Demo 4: Custom Colors
-export const CustomColorsDemo = () => {
+// Demo 4: Variant Colors
+export const VariantColorsDemo = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [customColors, setCustomColors] = useState({
-    backgroundColor: "#2196F3",
-    innerTickColor: "#ffffff",
-    labelColor: "#333333",
-  });
 
   const handleSelect = (updatedValue, checkboxValue, event) => {
     setSelectedOptions(updatedValue);
@@ -147,58 +142,24 @@ export const CustomColorsDemo = () => {
   return (
     <div className="checkbox-demo-container">
       <div className="demo-section">
-        <h3 className="demo-title">Custom Colors</h3>
+        <h3 className="demo-title">Variant Colors</h3>
         <div className="demo-content">
-          <div className="color-controls">
-            <div className="color-control">
-              <label>Background Color:</label>
-              <input
-                type="color"
-                value={customColors.backgroundColor}
-                onChange={(e) =>
-                  setCustomColors((prev) => ({
-                    ...prev,
-                    backgroundColor: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="color-control">
-              <label>Tick Color:</label>
-              <input
-                type="color"
-                value={customColors.innerTickColor}
-                onChange={(e) =>
-                  setCustomColors((prev) => ({
-                    ...prev,
-                    innerTickColor: e.target.value,
-                  }))
-                }
-              />
-            </div>
-            <div className="color-control">
-              <label>Label Color:</label>
-              <input
-                type="color"
-                value={customColors.labelColor}
-                onChange={(e) =>
-                  setCustomColors((prev) => ({
-                    ...prev,
-                    labelColor: e.target.value,
-                  }))
-                }
-              />
-            </div>
+          <div className="variant-colors-grid">
+            <BasicCheckbox
+              label="Default Variant (Black)"
+              value="default"
+              selected={selectedOptions}
+              onChange={handleSelect}
+              variant="default"
+            />
+            <BasicCheckbox
+              label="Info Variant (Blue)"
+              value="info"
+              selected={selectedOptions}
+              onChange={handleSelect}
+              variant="info"
+            />
           </div>
-          <BasicCheckbox
-            label="Custom Colored Checkbox"
-            value="custom"
-            selected={selectedOptions}
-            onChange={handleSelect}
-            backgroundColor={customColors.backgroundColor}
-            innerTickColor={customColors.innerTickColor}
-            labelColor={customColors.labelColor}
-          />
           <div className="demo-state">
             <strong>Current State:</strong> {JSON.stringify(selectedOptions)}
           </div>
@@ -429,7 +390,7 @@ const CheckboxDemo = () => {
       <BasicCheckboxDemo />
       <SizeVariantsDemo />
       <StatesDemo />
-      <CustomColorsDemo />
+      <VariantColorsDemo />
       <SelectAllDemo />
       <CustomIconDemo />
       <MultipleCheckboxesDemo />

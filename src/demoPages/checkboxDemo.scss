@@ -134,6 +134,19 @@
         }
     }
 
+    // Variant Colors Grid
+    .variant-colors-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+
+        @media (min-width: 768px) {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+    }
+
     // Value Types Grid
     .value-types-grid {
         display: flex;
