@@ -40,15 +40,21 @@ export function useRemIndicator() {
     if (el && el.offsetWidth) setRemToPixel(el.offsetWidth);
   }, []);
 
-  const convertRemToPixels = useCallback((rem) => {
-    if (typeof rem !== 'number' || Number.isNaN(rem)) return 0;
-    return rem * remToPixel;
-  }, [remToPixel]);
+  const convertRemToPixels = useCallback(
+    (rem) => {
+      if (typeof rem !== 'number' || Number.isNaN(rem)) return 0;
+      return rem * remToPixel;
+    },
+    [remToPixel]
+  );
 
-  const convertPixelsToRem = useCallback((px) => {
-    if (typeof px !== 'number' || Number.isNaN(px) || remToPixel === 0) return 0;
-    return px / remToPixel;
-  }, [remToPixel]);
+  const convertPixelsToRem = useCallback(
+    (px) => {
+      if (typeof px !== 'number' || Number.isNaN(px) || remToPixel === 0) return 0;
+      return px / remToPixel;
+    },
+    [remToPixel]
+  );
 
   useEffect(() => {
     calculateRemValue();
@@ -87,7 +93,18 @@ function App() {
       <div
         id="remIndicator"
         ref={remIndicatorRef}
-        style={{ position: 'absolute', top: -10000, left: -10000, background: 'transparent', opacity: 0, width: '1rem', height: '1rem', zIndex: 1, pointerEvents: 'none', visibility: 'hidden' }}
+        style={{
+          position: 'absolute',
+          top: -10000,
+          left: -10000,
+          background: 'transparent',
+          opacity: 0,
+          width: '1rem',
+          height: '1rem',
+          zIndex: 1,
+          pointerEvents: 'none',
+          visibility: 'hidden',
+        }}
       />
     </div>
   );

@@ -67,7 +67,7 @@ Shows a toast notification with the specified options.
 ```jsx
 import React from 'react';
 import { useToast } from '@/customHooks/useToast';
-import OToast from '@/components/sharedComponents/OToast';
+import OToast from '@/components/sharedComponents/OToast';    
 
 function App() {
   const { success, error } = useToast();
