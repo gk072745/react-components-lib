@@ -17,7 +17,6 @@ This component requires:
 ```jsx
 import React, { useState, useCallback, useMemo, memo } from 'react';
 import PropTypes from 'prop-types';
-import '@site/src/assets/scss/components/_basic-accordion.scss';
 
 const BasicAccordion = memo(
   ({ prepend, title, append, children, initialIsOpen = false, onToggle, disabled = false }) => {
