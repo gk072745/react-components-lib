@@ -12,7 +12,15 @@ This component requires:
 
 ### React Component
 
-**File:** `src/components/sharedComponents/BasicAccordion.jsx`
+```
+src/
+├── components/
+    └── sharedComponents/
+        └── BasicAccordion.jsx
+```
+
+- **Path**: `src/components/sharedComponents/BasicAccordion.jsx`
+- **Description**: Main accordion component implementation
 
 ```jsx
 import React, { useState, useCallback, useMemo, memo } from 'react';
@@ -133,7 +141,16 @@ export default BasicAccordion;
 
 ### SCSS Component
 
-**File:** `src/assets/scss/components/_basic-accordion.scss`
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _basic-accordion.scss
+```
+
+- **Path**: `src/assets/scss/components/_basic-accordion.scss`
+- **Description**: Accordion component styles
 
 ```scss
 // =============================================================================
@@ -288,7 +305,18 @@ export default BasicAccordion;
 
 ### SCSS Abstracts
 
-**File:** `src/assets/scss/abstracts/index.scss`
+```
+src/
+├── assets/
+    └── scss/
+        └── abstracts/
+            └── index.scss
+```
+
+- **Path**: `src/assets/scss/abstracts/index.scss`
+- **Description**: Global SCSS variables, mixins, and functions
+
+**Note:** The accordion component uses variables, functions, mixins, and breakpoints from the abstracts directory. These are imported via the abstracts index file.
 
 ```scss
 // =============================================================================

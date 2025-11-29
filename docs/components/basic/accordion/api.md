@@ -24,8 +24,8 @@ Callback function that is called whenever the accordion state changes.
 
 **Signature:**
 
-```typescript
-onToggle: (isOpen: boolean) => void
+```js
+onToggle: (isOpen) => void
 ```
 
 **Parameters:**
@@ -53,15 +53,15 @@ Function that renders content before the title in the accordion header.
 
 **Signature:**
 
-```typescript
-prepend: (props: { isOpen: boolean; handleToggle: () => void; disabled: boolean }) => ReactNode;
+```js
+prepend: (props) => ReactNode
 ```
 
 **Parameters:**
 
-- `isOpen` (`boolean`): Whether the accordion is currently open
-- `handleToggle` (`function`): Function to toggle the accordion state
-- `disabled` (`boolean`): Whether the accordion is disabled
+- `props.isOpen` (`boolean`): Whether the accordion is currently open
+- `props.handleToggle` (`function`): Function to toggle the accordion state
+- `props.disabled` (`boolean`): Whether the accordion is disabled
 
 **Example:**
 
@@ -81,15 +81,15 @@ Function that renders content after the title (replaces the default chevron icon
 
 **Signature:**
 
-```typescript
-append: (props: { isOpen: boolean; handleToggle: () => void; disabled: boolean }) => ReactNode;
+```js
+append: (props) => ReactNode
 ```
 
 **Parameters:**
 
-- `isOpen` (`boolean`): Whether the accordion is currently open
-- `handleToggle` (`function`): Function to toggle the accordion state
-- `disabled` (`boolean`): Whether the accordion is disabled
+- `props.isOpen` (`boolean`): Whether the accordion is currently open
+- `props.handleToggle` (`function`): Function to toggle the accordion state
+- `props.disabled` (`boolean`): Whether the accordion is disabled
 
 **Example:**
 
