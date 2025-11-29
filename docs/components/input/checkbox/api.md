@@ -1,228 +1,106 @@
 # API
 
-## Props
+## BasicCheckbox Component
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Size of the checkbox |
-| `disabled` | `boolean` | `false` | Whether the checkbox is disabled |
-| `readonly` | `boolean` | `false` | Whether the checkbox is readonly |
-| `label` | `string` | `''` | Label text for the checkbox |
-| `value` | `string \| number \| boolean` | `''` | Value of the checkbox |
-| `selected` | `array` | `[]` | Array of selected values |
-| `valueComparator` | `function` | `(a, b) => Array.isArray(a) && a.includes(b)` | Custom comparison function |
-| `innerTickColor` | `string` | `'#ffffff'` | Color of the inner tick |
-| `backgroundColor` | `string` | `'#000000'` | Background color when checked |
-| `labelColor` | `string` | `'#000000'` | Color of the label text |
-| `allItems` | `array` | `[]` | Items for select-all functionality |
-| `valueKey` | `string` | `''` | Key to extract value from allItems objects |
-| `onChange` | `function` | - | Callback when checkbox state changes |
-| `children` | `ReactNode` | - | Additional content to render |
-| `icon` | `Component` | - | Custom icon component |
-| `labelSlot` | `Component` | - | Custom label component |
+The main checkbox component that provides customizable checkbox functionality with support for multiple selection and select all.
 
-## Events
+### Props
 
-| Event | Parameters | Description |
-|-------|------------|-------------|
-| `onChange` | `(newValue, currentValue, event)` | Fired when checkbox state changes |
+| Prop              | Type                                                      | Default                                    | Required | Description                                                                 |
+| ----------------- | --------------------------------------------------------- | ------------------------------------------ | -------- | --------------------------------------------------------------------------- |
+| `size`            | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'`                   | `'md'`                                     | No       | Size of the checkbox                                                        |
+| `variant`         | `'default' \| 'info'`                                     | `'default'`                                | No       | Color variant of the checkbox                                              |
+| `disabled`        | `boolean`                                                 | `false`                                    | No       | Whether the checkbox is disabled (prevents interaction)                     |
+| `readonly`        | `boolean`                                                 | `false`                                    | No       | Whether the checkbox is readonly (prevents interaction but maintains state) |
+| `label`           | `string`                                                  | `''`                                       | No       | Text label for the checkbox                                                |
+| `value`           | `string \| number \| boolean`                            | `''`                                       | No       | Value of the checkbox (used for selection state)                           |
+| `selected`        | `array`                                                   | `[]`                                       | No       | Array of selected values (for multiple selection)                         |
+| `valueComparator` | `function`                                                 | `(a, b) => Array.isArray(a) && a.includes(b)` | No       | Custom function to compare values for selection state                      |
+| `allItems`        | `array`                                                   | `[]`                                       | No       | Array of all items (required for selectAll functionality)                |
+| `valueKey`        | `string`                                                  | `''`                                       | No       | Key to extract value from object items (for selectAll)                     |
+| `onChange`        | `function`                                                 | -                                          | No       | Callback function fired when checkbox state changes                        |
+| `children`        | `ReactNode`                                               | -                                          | No       | Additional content to render after the label                              |
+| `icon`            | `elementType`                                             | -                                          | No       | Custom icon component (replaces default checkbox visual)                   |
+| `labelSlot`       | `elementType`                                             | -                                          | No       | Custom label component (replaces default label text)                      |
 
-### Event Parameters
+### Event Handlers
 
-- **`newValue`** (`array`): The updated array of selected values
-- **`currentValue`** (`string \| number \| boolean`): The value of the current checkbox
-- **`event`** (`Event`): The original click event
+#### onChange
 
-## Slots (Custom Components)
+Callback function that is called whenever the checkbox state changes.
 
-| Slot | Props | Description |
-|------|-------|-------------|
-| `icon` | `{ isChecked }` | Custom checkbox icon component |
-| `labelSlot` | `{ isChecked }` | Custom label component |
+**Signature:**
 
-### Slot Props
-
-- **`isChecked`** (`boolean`): Whether the checkbox is currently checked
-
-## Methods
-
-The component doesn't expose any methods via refs.
-
-## Example Usage
-
-### Basic Usage
-
-```jsx
-import React, { useState } from 'react';
-import { BasicCheckbox } from '@your-org/react-ui-components';
-
-function MyForm() {
-  const [selected, setSelected] = useState([]);
-
-  return (
-    <BasicCheckbox 
-      label="I agree to terms" 
-      value="terms"
-      selected={selected}
-      onChange={setSelected}
-    />
-  );
-}
+```js
+onChange: (newValue, checkboxValue, event) => void
 ```
 
-### Checkbox Group
+**Parameters:**
 
-```jsx
-import React, { useState } from 'react';
-import { BasicCheckbox } from '@your-org/react-ui-components';
+- `newValue` (`array`): The updated array of selected values
+- `checkboxValue` (`string | number | boolean`): The value of the checkbox that was clicked
+- `event` (`SyntheticEvent`): The React synthetic event object
 
-function CheckboxGroup() {
-  const [selected, setSelected] = useState([]);
-  
-  const options = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' }
-  ];
+### Slot Functions
 
-  return (
-    <div className="checkbox-group">
-      {options.map(option => (
-        <BasicCheckbox
-          key={option.value}
-          label={option.label}
-          value={option.value}
-          selected={selected}
-          onChange={setSelected}
-          size="md"
-        />
-      ))}
-      
-      <div>Selected: {selected.join(', ')}</div>
-    </div>
-  );
-}
+#### icon
+
+Component that renders a custom checkbox icon, replacing the default checkbox visual.
+
+**Signature:**
+
+```js
+icon: ({ isChecked }) => ReactNode
 ```
+
+**Parameters:**
+
+- `isChecked` (`boolean`): Whether the checkbox is currently checked
+
+#### labelSlot
+
+Component that renders a custom label, replacing the default label text.
+
+**Signature:**
+
+```js
+labelSlot: ({ isChecked }) => ReactNode
+```
+
+**Parameters:**
+
+- `isChecked` (`boolean`): Whether the checkbox is currently checked
+
+### Size Variants
+
+The checkbox supports five size variants:
+
+- `xs`: Extra small (0.75rem checkbox, 0.625rem font)
+- `sm`: Small (0.875rem checkbox, 0.75rem font)
+- `md`: Medium - Default (1rem checkbox, 0.875rem font)
+- `lg`: Large (1.125rem checkbox, 1rem font)
+- `xl`: Extra large (1.25rem checkbox, 1.125rem font)
+
+### Color Variants
+
+The checkbox supports two color variants:
+
+- `default`: Black checkbox with black border and white tick
+- `info`: Blue checkbox (#2196f3) with blue border and white tick
 
 ### Select All Functionality
 
-```jsx
-import React, { useState } from 'react';
-import { BasicCheckbox } from '@your-org/react-ui-components';
+When `value="selectAll"` is used along with `allItems` and optionally `valueKey`, the checkbox will:
 
-function SelectAllExample() {
-  const [selected, setSelected] = useState([]);
-  
-  const items = [
-    { id: 1, name: 'Apple' },
-    { id: 2, name: 'Banana' },
-    { id: 3, name: 'Orange' }
-  ];
+- Check if all items are selected when determining its checked state
+- Select all items when clicked (if not all are selected)
+- Deselect all items when clicked (if all are selected)
 
-  return (
-    <div className="select-all-example">
-      <BasicCheckbox
-        label="Select All"
-        value="selectAll"
-        selected={selected}
-        onChange={setSelected}
-        allItems={items}
-        valueKey="id"
-      />
-      
-      <div style={{ marginLeft: '2rem' }}>
-        {items.map(item => (
-          <BasicCheckbox
-            key={item.id}
-            label={item.name}
-            value={item.id}
-            selected={selected}
-            onChange={setSelected}
-          />
-        ))}
-      </div>
-      
-      <div>Selected: {selected.join(', ')}</div>
-    </div>
-  );
-}
-```
+### Accessibility
 
-### Custom Colors
+The component uses a native `<input type="checkbox">` element (hidden visually) for proper form semantics and accessibility. The component maintains:
 
-```jsx
-<BasicCheckbox 
-  label="Custom Colors"
-  value="custom"
-  selected={selected}
-  onChange={setSelected}
-  backgroundColor="#2196F3"
-  innerTickColor="#ffffff"
-  labelColor="#333333"
-/>
-```
-
-### Custom Icon and Label
-
-```jsx
-const CustomIcon = ({ isChecked }) => (
-  <div style={{
-    width: '20px',
-    height: '20px',
-    border: '2px solid #ff6b6b',
-    borderRadius: '4px',
-    backgroundColor: isChecked ? '#ff6b6b' : 'transparent',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'white',
-    fontSize: '12px',
-    fontWeight: 'bold'
-  }}>
-    {isChecked ? '✓' : ''}
-  </div>
-);
-
-const CustomLabel = ({ isChecked }) => (
-  <span style={{
-    color: isChecked ? '#ff6b6b' : '#666666',
-    fontWeight: isChecked ? 'bold' : 'normal'
-  }}>
-    Custom Label {isChecked ? '(Selected)' : '(Not Selected)'}
-  </span>
-);
-
-<BasicCheckbox 
-  value="custom"
-  selected={selected}
-  onChange={setSelected}
-  icon={CustomIcon}
-  labelSlot={CustomLabel}
-/>
-```
-
-### Different Sizes
-
-```jsx
-<BasicCheckbox size="xs" label="Extra Small" value="xs" selected={selected} onChange={setSelected} />
-<BasicCheckbox size="sm" label="Small" value="sm" selected={selected} onChange={setSelected} />
-<BasicCheckbox size="md" label="Medium" value="md" selected={selected} onChange={setSelected} />
-<BasicCheckbox size="lg" label="Large" value="lg" selected={selected} onChange={setSelected} />
-<BasicCheckbox size="xl" label="Extra Large" value="xl" selected={selected} onChange={setSelected} />
-```
-
-### States
-
-```jsx
-<BasicCheckbox label="Normal" value="normal" selected={selected} onChange={setSelected} />
-<BasicCheckbox disabled label="Disabled" value="disabled" selected={selected} onChange={setSelected} />
-<BasicCheckbox readonly label="Readonly" value="readonly" selected={selected} onChange={setSelected} />
-```
-
-### Different Value Types
-
-```jsx
-<BasicCheckbox label="String Value" value="string-value" selected={selected} onChange={setSelected} />
-<BasicCheckbox label="Number Value" value={42} selected={selected} onChange={setSelected} />
-<BasicCheckbox label="Boolean Value" value={true} selected={selected} onChange={setSelected} />
-```
+- Proper label association via the `<label>` wrapper
+- Keyboard navigation support (native checkbox behavior)
+- Screen reader compatibility
+- Disabled state handling
