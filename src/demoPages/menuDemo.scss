@@ -1,0 +1,257 @@
+// =============================================================================
+// MENU DEMO STYLES
+// =============================================================================
+
+.menu-demo-container {
+  // =============================================================================
+  // CONTAINER STYLES
+  // =============================================================================
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: inherit;
+
+  // =============================================================================
+  // DEMO SECTION STYLES
+  // =============================================================================
+  .demo-section {
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    border: 1px solid #e1e5e9;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+
+    // =============================================================================
+    // DEMO TITLE STYLES
+    // =============================================================================
+    .demo-title {
+      margin: 0 0 1rem 0;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #333333;
+      border-bottom: 2px solid #f0f0f0;
+      padding-bottom: 0.5rem;
+    }
+
+    // =============================================================================
+    // DEMO CONTENT STYLES
+    // =============================================================================
+    .demo-content {
+
+      // =============================================================================
+      // DEMO GROUP STYLES
+      // =============================================================================
+      .demo-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        align-items: flex-start;
+      }
+
+      // =============================================================================
+      // PLACEMENT GRID STYLES
+      // =============================================================================
+      .placement-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      // =============================================================================
+      // DEMO CONTROLS STYLES
+      // =============================================================================
+      .demo-controls {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      // =============================================================================
+      // DEMO STATE STYLES
+      // =============================================================================
+      .demo-state {
+        margin-top: 1rem;
+        padding: 0.75rem;
+        background-color: #f8f9fa;
+        border-radius: 6px;
+        border-left: 3px solid #007bff;
+        font-size: 0.875rem;
+
+        strong {
+          color: #333333;
+          margin-right: 0.5rem;
+        }
+      }
+
+      // =============================================================================
+      // MENU CONTENT STYLES
+      // =============================================================================
+      .demo-menu-content {
+        padding: 0.5rem 0;
+
+        .menu-item {
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          transition: background-color 0.2s ease;
+
+          &:hover {
+            background-color: #f3f4f6;
+          }
+
+          &.menu-item-danger {
+            color: #ef4444;
+            border-top: 1px solid #e5e7eb;
+            margin-top: 0.5rem;
+            padding-top: 0.75rem;
+
+            &:hover {
+              background-color: #fee2e2;
+            }
+          }
+        }
+
+        .menu-header {
+          padding: 0.75rem 1rem;
+          font-weight: 600;
+          border-bottom: 1px solid #e5e7eb;
+          margin-bottom: 0.5rem;
+          color: #333333;
+        }
+
+        &.complex-menu {
+          .menu-item {
+            border-bottom: 1px solid #e5e7eb;
+
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+        }
+      }
+
+      // =============================================================================
+      // BUTTON STYLES
+      // =============================================================================
+      .demo-button {
+        padding: 0.5rem 1rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        font-family: inherit;
+
+        &:hover {
+          background-color: #0056b3;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        &:active {
+          transform: translateY(0);
+        }
+      }
+    }
+  }
+
+  // =============================================================================
+  // DARK MODE SUPPORT
+  // =============================================================================
+  [data-theme='dark'] &,
+  .theme-dark &,
+  html[data-theme='dark'] &,
+  .dark &,
+  [class*="dark"] & {
+    .demo-section {
+      background-color: #2a2a2a;
+      border-color: #555555;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+      .demo-title {
+        color: #ffffff;
+        border-bottom-color: #555555;
+      }
+
+      .demo-content {
+        .demo-state {
+          background-color: #3a3a3a;
+          border-left-color: #4dabf7;
+
+          strong {
+            color: #ffffff;
+          }
+        }
+
+        .demo-menu-content {
+          .menu-item {
+            color: #ffffff;
+
+            &:hover {
+              background-color: #3a3a3a;
+            }
+
+            &.menu-item-danger {
+              color: #f87171;
+
+              &:hover {
+                background-color: #7f1d1d;
+              }
+            }
+          }
+
+          .menu-header {
+            color: #ffffff;
+            border-bottom-color: #555555;
+          }
+        }
+
+        .demo-button {
+          background-color: #4dabf7;
+
+          &:hover {
+            background-color: #339af0;
+          }
+        }
+      }
+    }
+  }
+
+  // =============================================================================
+  // RESPONSIVE DESIGN
+  // =============================================================================
+  @media (max-width: 768px) {
+    padding: 0.5rem;
+
+    .demo-section {
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+
+      .demo-title {
+        font-size: 1.1rem;
+      }
+
+      .demo-content {
+        .demo-group {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .placement-grid {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+
+        .demo-controls {
+          flex-direction: column;
+        }
+      }
+    }
+  }
+}
