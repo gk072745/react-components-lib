@@ -1,262 +1,140 @@
-# api
+# API
 
-Complete API documentation for the BasicPagination component.
+## BasicPagination Component
 
-# Props
+The main pagination component that provides customizable pagination functionality with smart ellipsis handling and flexible navigation controls.
 
-Required Props
+### Props
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `totalPages` | `number` | Total number of pages |
+| Prop            | Type                              | Default     | Required | Description                                    |
+| --------------- | --------------------------------- | ----------- | -------- | ---------------------------------------------- |
+| `currentPage`   | `number`                          | `1`         | No       | Current active page number                     |
+| `totalPages`    | `number`                          | -           | Yes      | Total number of pages                          |
+| `totalVisible`  | `number`                          | `7`         | No       | Maximum number of visible page buttons         |
+| `showFirstLast` | `boolean`                         | `true`      | No       | Whether to show first and last page buttons    |
+| `showPrevNext`  | `boolean`                         | `true`      | No       | Whether to show previous and next page buttons |
+| `disabled`      | `boolean`                         | `false`     | No       | Whether the pagination is disabled             |
+| `size`          | `'small' \| 'default' \| 'large'` | `'default'` | No       | Size variant of the pagination                 |
+| `rounded`       | `boolean`                         | `false`     | No       | Whether to use rounded button style            |
+| `color`         | `'primary' \| 'secondary'`        | `'primary'` | No       | Color theme for active state                   |
+| `className`     | `string`                          | `''`        | No       | Additional CSS classes                         |
+| `onPageChange`  | `function`                        | -           | No       | Callback when page changes                     |
+| `onFirst`       | `function`                        | -           | No       | Callback when first page button is clicked     |
+| `onPrev`        | `function`                        | -           | No       | Callback when previous page button is clicked  |
+| `onNext`        | `function`                        | -           | No       | Callback when next page button is clicked      |
+| `onLast`        | `function`                        | -           | No       | Callback when last page button is clicked      |
 
-Optional Props
+### Event Handlers
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `currentPage` | `number` | `1` | Current active page number |
-| `totalVisible` | `number` | `7` | Maximum number of visible page buttons |
-| `showFirstLast` | `boolean` | `true` | Show first and last page buttons |
-| `showPrevNext` | `boolean` | `true` | Show previous and next page buttons |
-| `disabled` | `boolean` | `false` | Disable all pagination controls |
-| `size` | `'small' \| 'default' \| 'large'` | `'default'` | Size variant of the pagination |
-| `rounded` | `boolean` | `false` | Use rounded button style |
-| `color` | `'primary' \| 'secondary'` | `'primary'` | Color theme for active state |
-| `className` | `string` | `''` | Additional CSS class name |
+#### onPageChange
 
-# Event Handlers
+Callback function that is called whenever the page changes.
 
-Required Event Handlers
+**Signature:**
 
-| Handler | Type | Description |
-|---------|------|-------------|
-| `onPageChange` | `(page: number) => void` | Called when page changes |
-
-Optional Event Handlers
-
-| Handler | Type | Description |
-|---------|------|-------------|
-| `onFirst` | `(page: number) => void` | Called when first page button is clicked |
-| `onPrev` | `(page: number) => void` | Called when previous page button is clicked |
-| `onNext` | `(page: number) => void` | Called when next page button is clicked |
-| `onLast` | `(page: number) => void` | Called when last page button is clicked |
-
-# Examples
-
-Basic Usage
-
-```jsx
-import BasicPagination from '@/components/sharedComponents/BasicPagination';
-import { useState } from 'react';
-
-const MyComponent = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    console.log('Page changed to:', page);
-  };
-
-  return (
-    <BasicPagination
-      currentPage={currentPage}
-      totalPages={20}
-      onPageChange={handlePageChange}
-    />
-  );
-};
+```js
+onPageChange: (page) => void
 ```
 
-With All Event Handlers
+**Parameters:**
 
-```jsx
-const handlePageChange = (page) => {
-  console.log('Page changed to:', page);
-};
+- `page` (`number`): The new page number
 
-const handleFirst = (page) => {
-  console.log('First page clicked:', page);
-};
+#### onFirst
 
-const handlePrev = (page) => {
-  console.log('Previous page clicked:', page);
-};
+Callback function that is called when the first page button is clicked.
 
-const handleNext = (page) => {
-  console.log('Next page clicked:', page);
-};
+**Signature:**
 
-const handleLast = (page) => {
-  console.log('Last page clicked:', page);
-};
-
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={20}
-  onPageChange={handlePageChange}
-  onFirst={handleFirst}
-  onPrev={handlePrev}
-  onNext={handleNext}
-  onLast={handleLast}
-/>
+```js
+onFirst: (page) => void
 ```
 
-Size Variants
+**Parameters:**
 
-```jsx
-// Small size
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={10}
-  size="small"
-  onPageChange={handlePageChange}
-/>
+- `page` (`number`): The page number (always 1)
 
-// Default size
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={10}
-  onPageChange={handlePageChange}
-/>
+#### onPrev
 
-// Large size
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={10}
-  size="large"
-  onPageChange={handlePageChange}
-/>
+Callback function that is called when the previous page button is clicked.
+
+**Signature:**
+
+```js
+onPrev: (page) => void
 ```
 
-Limited Visible Pages
+**Parameters:**
 
-```jsx
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={100}
-  totalVisible={5}
-  onPageChange={handlePageChange}
-/>
+- `page` (`number`): The previous page number
+
+#### onNext
+
+Callback function that is called when the next page button is clicked.
+
+**Signature:**
+
+```js
+onNext: (page) => void
 ```
 
-Configuration Options
+**Parameters:**
 
-```jsx
-// No first/last buttons
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={20}
-  showFirstLast={false}
-  onPageChange={handlePageChange}
-/>
+- `page` (`number`): The next page number
 
-// No prev/next buttons
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={20}
-  showPrevNext={false}
-  onPageChange={handlePageChange}
-/>
+#### onLast
 
-// Only page numbers
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={20}
-  showFirstLast={false}
-  showPrevNext={false}
-  onPageChange={handlePageChange}
-/>
+Callback function that is called when the last page button is clicked.
+
+**Signature:**
+
+```js
+onLast: (page) => void
 ```
 
-Styling Options
+**Parameters:**
 
-```jsx
-// Rounded buttons
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={15}
-  rounded={true}
-  onPageChange={handlePageChange}
-/>
+- `page` (`number`): The last page number (equals totalPages)
 
-// Secondary color
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={15}
-  color="secondary"
-  onPageChange={handlePageChange}
-/>
-```
+### Size Variants
 
-Disabled State
+The pagination supports three size variants:
 
-```jsx
-<BasicPagination
-  currentPage={currentPage}
-  totalPages={20}
-  disabled={true}
-  onPageChange={handlePageChange}
-/>
-```
+- `small`: Small size (2rem button height, 0.75rem font)
+- `default`: Default size (2.5rem button height, 0.875rem font)
+- `large`: Large size (3rem button height, 1rem font)
 
-# Accessibility
+### Color Variants
 
-The BasicPagination component includes comprehensive accessibility features:
+The pagination supports two color variants:
 
-- **ARIA Labels**: All buttons have descriptive `aria-label` attributes
-- **ARIA Current**: The current page button has `aria-current="page"`
-- **ARIA Disabled**: Disabled buttons have `aria-disabled` attributes
-- **Keyboard Navigation**: Full keyboard support for all controls
-- **Focus Management**: Proper focus handling and visual indicators
-- **Screen Reader Support**: Semantic HTML structure for screen readers
+- `primary`: Primary color theme (#1976d2) for active state
+- `secondary`: Secondary color theme (#424242) for active state
 
-# Styling
+### Smart Ellipsis
 
-CSS Classes
+The component automatically handles ellipsis display when the number of pages exceeds `totalVisible`:
 
-| Class | Description |
-|-------|-------------|
-| `.pagination` | Main pagination container |
-| `.pagination-button` | Individual button styling |
-| `.pagination-button--icon` | Icon button styling |
-| `.pagination-button--page` | Page number button styling |
-| `.pagination-button--active` | Active page button styling |
-| `.pagination-button--disabled` | Disabled button styling |
-| `.pagination-button--rounded` | Rounded button styling |
-| `.pagination-ellipsis` | Ellipsis indicator styling |
+- Shows ellipsis (`...`) when there are gaps in the page range
+- Always displays first and last page numbers when applicable
+- Centers the current page in the visible range when possible
 
-Size Modifiers
+### Button States
 
-| Class | Description |
-|-------|-------------|
-| `.pagination--small` | Small size variant |
-| `.pagination--large` | Large size variant |
-| `.pagination-button--small` | Small button size |
-| `.pagination-button--large` | Large button size |
+The pagination buttons have the following states:
 
-Color Modifiers
+- **Active**: The current page button is highlighted with the selected color
+- **Disabled**: First/prev buttons are disabled on page 1, next/last buttons are disabled on the last page
+- **Hover**: Buttons show hover effects when not disabled
+- **Focus**: Buttons have focus indicators for keyboard navigation
 
-| Class | Description |
-|-------|-------------|
-| `.pagination-button--primary` | Primary color theme |
-| `.pagination-button--secondary` | Secondary color theme |
+### Accessibility
 
-# Browser Support
+The component provides:
 
-- Chrome 60+
-- Firefox 60+
-- Safari 12+
-- Edge 79+
-
-# Performance
-
-The component is optimized for performance with:
-
-- **Memoized Calculations**: Smart ellipsis logic is memoized
-- **Callback Optimization**: Event handlers are properly memoized
-- **Efficient Rendering**: Minimal re-renders with React 19 features
-- **Memory Management**: Proper cleanup of event listeners
-
-# TypeScript Support
-
-The component includes full TypeScript support with proper type definitions for all props and event handlers.
+- ARIA labels for all navigation buttons (`aria-label`)
+- ARIA current state for the active page (`aria-current="page"`)
+- ARIA disabled state for disabled buttons (`aria-disabled`)
+- Keyboard navigation support (Tab, Enter, Space)
+- Semantic HTML structure using `<nav>` element
+- Screen reader compatible structure
