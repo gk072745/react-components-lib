@@ -42,7 +42,9 @@ export const SingleSelectionDemo = () => {
               size="md"
             />
           </div>
-          <p className="demo-result">Selected: {singleValue || "None"}</p>
+          <div className="demo-state">
+            <strong>Selected:</strong> {singleValue || "None"}
+          </div>
         </div>
       </div>
     </div>
@@ -92,59 +94,59 @@ export const MultipleSelectionDemo = () => {
               size="md"
             />
           </div>
-          <p className="demo-result">
-            Selected:{" "}
+          <div className="demo-state">
+            <strong>Selected:</strong>{" "}
             {multipleValues.length ? multipleValues.join(", ") : "None"}
-          </p>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-// Demo 3: Sizes
+// Demo 3: Size Variants
 export const SizesDemo = () => {
   const [sizeValue, setSizeValue] = useState("");
 
   return (
     <div className="radio-demo-container">
       <div className="demo-section">
-        <h3 className="demo-title">Sizes</h3>
+        <h3 className="demo-title">Size Variants</h3>
         <div className="demo-content">
-          <div className="radio-grid">
+          <div className="size-variants-grid">
             <BasicRadio
               value="xs"
               modelValue={sizeValue}
               onUpdateModelValue={setSizeValue}
-              label="Extra Small"
+              label="Extra Small (xs)"
               size="xs"
             />
             <BasicRadio
               value="sm"
               modelValue={sizeValue}
               onUpdateModelValue={setSizeValue}
-              label="Small"
+              label="Small (sm)"
               size="sm"
             />
             <BasicRadio
               value="md"
               modelValue={sizeValue}
               onUpdateModelValue={setSizeValue}
-              label="Medium"
+              label="Medium (md)"
               size="md"
             />
             <BasicRadio
               value="lg"
               modelValue={sizeValue}
               onUpdateModelValue={setSizeValue}
-              label="Large"
+              label="Large (lg)"
               size="lg"
             />
             <BasicRadio
               value="xl"
               modelValue={sizeValue}
               onUpdateModelValue={setSizeValue}
-              label="Extra Large"
+              label="Extra Large (xl)"
               size="xl"
             />
           </div>
@@ -154,9 +156,9 @@ export const SizesDemo = () => {
   );
 };
 
-// Demo 4: Colors
-export const ColorsDemo = () => {
-  const [colorValue, setColorValue] = useState("primary");
+// Demo 4: Variant Colors
+export const VariantColorsDemo = () => {
+  const [colorValue, setColorValue] = useState("default");
 
   const handleColorChange = (newValue) => {
     setColorValue(newValue);
@@ -165,15 +167,15 @@ export const ColorsDemo = () => {
   return (
     <div className="radio-demo-container">
       <div className="demo-section">
-        <h3 className="demo-title">Colors</h3>
+        <h3 className="demo-title">Variant Colors</h3>
         <div className="demo-content">
-          <div className="radio-grid">
+          <div className="variant-colors-grid">
             <BasicRadio
               value="default"
               modelValue={colorValue}
               onUpdateModelValue={handleColorChange}
               label="Default"
-              color="gray"
+              variant="default"
               size="md"
             />
             <BasicRadio
@@ -181,7 +183,7 @@ export const ColorsDemo = () => {
               modelValue={colorValue}
               onUpdateModelValue={handleColorChange}
               label="Primary"
-              color="blue"
+              variant="primary"
               size="md"
             />
             <BasicRadio
@@ -189,7 +191,7 @@ export const ColorsDemo = () => {
               modelValue={colorValue}
               onUpdateModelValue={handleColorChange}
               label="Success"
-              color="green"
+              variant="success"
               size="md"
             />
             <BasicRadio
@@ -197,7 +199,7 @@ export const ColorsDemo = () => {
               modelValue={colorValue}
               onUpdateModelValue={handleColorChange}
               label="Warning"
-              color="orange"
+              variant="warning"
               size="md"
             />
             <BasicRadio
@@ -205,7 +207,7 @@ export const ColorsDemo = () => {
               modelValue={colorValue}
               onUpdateModelValue={handleColorChange}
               label="Danger"
-              color="red"
+              variant="danger"
               size="md"
             />
             <BasicRadio
@@ -213,7 +215,7 @@ export const ColorsDemo = () => {
               modelValue={colorValue}
               onUpdateModelValue={handleColorChange}
               label="Info"
-              color="cyan"
+              variant="info"
               size="md"
             />
           </div>
@@ -232,7 +234,7 @@ export const StatesDemo = () => {
       <div className="demo-section">
         <h3 className="demo-title">States</h3>
         <div className="demo-content">
-          <div className="radio-grid">
+          <div className="states-grid">
             <BasicRadio
               value="normal"
               modelValue={stateValue}
@@ -290,7 +292,9 @@ export const ToggleModeDemo = () => {
               size="md"
             />
           </div>
-          <p className="demo-result">Toggle allows deselection</p>
+          <div className="demo-state">
+            <strong>Note:</strong> Toggle mode allows deselection in single selection mode
+          </div>
         </div>
       </div>
     </div>
@@ -340,7 +344,7 @@ const RadioDemo = () => {
       <SingleSelectionDemo />
       <MultipleSelectionDemo />
       <SizesDemo />
-      <ColorsDemo />
+      <VariantColorsDemo />
       <StatesDemo />
       <ToggleModeDemo />
       <CustomChildrenDemo />
