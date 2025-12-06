@@ -1484,15 +1484,13 @@ src/
 
 ### SCSS Abstracts
 
-````
-
+```
 src/
 ├── assets/
-└── scss/
-└── abstracts/
-└── index.scss
-
-````
+    └── scss/
+        └── abstracts/
+            └── index.scss
+```
 
 - **Path**: `src/assets/scss/abstracts/index.scss`
 - **Description**: Global SCSS variables, mixins, and functions
