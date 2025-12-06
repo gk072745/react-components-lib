@@ -1,6 +1,6 @@
 import {
 BasicRangeDemo,
-CustomColorsDemo,
+VariantColorsDemo,
 SizesDemo,
 StepControlDemo,
 ThumbLabelsDemo,
@@ -44,7 +44,7 @@ const BasicRangeExample = () => {
 
 <BasicRangeDemo />
 
-## Demo 2: Custom Colors
+## Demo 2: Variant Colors
 
 ### Code Example
 
@@ -52,7 +52,7 @@ const BasicRangeExample = () => {
 import React, { useState } from "react";
 import BasicRange from "../components/sharedComponents/BasicRange";
 
-const CustomColorsExample = () => {
+const VariantColorsExample = () => {
   const [colorValues, setColorValues] = useState([30, 70]);
 
   return (
@@ -62,30 +62,48 @@ const CustomColorsExample = () => {
         onChange={setColorValues}
         min={0}
         max={100}
-        color="#007bff"
-        thumbColor="#0056b3"
-        trackColor="#e9ecef"
-        label="Blue Theme"
+        variant="default"
+        label="Default"
       />
       <BasicRange
         value={colorValues}
         onChange={setColorValues}
         min={0}
         max={100}
-        color="#28a745"
-        thumbColor="#1e7e34"
-        trackColor="#f8f9fa"
-        label="Green Theme"
+        variant="primary"
+        label="Primary"
       />
       <BasicRange
         value={colorValues}
         onChange={setColorValues}
         min={0}
         max={100}
-        color="#dc3545"
-        thumbColor="#c82333"
-        trackColor="#f8d7da"
-        label="Red Theme"
+        variant="success"
+        label="Success"
+      />
+      <BasicRange
+        value={colorValues}
+        onChange={setColorValues}
+        min={0}
+        max={100}
+        variant="warning"
+        label="Warning"
+      />
+      <BasicRange
+        value={colorValues}
+        onChange={setColorValues}
+        min={0}
+        max={100}
+        variant="danger"
+        label="Danger"
+      />
+      <BasicRange
+        value={colorValues}
+        onChange={setColorValues}
+        min={0}
+        max={100}
+        variant="info"
+        label="Info"
       />
     </div>
   );
@@ -94,9 +112,9 @@ const CustomColorsExample = () => {
 
 ### Interactive Demo
 
-<CustomColorsDemo />
+<VariantColorsDemo />
 
-## Demo 3: Different Sizes
+## Demo 3: Size Variants
 
 ### Code Example
 
@@ -324,7 +342,7 @@ const CustomRangesExample = () => {
         min={0}
         max={500}
         step={10}
-        color="#007bff"
+        variant="primary"
         thumbLabel={true}
         label="Price Range ($)"
       />
@@ -334,7 +352,7 @@ const CustomRangesExample = () => {
         min={0}
         max={100}
         step={1}
-        color="#28a745"
+        variant="success"
         thumbLabel={true}
         label="Age Range"
       />
@@ -344,7 +362,7 @@ const CustomRangesExample = () => {
         min={1}
         max={5}
         step={0.5}
-        color="#ffc107"
+        variant="warning"
         thumbLabel="always"
         label="Rating Range"
       />

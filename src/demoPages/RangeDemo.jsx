@@ -25,54 +25,72 @@ export const BasicRangeDemo = () => {
               label="Basic Range Slider"
             />
           </div>
-          <p className="demo-result">
-            Selected Range: {rangeValues[0]} - {rangeValues[1]}
-          </p>
+          <div className="demo-state">
+            <strong>Selected Range:</strong> {rangeValues[0]} - {rangeValues[1]}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-// Demo 2: Custom Colors
-export const CustomColorsDemo = () => {
+// Demo 2: Variant Colors
+export const VariantColorsDemo = () => {
   const [colorValues, setColorValues] = useState([30, 70]);
 
   return (
     <div className="range-demo-container">
       <div className="demo-section">
-        <h3 className="demo-title">Custom Colors</h3>
+        <h3 className="demo-title">Variant Colors</h3>
         <div className="demo-content">
-          <div className="range-grid">
+          <div className="variant-colors-grid">
             <BasicRange
               value={colorValues}
               onChange={setColorValues}
               min={0}
               max={100}
-              color="#007bff"
-              thumbColor="#0056b3"
-              trackColor="#e9ecef"
-              label="Blue Theme"
+              variant="default"
+              label="Default"
             />
             <BasicRange
               value={colorValues}
               onChange={setColorValues}
               min={0}
               max={100}
-              color="#28a745"
-              thumbColor="#1e7e34"
-              trackColor="#f8f9fa"
-              label="Green Theme"
+              variant="primary"
+              label="Primary"
             />
             <BasicRange
               value={colorValues}
               onChange={setColorValues}
               min={0}
               max={100}
-              color="#dc3545"
-              thumbColor="#c82333"
-              trackColor="#f8d7da"
-              label="Red Theme"
+              variant="success"
+              label="Success"
+            />
+            <BasicRange
+              value={colorValues}
+              onChange={setColorValues}
+              min={0}
+              max={100}
+              variant="warning"
+              label="Warning"
+            />
+            <BasicRange
+              value={colorValues}
+              onChange={setColorValues}
+              min={0}
+              max={100}
+              variant="danger"
+              label="Danger"
+            />
+            <BasicRange
+              value={colorValues}
+              onChange={setColorValues}
+              min={0}
+              max={100}
+              variant="info"
+              label="Info"
             />
           </div>
         </div>
@@ -81,16 +99,16 @@ export const CustomColorsDemo = () => {
   );
 };
 
-// Demo 3: Different Sizes
+// Demo 3: Size Variants
 export const SizesDemo = () => {
   const [sizeValues, setSizeValues] = useState([25, 75]);
 
   return (
     <div className="range-demo-container">
       <div className="demo-section">
-        <h3 className="demo-title">Different Sizes</h3>
+        <h3 className="demo-title">Size Variants</h3>
         <div className="demo-content">
-          <div className="range-grid">
+          <div className="size-variants-grid">
             <BasicRange
               value={sizeValues}
               onChange={setSizeValues}
@@ -237,7 +255,7 @@ export const StatesDemo = () => {
       <div className="demo-section">
         <h3 className="demo-title">States</h3>
         <div className="demo-content">
-          <div className="range-grid">
+          <div className="states-grid">
             <BasicRange
               value={stateValues}
               onChange={setStateValues}
@@ -286,7 +304,7 @@ export const CustomRangesDemo = () => {
               min={0}
               max={500}
               step={10}
-              color="#007bff"
+              variant="primary"
               thumbLabel={true}
               label="Price Range ($)"
             />
@@ -296,7 +314,7 @@ export const CustomRangesDemo = () => {
               min={0}
               max={100}
               step={1}
-              color="#28a745"
+              variant="success"
               thumbLabel={true}
               label="Age Range"
             />
@@ -306,20 +324,20 @@ export const CustomRangesDemo = () => {
               min={1}
               max={5}
               step={0.5}
-              color="#ffc107"
+              variant="warning"
               thumbLabel="always"
               label="Rating Range"
             />
           </div>
-          <div className="demo-result">
+          <div className="demo-state">
             <p>
-              Price: ${priceRange[0]} - ${priceRange[1]}
+              <strong>Price:</strong> ${priceRange[0]} - ${priceRange[1]}
             </p>
             <p>
-              Age: {ageRange[0]} - {ageRange[1]} years
+              <strong>Age:</strong> {ageRange[0]} - {ageRange[1]} years
             </p>
             <p>
-              Rating: {ratingRange[0]} - {ratingRange[1]} stars
+              <strong>Rating:</strong> {ratingRange[0]} - {ratingRange[1]} stars
             </p>
           </div>
         </div>
@@ -333,7 +351,7 @@ const RangeDemo = () => {
   return (
     <div className="range-demo-container">
       <BasicRangeDemo />
-      <CustomColorsDemo />
+      <VariantColorsDemo />
       <SizesDemo />
       <StepControlDemo />
       <ThumbLabelsDemo />
