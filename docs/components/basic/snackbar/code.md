@@ -2,46 +2,30 @@
 
 ## Dependencies
 
-- React 19+ (for modern features)
-- PropTypes (for prop validation)
-- SCSS (for styling)
+This component requires:
 
-## File Structure
+- React 18+
+- PropTypes for prop validation
+- SCSS for styling
 
-```
-src/
-├── components/
-│   └── sharedComponents/
-│       └── BasicSnackbar.jsx
-├── customHooks/
-│   └── useSnackbar.js
-└── assets/
-    └── scss/
-        ├── components/
-        │   └── _basic-snackbar.scss
-        └── abstracts/
-            ├── index.scss
-            ├── variables/
-            │   └── _snackbar-variables.scss
-            └── mixins/
-                └── _snackbar-mixins.scss
-```
+## Component Files
 
 ### React Component
 
-**File:** `./sharedComponents/BasicSnackbar.jsx`
-
 ```
 src/
 ├── components/
-│   └── sharedComponents/
-│       └── BasicSnackbar.jsx
+    └── sharedComponents/
+        └── BasicSnackbar.jsx
 ```
+
+- **Path**: `src/components/sharedComponents/BasicSnackbar.jsx`
+- **Description**: Main snackbar component implementation
 
 ```jsx
 import React, { useMemo } from 'react';
-import { useSnackbar } from '@site/src/customHooks/useSnackbar';
-import '@site/src/assets/scss/components/_basic-snackbar.scss'; 
+import { useSnackbar } from '../../customHooks/useSnackbar';
+import '@/assets/scss/components/_basic-snackbar.scss';
 
 const BasicSnackbar = () => {
   const { notification, config, hasNotification, removeNotification, convertRemToPixels } = useSnackbar();
@@ -108,36 +92,28 @@ const BasicSnackbar = () => {
   }
 
   return (
-    <div 
-      className={`snackbar-container position-${notificationPosition}`}
-      style={containerStyle}
-    >
-      <div
-        className={`snackbar-notification ${notification.notificationClass.join(' ')}`}
-      >
+    <div className={`snackbar-container position-${notificationPosition}`} style={containerStyle}>
+      <div className={`snackbar-notification ${notification.notificationClass.join(' ')}`}>
         <div className="snackbar-content">
           {notification.iconRef && (
-            <div 
-              className="snackbar-icon" 
-              dangerouslySetInnerHTML={{ __html: notification.iconRef }}
-            />
+            <div className="snackbar-icon" dangerouslySetInnerHTML={{ __html: notification.iconRef }} />
           )}
           <div className="snackbar-messages">
             <div className="snackbar-primary-message">{notification.primaryMessage}</div>
             {notification.secondaryMessage && (
-              <div className="snackbar-secondary-message">
-                {notification.secondaryMessage}
-              </div>
+              <div className="snackbar-secondary-message">{notification.secondaryMessage}</div>
             )}
           </div>
           {notification.showCloseButton && (
-            <button
-              onClick={closeNotification}
-              className="snackbar-close-button"
-              aria-label="Close notification"
-            >
+            <button onClick={closeNotification} className="snackbar-close-button" aria-label="Close notification">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <path
+                  d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
               </svg>
             </button>
           )}
@@ -152,13 +128,16 @@ export default BasicSnackbar;
 
 ### Custom Hook
 
-**File:** `./customHooks/useSnackbar.js`
-
 ```
 src/
 ├── customHooks/
-│   └── useSnackbar.js
+    └── useSnackbar.js
 ```
+
+- **Path**: `src/customHooks/useSnackbar.js`
+- **Description**: Custom hook for managing snackbar notifications
+
+**Note:** For detailed documentation about the `useSnackbar` hook, see the [Custom Hooks documentation](../../../custom-hooks/use-snackbar).
 
 ```jsx
 import { useState, useCallback, useRef, useEffect } from 'react';
@@ -168,7 +147,7 @@ let globalNotification = null;
 let globalConfig = {
   position: 'bottom', // Default to bottom center for snackbars
   offset: { x: 1, y: 1 }, // in rem
-  defaultTimeout: 4000 // Slightly shorter than toast default
+  defaultTimeout: 4000, // Slightly shorter than toast default
 };
 
 // Global listeners for state changes
@@ -176,7 +155,7 @@ const listeners = new Set();
 
 // Notify all listeners of state changes
 const notifyListeners = () => {
-  listeners.forEach(listener => listener());
+  listeners.forEach((listener) => listener());
 };
 
 // Generate unique ID for each notification
@@ -202,7 +181,7 @@ const defaultIcons = {
   </svg>`,
   info: `<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M8 1.33334C4.32 1.33334 1.33333 4.32001 1.33333 8.00001C1.33333 11.68 4.32 14.6667 8 14.6667C11.68 14.6667 14.6667 11.68 14.6667 8.00001C14.6667 4.32001 11.68 1.33334 8 1.33334ZM8.66667 11.3333H7.33333V7.33334H8.66667V11.3333ZM8.66667 6.00001H7.33333V4.66668H8.66667V6.00001Z" fill="#3b82f6"/>
-  </svg>`
+  </svg>`,
 };
 
 // Convert rem to pixels
@@ -236,7 +215,7 @@ export const useSnackbar = () => {
       isPersistent = false,
       showCloseButton = true,
       icon = null,
-      position = globalConfig.position // Allow overriding position
+      position = globalConfig.position, // Allow overriding position
     } = options;
 
     // Validate required fields
@@ -263,7 +242,7 @@ export const useSnackbar = () => {
       notificationClass: [type],
       createdAt: Date.now(),
       timeoutId: null,
-      position // Store the position
+      position, // Store the position
     };
 
     // Replace current notification
@@ -297,45 +276,54 @@ export const useSnackbar = () => {
   }, [removeNotification]);
 
   // Convenience methods for different types with position override support
-  const success = useCallback((primaryMessage, options = {}) => {
-    return showSnackbar({
-      type: 'success',
-      primaryMessage,
-      ...options
-    });
-  }, [showSnackbar]);
+  const success = useCallback(
+    (primaryMessage, options = {}) => {
+      return showSnackbar({
+        type: 'success',
+        primaryMessage,
+        ...options,
+      });
+    },
+    [showSnackbar]
+  );
 
-  const error = useCallback((primaryMessage, options = {}) => {
-    return showSnackbar({
-      type: 'error',
-      primaryMessage,
-      isPersistent: true, // Errors should be persistent by default
-      ...options
-    });
-  }, [showSnackbar]);
+  const error = useCallback(
+    (primaryMessage, options = {}) => {
+      return showSnackbar({
+        type: 'error',
+        primaryMessage,
+        isPersistent: true, // Errors should be persistent by default
+        ...options,
+      });
+    },
+    [showSnackbar]
+  );
 
-  const warning = useCallback((primaryMessage, options = {}) => {
-    return showSnackbar({
-      type: 'warning',
-      primaryMessage,
-      ...options
-    });
-  }, [showSnackbar]);
+  const warning = useCallback(
+    (primaryMessage, options = {}) => {
+      return showSnackbar({
+        type: 'warning',
+        primaryMessage,
+        ...options,
+      });
+    },
+    [showSnackbar]
+  );
 
-  const info = useCallback((primaryMessage, options = {}) => {
-    return showSnackbar({
-      type: 'info',
-      primaryMessage,
-      ...options
-    });
-  }, [showSnackbar]);
+  const info = useCallback(
+    (primaryMessage, options = {}) => {
+      return showSnackbar({
+        type: 'info',
+        primaryMessage,
+        ...options,
+      });
+    },
+    [showSnackbar]
+  );
 
   // Configuration methods
   const setPosition = useCallback((position) => {
-    const validPositions = [
-      'top-left', 'top', 'top-right',
-      'bottom-left', 'bottom', 'bottom-right'
-    ];
+    const validPositions = ['top-left', 'top', 'top-right', 'bottom-left', 'bottom', 'bottom-right'];
 
     if (validPositions.includes(position)) {
       globalConfig.position = position;
@@ -388,22 +376,25 @@ export const useSnackbar = () => {
     setDefaultTimeout,
 
     // Utility
-    convertRemToPixels
+    convertRemToPixels,
   };
 };
 ```
 
-### SCSS Component Styles
-
-**File:** `./components/_basic-snackbar.scss`
+### SCSS Component
 
 ```
 src/
 ├── assets/
-│   └── scss/
-│       └── components/
-│           └── _basic-snackbar.scss
+    └── scss/
+        └── components/
+            └── _basic-snackbar.scss
 ```
+
+- **Path**: `src/assets/scss/components/_basic-snackbar.scss`
+- **Description**: Snackbar component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
@@ -421,18 +412,18 @@ src/
   min-width: 18.75rem;
   max-width: 25rem;
   background: white;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid #e5e7eb;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  
+  box-shadow: 0 0.25rem 0.375rem -0.0625rem rgba(0, 0, 0, 0.1), 0 0.125rem 0.25rem -0.0625rem rgba(0, 0, 0, 0.06);
+
   .snackbar-content {
     display: flex;
     align-items: center;
     padding: 0.75rem 1rem;
     gap: 0.75rem;
   }
-  
+
   .snackbar-icon {
     flex-shrink: 0;
     display: flex;
@@ -440,12 +431,12 @@ src/
     justify-content: center;
     margin-top: 0.125rem;
   }
-  
+
   .snackbar-messages {
     flex: 1;
     min-width: 0;
   }
-  
+
   .snackbar-primary-message {
     font-size: 0.875rem;
     font-weight: 500;
@@ -453,14 +444,14 @@ src/
     margin: 0;
     line-height: 1.4;
   }
-  
+
   .snackbar-secondary-message {
     font-size: 0.8125rem;
     color: #6b7280;
     margin: 0.25rem 0 0 0;
     line-height: 1.4;
   }
-  
+
   .snackbar-close-button {
     flex-shrink: 0;
     background: none;
@@ -470,28 +461,59 @@ src/
     border-radius: 0.25rem;
     color: #9ca3af;
     transition: all 0.2s ease;
-  
+
     &:hover {
       color: #6b7280;
       background-color: #f3f4f6;
     }
   }
 
-  // Type-specific styling - only repeating part uses mixin
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+
+  // Success Variant
   &.success {
-    @include snackbar-variant('success');
+    border-left: 0.25rem solid #10b981;
+
+    .snackbar-content {
+      .snackbar-primary-message {
+        color: #10b981;
+      }
+    }
   }
 
+  // Error Variant
   &.error {
-    @include snackbar-variant('error');
+    border-left: 0.25rem solid #ef4444;
+
+    .snackbar-content {
+      .snackbar-primary-message {
+        color: #ef4444;
+      }
+    }
   }
 
+  // Warning Variant
   &.warning {
-    @include snackbar-variant('warning');
+    border-left: 0.25rem solid #f59e0b;
+
+    .snackbar-content {
+      .snackbar-primary-message {
+        color: #f59e0b;
+      }
+    }
   }
 
+  // Info Variant
   &.info {
-    @include snackbar-variant('info');
+    border-left: 0.25rem solid #3b82f6;
+
+    .snackbar-content {
+      .snackbar-primary-message {
+        color: #3b82f6;
+      }
+    }
   }
 }
 
@@ -535,104 +557,4 @@ src/
     opacity: 1;
   }
 }
-```
-
-### SCSS Variables
-
-**File:** `./variables/_snackbar-variables.scss`
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── variables/
-│               └── _snackbar-variables.scss
-```
-
-```scss
-// =============================================================================
-// SNACKBAR COMPONENT VARIABLES
-// =============================================================================
-@use '../variables' as *;
-
-// Snackbar color variants - only repeating part
-$snackbar-colors: (
-  success: #10b981,
-  error: #ef4444,
-  warning: #f59e0b,
-  info: #3b82f6,
-) !default;
-```
-
-### SCSS Mixins
-
-**File:** `./mixins/_snackbar-mixins.scss`
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── mixins/
-│               └── _snackbar-mixins.scss
-```
-
-```scss
-// =============================================================================
-// SNACKBAR COMPONENT MIXINS
-// =============================================================================
-@use '../variables' as *;
-@use '../functions' as *;
-@use '../mixins' as *;
-
-@use '../variables/snackbar-variables' as *;
-@use "sass:map";
-
-// =============================================================================
-// VARIANT MIXINS - Only repeating part
-// =============================================================================
-
-@mixin snackbar-variant($name) {
-  $color: map-get($snackbar-colors, $name);
-  border-left: 0.25rem solid $color;
-  
-  .snackbar-content {
-    .snackbar-primary-message {
-      color: $color;
-    }
-  }
-}
-```
-
-### SCSS Abstracts Index
-
-**File:** `./abstracts/index.scss`
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── index.scss
-```
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward 'variables';
-@forward 'variables/snackbar-variables';
-
-// functions
-@forward 'functions';
-
-// mixins
-@forward 'mixins';
-@forward 'mixins/snackbar-mixins';
-
-// breakpoints
-@forward 'breakpoints';
 ```
