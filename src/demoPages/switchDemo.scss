@@ -1,34 +1,164 @@
-// =============================================================================
-// SWITCH DEMO STYLES
-// =============================================================================
-
-.switch-demo {
-    padding: 2rem;
-    max-width: 1000px;
+// Switch Demo Styles - Light and Simple
+.switch-demo-container {
+    max-width: 1200px;
     margin: 0 auto;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 1rem;
+    font-family: inherit;
 
-    h1 { margin: 0 0 1.5rem 0; font-size: 1.75rem; font-weight: 700; }
+    * {
+        &:focus,
+        &:focus-within,
+        &:focus-visible {
+            outline: none;
+        }
+    }
 
+    // Demo Section Styles - Simple and Clean
     .demo-section {
         margin-bottom: 2rem;
-        padding: 1.5rem;
-        border: 1px solid #e1e5e9;
-        border-radius: 12px;
         background: #ffffff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e1e5e9;
+        border-radius: 6px;
+        overflow: hidden;
+        outline: none;
 
-        h2 { margin: 0 0 1rem 0; font-size: 1.25rem; font-weight: 600; border-bottom: 2px solid #3498db; padding-bottom: 0.5rem; }
-
-        .demo-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem 1.5rem;
-            align-items: center;
+        &:focus,
+        &:focus-within,
+        &:focus-visible {
+            outline: none;
         }
 
-        p { margin: 0.5rem 0 0 0; color: #6c757d; }
+        .demo-title {
+            background: #f8f9fa;
+            color: #333333;
+            margin: 0;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .demo-content {
+            padding: 1.5rem;
+
+            // State Display - Simple
+            .demo-state {
+                margin-top: 1rem;
+                padding: 0.75rem;
+                background: #f8f9fa;
+                border: 1px solid #e1e5e9;
+                border-radius: 4px;
+                font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+                font-size: 0.85rem;
+                color: #495057;
+
+                p {
+                    margin: 0.25rem 0;
+                    line-height: 1.4;
+                }
+            }
+        }
+    }
+
+    // Switch Grid - Better alignment
+    .switch-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    // Size Variants Grid - Better alignment
+    .size-variants-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+
+        // Align switches properly
+        > * {
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    // Variant Colors Grid - Better alignment with grid layout
+    .variant-colors-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        align-items: center;
+
+        // Ensure switches are properly aligned
+        > * {
+            display: flex;
+            align-items: center;
+            min-height: 3rem;
+        }
+    }
+
+    // States Grid - Better alignment
+    .states-grid {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        align-items: center;
+
+        // Ensure switches are properly aligned
+        > * {
+            display: flex;
+            align-items: center;
+            min-width: 200px;
+        }
     }
 }
 
+// Dark Mode Support
+[data-theme='dark'] .switch-demo-container,
+.theme-dark .switch-demo-container,
+html[data-theme='dark'] .switch-demo-container {
+    .demo-section {
+        background: #2a2a2a;
+        border-color: #555555;
 
+        .demo-title {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-bottom-color: #555555;
+        }
+
+        .demo-content {
+            .demo-state {
+                background: #3a3a3a;
+                border-color: #555555;
+                color: #e0e0e0;
+            }
+        }
+    }
+}
+
+// Additional dark mode selectors
+.dark .switch-demo-container,
+[class*="dark"] .switch-demo-container,
+.theme-dark .switch-demo-container {
+    .demo-section {
+        background: #2a2a2a;
+        border-color: #555555;
+
+        .demo-title {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-bottom-color: #555555;
+        }
+
+        .demo-content {
+            .demo-state {
+                background: #3a3a3a;
+                border-color: #555555;
+                color: #e0e0e0;
+            }
+        }
+    }
+}
