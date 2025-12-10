@@ -1,30 +1,23 @@
 # Slider
 
-A customizable single-value slider supporting sizes, colors, thumb labels, and keyboard/mouse/touch interactions.
+A flexible and customizable single-value slider component that allows users to select a value between a minimum and maximum.
 
-## Features
+## Overview
 
-- **Controlled or Uncontrolled-like**: Accepts `value` and `onChange`
-- **Precision**: `step` with automatic decimal display
-- **Thumb Labels**: Show on drag/focus or always with `thumbLabel`
-- **Sizes & Colors**: `xs` → `xl`, and `default`/`primary`/`success`/`warning`/`danger`/`info`
-- **Accessibility**: ARIA slider role, keyboard arrows, focus styles
-- **Legacy colors**: Optional `thumbColor`/`trackColor` for older styling
+The BasicSlider component provides:
 
-## Basic Usage
-
-```jsx
-import React, { useState } from "react";
-import BasicSlider from "../components/sharedComponents/BasicSlider";
-
-export default function Example() {
-  const [val, setVal] = useState(50);
-  return (
-    <BasicSlider value={val} onChange={setVal} min={0} max={100} step={1} />
-  );
-}
-```
+- Single thumb control for selecting a value
+- Five size variants (xs, sm, md, lg, xl)
+- Six color variants (default, primary, success, warning, danger, info)
+- Keyboard navigation support
+- Touch support for mobile devices
+- Configurable step increments
+- Optional thumb labels (on drag/focus or always visible)
+- Disabled and readonly states
+- Accessible with ARIA attributes
 
 [API Reference →](./api)
 
 [View Code →](./code)
+
+[View Demos →](./demo)
