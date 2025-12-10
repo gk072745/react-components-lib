@@ -1,34 +1,49 @@
 import {
-  ToastMount,
-  BasicToastTypesDemo,
-  PositionDemo,
-  OffsetExamplesDemo,
-  TimeoutExamplesDemo,
-  IndependentToastsDemo,
-  ActionsDemo,
+ToastMount,
+BasicToastTypesDemo,
+PositionDemo,
+OffsetExamplesDemo,
+TimeoutExamplesDemo,
+IndependentToastsDemo,
+ActionsDemo,
 } from "@site/src/demoPages/ToastDemo.jsx";
 
 # Demo
 
 This page demonstrates the Toast component with various configurations and examples.
 
+**Note:** The `<ToastMount />` component must be included once in your app to render toast notifications. The hook uses React 18's `useSyncExternalStore` for efficient state management and supports multiple independent toasts at different positions.
+
 ## Demo 1: Basic Toast Types
 
 ### Code Example
 
 ```jsx
-import { useToast } from '@/customHooks/useToast';
+import React from 'react';
+import { useToast } from '../customHooks/useToast';
+import OToast from '../components/sharedComponents/BasicToast';
 
-const BasicToastDemo = () => {
+const BasicToastExample = () => {
   const { success, error, warning, info } = useToast();
-  
+
   return (
-    <div className="toast-demo">
-      <button onClick={() => success('Operation successful!')}>Success</button>
-      <button onClick={() => error('Something went wrong')}>Error</button>
-      <button onClick={() => warning('Please be careful')}>Warning</button>
-      <button onClick={() => info('Just so you know')}>Info</button>
-    </div>
+    <>
+      <OToast />
+      <div>
+        <button onClick={() => success('Saved successfully!')}>Success</button>
+        <button
+          onClick={() =>
+            error('Something went wrong', {
+              secondaryMessage: 'Please try again',
+            })
+          }
+        >
+          Error
+        </button>
+        <button onClick={() => warning('Be careful...', { timeout: 3000 })}>Warning</button>
+        <button onClick={() => info('Just FYI')}>Info</button>
+      </div>
+    </>
   );
 };
 ```
@@ -43,20 +58,67 @@ const BasicToastDemo = () => {
 ### Code Example
 
 ```jsx
-import { useToast } from '@/customHooks/useToast';
+import React from 'react';
+import { useToast } from '../customHooks/useToast';
+import OToast from '../components/sharedComponents/BasicToast';
 
-const PositionDemo = () => {
+const PositionExample = () => {
   const { info, setPosition } = useToast();
-  
+
   return (
-    <div className="toast-demo">
-      <button onClick={() => { setPosition('top-left'); info('Top Left'); }}>Top Left</button>
-      <button onClick={() => { setPosition('top'); info('Top Center'); }}>Top Center</button>
-      <button onClick={() => { setPosition('top-right'); info('Top Right'); }}>Top Right</button>
-      <button onClick={() => { setPosition('bottom-left'); info('Bottom Left'); }}>Bottom Left</button>
-      <button onClick={() => { setPosition('bottom'); info('Bottom Center'); }}>Bottom Center</button>
-      <button onClick={() => { setPosition('bottom-right'); info('Bottom Right'); }}>Bottom Right</button>
-    </div>
+    <>
+      <OToast />
+      <div>
+        <button
+          onClick={() => {
+            setPosition('top-left');
+            info('Position set to top-left');
+          }}
+        >
+          Top-Left
+        </button>
+        <button
+          onClick={() => {
+            setPosition('top');
+            info('Position set to top');
+          }}
+        >
+          Top
+        </button>
+        <button
+          onClick={() => {
+            setPosition('top-right');
+            info('Position set to top-right');
+          }}
+        >
+          Top-Right
+        </button>
+        <button
+          onClick={() => {
+            setPosition('bottom-left');
+            info('Position set to bottom-left');
+          }}
+        >
+          Bottom-Left
+        </button>
+        <button
+          onClick={() => {
+            setPosition('bottom');
+            info('Position set to bottom');
+          }}
+        >
+          Bottom
+        </button>
+        <button
+          onClick={() => {
+            setPosition('bottom-right');
+            info('Position set to bottom-right');
+          }}
+        >
+          Bottom-Right
+        </button>
+      </div>
+    </>
   );
 };
 ```
@@ -70,17 +132,55 @@ const PositionDemo = () => {
 ### Code Example
 
 ```jsx
-import { useToast } from '@/customHooks/useToast';
+import React from 'react';
+import { useToast } from '../customHooks/useToast';
+import OToast from '../components/sharedComponents/BasicToast';
 
-const OffsetDemo = () => {
+const OffsetExample = () => {
   const { info, setPosition, setOffset } = useToast();
-  
+
   return (
-    <div className="toast-demo">
-      <button onClick={() => { setPosition('top-left'); setOffset(1, 1); info('Top-Left: 1rem from top, 1rem from left'); }}>Top-Left (1,1)</button>
-      <button onClick={() => { setPosition('top'); setOffset(2, 0); info('Top: 2rem from top, centered'); }}>Top (2,0)</button>
-      <button onClick={() => { setPosition('bottom-right'); setOffset(3, 2); info('Bottom-Right: 3rem from bottom, 2rem from right'); }}>Bottom-Right (3,2)</button>
-    </div>
+    <>
+      <OToast />
+      <div>
+        <button
+          onClick={() => {
+            setPosition('top-left');
+            setOffset(1, 1);
+            info('Top-Left: 1rem from top, 1rem from left', {
+              timeout: 3000,
+              position: 'top-left',
+            });
+          }}
+        >
+          Top-Left (1,1)
+        </button>
+        <button
+          onClick={() => {
+            setPosition('top');
+            setOffset(2, 0);
+            info('Top: 2rem from top, centered', {
+              timeout: 3000,
+              position: 'top',
+            });
+          }}
+        >
+          Top (2,0)
+        </button>
+        <button
+          onClick={() => {
+            setPosition('bottom-right');
+            setOffset(3, 2);
+            info('Bottom-Right: 3rem from bottom, 2rem from right', {
+              timeout: 3000,
+              position: 'bottom-right',
+            });
+          }}
+        >
+          Bottom-Right (3,2)
+        </button>
+      </div>
+    </>
   );
 };
 ```
@@ -94,17 +194,52 @@ const OffsetDemo = () => {
 ### Code Example
 
 ```jsx
-import { useToast } from '@/customHooks/useToast';
+import React from 'react';
+import { useToast } from '../customHooks/useToast';
+import OToast from '../components/sharedComponents/BasicToast';
 
-const TimeoutDemo = () => {
-  const { success, warning, info } = useToast();
-  
+const TimeoutExample = () => {
+  const { info, setDefaultTimeout, defaultConfig } = useToast();
+
   return (
-    <div className="toast-demo">
-      <button onClick={() => success('Quick success (2s)', { timeout: 2000 })}>2 Second</button>
-      <button onClick={() => warning('Medium warning (5s)', { timeout: 5000 })}>5 Second</button>
-      <button onClick={() => info('Long info (10s)', { timeout: 10000 })}>10 Second</button>
-    </div>
+    <>
+      <OToast />
+      <div>
+        <button
+          onClick={() => {
+            setDefaultTimeout(1000);
+            info('This toast will hide in 1 second', {
+              timeout: 1000,
+              position: defaultConfig.position,
+            });
+          }}
+        >
+          Timeout 1s
+        </button>
+        <button
+          onClick={() => {
+            setDefaultTimeout(5000);
+            info('This toast will hide in 5 seconds', {
+              timeout: 5000,
+              position: defaultConfig.position,
+            });
+          }}
+        >
+          Timeout 5s
+        </button>
+        <button
+          onClick={() => {
+            setDefaultTimeout(10000);
+            info('This toast will hide in 10 seconds', {
+              timeout: 10000,
+              position: defaultConfig.position,
+            });
+          }}
+        >
+          Timeout 10s
+        </button>
+      </div>
+    </>
   );
 };
 ```
@@ -118,22 +253,47 @@ const TimeoutDemo = () => {
 ### Code Example
 
 ```jsx
-import { useToast } from '@/customHooks/useToast';
+import React from 'react';
+import { useToast } from '../customHooks/useToast';
+import OToast from '../components/sharedComponents/BasicToast';
 
-const MultipleToastsDemo = () => {
+const IndependentToastsExample = () => {
   const { success, error, warning, info } = useToast();
-  
+
   const showAll = () => {
-    success('Success in top-left', { position: 'top-left' });
-    error('Error in top-right', { position: 'top-right' });
-    warning('Warning in bottom-left', { position: 'bottom-left' });
-    info('Info in bottom-right', { position: 'bottom-right' });
+    success('Success in top-left', {
+      position: 'top-left',
+      timeout: 4000,
+    });
+    error('Error in top-right', {
+      position: 'top-right',
+      timeout: 6000,
+    });
+    warning('Warning in bottom-left', {
+      position: 'bottom-left',
+      timeout: 3000,
+    });
+    info('Info in bottom-right', {
+      position: 'bottom-right',
+      timeout: 5000,
+    });
   };
-  
+
   return (
-    <div className="toast-demo">
-      <button onClick={showAll}>Show All Positions</button>
-    </div>
+    <>
+      <OToast />
+      <div>
+        <button onClick={showAll}>Show All Positions</button>
+        <button
+          onClick={() => {
+            success('Quick success (2s)', { timeout: 2000 });
+            warning('Slow warning (8s)', { timeout: 8000 });
+          }}
+        >
+          Different Timeouts
+        </button>
+      </div>
+    </>
   );
 };
 ```
@@ -147,15 +307,20 @@ const MultipleToastsDemo = () => {
 ### Code Example
 
 ```jsx
-import { useToast } from '@/customHooks/useToast';
+import React from 'react';
+import { useToast } from '../customHooks/useToast';
+import OToast from '../components/sharedComponents/BasicToast';
 
-const ActionsDemo = () => {
+const ActionsExample = () => {
   const { clearAll } = useToast();
-  
+
   return (
-    <div className="toast-demo">
-      <button onClick={clearAll}>Clear All</button>
-    </div>
+    <>
+      <OToast />
+      <div>
+        <button onClick={clearAll}>Clear All</button>
+      </div>
+    </>
   );
 };
 ```
