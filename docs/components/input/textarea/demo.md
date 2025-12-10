@@ -1,14 +1,13 @@
 import {
-BasicTextareaDemo,
-AutoGrowDemo,
-CounterDemo,
-ValidationDemo,
-NoResizeDemo,
-StatesDemo,
-CustomIconsDemo,
-AllFeaturesDemo
+  BasicTextareaDemo,
+  AutoGrowDemo,
+  CounterDemo,
+  ValidationDemo,
+  NoResizeDemo,
+  StatesDemo,
+  CustomIconsDemo,
+  AllFeaturesDemo
 } from "@site/src/demoPages/TextareaDemo.jsx";
-import TextareaDemo from "@site/src/demoPages/TextareaDemo.jsx";
 
 # Demo
 
@@ -19,23 +18,18 @@ This page demonstrates the BasicTextarea component with various configurations a
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const BasicTextareaDemo = () => {
+const BasicTextareaExample = () => {
   const [basicValue, setBasicValue] = useState("");
-
-  const handleBasicChange = (newValue) => {
-    setBasicValue(newValue);
-    console.log("Basic textarea changed:", newValue);
-  };
 
   return (
     <BasicTextarea
       label="Basic Textarea"
       placeholder="Enter your message here..."
       value={basicValue}
-      onChange={handleBasicChange}
+      onChange={setBasicValue}
       hint="This is a basic textarea with default settings"
     />
   );
@@ -51,23 +45,18 @@ const BasicTextareaDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const AutoGrowDemo = () => {
+const AutoGrowExample = () => {
   const [autoGrowValue, setAutoGrowValue] = useState("");
-
-  const handleAutoGrowChange = (newValue) => {
-    setAutoGrowValue(newValue);
-    console.log("Auto grow textarea changed:", newValue);
-  };
 
   return (
     <BasicTextarea
       label="Auto Grow Textarea"
       placeholder="Type to see auto-resize..."
       value={autoGrowValue}
-      onChange={handleAutoGrowChange}
+      onChange={setAutoGrowValue}
       autoGrow={true}
       minRows={2}
       hint="This textarea automatically grows as you type"
@@ -85,23 +74,18 @@ const AutoGrowDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const CounterDemo = () => {
+const CounterExample = () => {
   const [counterValue, setCounterValue] = useState("");
-
-  const handleCounterChange = (newValue) => {
-    setCounterValue(newValue);
-    console.log("Counter textarea changed:", newValue);
-  };
 
   return (
     <BasicTextarea
       label="With Character Counter"
       placeholder="Type to see character count..."
       value={counterValue}
-      onChange={handleCounterChange}
+      onChange={setCounterValue}
       maxlength={100}
       counter={true}
       hint="Shows character count with maximum limit"
@@ -119,23 +103,18 @@ const CounterDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const ValidationDemo = () => {
+const ValidationExample = () => {
   const [validationValue, setValidationValue] = useState("");
-
-  const handleValidationChange = (newValue) => {
-    setValidationValue(newValue);
-    console.log("Validation textarea changed:", newValue);
-  };
 
   return (
     <BasicTextarea
       label="With Validation"
       placeholder="Enter at least 10 characters..."
       value={validationValue}
-      onChange={handleValidationChange}
+      onChange={setValidationValue}
       rules={[
         { rule: "required", message: "This field is required" },
         { rule: "minLength", condition: 10, message: "Must be at least 10 characters" },
@@ -155,23 +134,18 @@ const ValidationDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const NoResizeDemo = () => {
+const NoResizeExample = () => {
   const [noResizeValue, setNoResizeValue] = useState("");
-
-  const handleNoResizeChange = (newValue) => {
-    setNoResizeValue(newValue);
-    console.log("No resize textarea changed:", newValue);
-  };
 
   return (
     <BasicTextarea
       label="No Resize Textarea"
       placeholder="This textarea cannot be resized..."
       value={noResizeValue}
-      onChange={handleNoResizeChange}
+      onChange={setNoResizeValue}
       noResize={true}
       rows={4}
       hint="This textarea has resize disabled"
@@ -189,9 +163,10 @@ const NoResizeDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const StatesDemo = () => {
+const StatesExample = () => {
   const [loadingValue, setLoadingValue] = useState("");
   const [disabledValue] = useState("This textarea is disabled");
   const [readonlyValue] = useState("This textarea is readonly");
@@ -232,10 +207,10 @@ const StatesDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const CustomIconsDemo = () => {
+const CustomIconsExample = () => {
   const [customIconsValue, setCustomIconsValue] = useState("");
 
   const customPrependIcon = (
@@ -256,8 +231,6 @@ const CustomIconsDemo = () => {
       placeholder="Textarea with custom icons..."
       value={customIconsValue}
       onChange={setCustomIconsValue}
-      prepend={true}
-      append={true}
       prependIcon={customPrependIcon}
       appendIcon={customAppendIcon}
       hint="This textarea has custom icons"
@@ -275,23 +248,18 @@ const CustomIconsDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
+import React, { useState } from "react";
+import BasicTextarea from "../components/sharedComponents/BasicTextarea";
 
-const AllFeaturesDemo = () => {
+const AllFeaturesExample = () => {
   const [allFeaturesValue, setAllFeaturesValue] = useState("");
-
-  const handleAllFeaturesChange = (newValue) => {
-    setAllFeaturesValue(newValue);
-    console.log("All features textarea changed:", newValue);
-  };
 
   return (
     <BasicTextarea
       label="Feature-Rich Textarea"
       placeholder="Try all features..."
       value={allFeaturesValue}
-      onChange={handleAllFeaturesChange}
+      onChange={setAllFeaturesValue}
       autoGrow={true}
       counter={true}
       maxlength={200}
@@ -310,9 +278,3 @@ const AllFeaturesDemo = () => {
 ### Interactive Demo
 
 <AllFeaturesDemo />
-
-## Demo 9: Complete Demo
-
-### Interactive Demo
-
-<TextareaDemo />

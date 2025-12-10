@@ -1,99 +1,76 @@
 # API
 
-This page documents the props and methods available for the BasicTextarea component.
+## BasicTextarea Component
 
-## Props
+A comprehensive textarea component built on top of BasicInput with additional textarea-specific features.
 
-### Basic Props
+### Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `label` | `string` | `''` | Label text for the textarea |
-| `placeholder` | `string` | `''` | Placeholder text |
-| `value` | `string \| number` | `''` | Current value of the textarea |
-| `hint` | `string` | `''` | Helpful hint text displayed below the textarea |
-| `className` | `string` | `''` | Additional CSS classes |
-| `style` | `object` | `{}` | Inline styles |
-
-### Textarea Specific Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `rows` | `number` | `3` | Number of visible text lines |
-| `minRows` | `number` | `1` | Minimum number of rows when autoGrow is enabled |
-| `noResize` | `boolean` | `false` | Disable textarea resize functionality |
-| `autoGrow` | `boolean` | `false` | Automatically grow textarea height based on content |
-| `maxlength` | `number` | `undefined` | Maximum number of characters allowed |
-| `counter` | `boolean` | `false` | Show character counter |
-
-### State Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `disabled` | `boolean` | `false` | Disable the textarea |
-| `readonly` | `boolean` | `false` | Make the textarea readonly |
-| `loading` | `boolean` | `false` | Show loading state |
-
-### Validation Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `rules` | `array` | `[]` | Array of validation rules |
-| `persistentDetails` | `boolean` | `true` | Keep details section always visible |
-| `hideDetails` | `boolean` | `false` | Hide the details section |
-
-### Icon Props
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `prepend` | `boolean` | `false` | Show prepend icon |
-| `prependInner` | `boolean` | `false` | Show inner prepend icon |
-| `append` | `boolean` | `false` | Show append icon |
-| `appendInner` | `boolean` | `false` | Show inner append icon |
-| `prependIcon` | `ReactNode` | `undefined` | Custom prepend icon |
-| `prependInnerIcon` | `ReactNode` | `undefined` | Custom inner prepend icon |
-| `appendIcon` | `ReactNode` | `undefined` | Custom append icon |
-| `appendInnerIcon` | `ReactNode` | `undefined` | Custom inner append icon |
+| Prop                | Type                                   | Default   | Required | Description                                                                    |
+| ------------------- | -------------------------------------- | --------- | -------- | ------------------------------------------------------------------------------ |
+| `label`             | `string`                               | `''`      | No       | Label text for the textarea                                                    |
+| `placeholder`       | `string`                               | `''`      | No       | Placeholder text                                                               |
+| `value`             | `string \| number`                     | `''`      | No       | Current value of the textarea                                                  |
+| `hint`              | `string`                               | `''`      | No       | Helpful hint text displayed below the textarea                                 |
+| `rows`              | `number`                               | `3`       | No       | Number of visible text lines                                                   |
+| `minRows`           | `number`                               | `1`       | No       | Minimum number of rows when autoGrow is enabled                                |
+| `noResize`          | `boolean`                              | `false`   | No       | Disable textarea resize functionality                                          |
+| `autoGrow`          | `boolean`                              | `false`   | No       | Automatically grow textarea height based on content                              |
+| `maxlength`         | `number`                               | `undefined` | No     | Maximum number of characters allowed                                           |
+| `counter`           | `boolean`                              | `false`   | No       | Show character counter                                                         |
+| `disabled`          | `boolean`                              | `false`   | No       | Disable the textarea                                                           |
+| `readonly`          | `boolean`                              | `false`   | No       | Make the textarea readonly                                                     |
+| `loading`           | `boolean`                              | `false`   | No       | Show loading state                                                             |
+| `rules`             | `array`                                | `[]`      | No       | Array of validation rules                                                      |
+| `persistentDetails` | `boolean`                              | `true`    | No       | Keep details section always visible                                            |
+| `hideDetails`       | `boolean`                              | `false`   | No       | Hide the details section                                                       |
+| `prependIcon`       | `ReactNode`                            | `undefined` | No     | Custom prepend icon                                                            |
+| `prependInnerIcon`  | `ReactNode`                            | `undefined` | No     | Custom inner prepend icon                                                      |
+| `appendIcon`        | `ReactNode`                            | `undefined` | No     | Custom append icon                                                             |
+| `appendInnerIcon`   | `ReactNode`                            | `undefined` | No     | Custom inner append icon                                                       |
+| `className`         | `string`                               | `''`      | No       | Additional CSS classes for the container                                       |
+| `style`             | `object`                               | `{}`      | No       | Additional inline styles for the container                                      |
 
 ### Event Handlers
 
-| Prop | Type | Description |
-|------|------|-------------|
-| `onChange` | `function` | Called when the value changes |
-| `onFocus` | `function` | Called when the textarea gains focus |
-| `onBlur` | `function` | Called when the textarea loses focus |
-| `onInput` | `function` | Called on input events |
-| `onKeyDown` | `function` | Called on key down events |
-| `onKeyUp` | `function` | Called on key up events |
-| `onKeyPress` | `function` | Called on key press events |
-| `onClick` | `function` | Called on click events |
-| `onDoubleClick` | `function` | Called on double click events |
-| `onMouseDown` | `function` | Called on mouse down events |
-| `onMouseUp` | `function` | Called on mouse up events |
-| `onMouseEnter` | `function` | Called on mouse enter events |
-| `onMouseLeave` | `function` | Called on mouse leave events |
-| `onCopy` | `function` | Called on copy events |
-| `onCut` | `function` | Called on cut events |
-| `onPaste` | `function` | Called on paste events |
-| `onCompositionStart` | `function` | Called on composition start events |
-| `onCompositionUpdate` | `function` | Called on composition update events |
-| `onCompositionEnd` | `function` | Called on composition end events |
-| `onDragEnter` | `function` | Called on drag enter events |
-| `onDragOver` | `function` | Called on drag over events |
-| `onDragLeave` | `function` | Called on drag leave events |
-| `onDrop` | `function` | Called on drop events |
-| `onParentDragEnter` | `function` | Called on parent drag enter events |
-| `onParentDragOver` | `function` | Called on parent drag over events |
-| `onParentDragLeave` | `function` | Called on parent drag leave events |
-| `onParentDrop` | `function` | Called on parent drop events |
-| `onPrependClick` | `function` | Called when prepend icon is clicked |
-| `onPrependInnerClick` | `function` | Called when inner prepend icon is clicked |
-| `onClearClick` | `function` | Called when clear button is clicked |
-| `onAppendClick` | `function` | Called when append icon is clicked |
-| `onAppendInnerClick` | `function` | Called when inner append icon is clicked |
-| `onValidate` | `function` | Called during validation |
+| Prop                | Type       | Description                                    |
+| ------------------- | ---------- | ---------------------------------------------- |
+| `onChange`          | `function` | Called when the value changes                  |
+| `onFocus`           | `function` | Called when the textarea gains focus           |
+| `onBlur`            | `function` | Called when the textarea loses focus           |
+| `onInput`           | `function` | Called on input events                         |
+| `onKeyDown`         | `function` | Called on key down events                      |
+| `onKeyUp`           | `function` | Called on key up events                        |
+| `onKeyPress`        | `function` | Called on key press events                     |
+| `onClick`           | `function` | Called on click events                         |
+| `onDoubleClick`     | `function` | Called on double click events                  |
+| `onMouseDown`       | `function` | Called on mouse down events                    |
+| `onMouseUp`         | `function` | Called on mouse up events                      |
+| `onMouseEnter`      | `function` | Called on mouse enter events                   |
+| `onMouseLeave`      | `function` | Called on mouse leave events                    |
+| `onCopy`            | `function` | Called on copy events                           |
+| `onCut`             | `function` | Called on cut events                           |
+| `onPaste`           | `function` | Called on paste events                         |
+| `onCompositionStart`| `function` | Called on composition start events            |
+| `onCompositionUpdate`| `function` | Called on composition update events          |
+| `onCompositionEnd`  | `function` | Called on composition end events               |
+| `onDragEnter`       | `function` | Called on drag enter events                    |
+| `onDragOver`        | `function` | Called on drag over events                     |
+| `onDragLeave`       | `function` | Called on drag leave events                    |
+| `onDrop`            | `function` | Called on drop events                          |
+| `onParentDragEnter` | `function` | Called on parent drag enter events            |
+| `onParentDragOver`  | `function` | Called on parent drag over events              |
+| `onParentDragLeave` | `function` | Called on parent drag leave events            |
+| `onParentDrop`      | `function` | Called on parent drop events                   |
+| `onPrependClick`    | `function` | Called when prepend icon is clicked            |
+| `onPrependInnerClick`| `function` | Called when inner prepend icon is clicked    |
+| `onClearClick`      | `function` | Called when clear button is clicked            |
+| `onAppendClick`     | `function` | Called when append icon is clicked             |
+| `onAppendInnerClick`| `function` | Called when inner append icon is clicked      |
+| `onValidate`        | `function` | Called during validation                       |
+| `onChangeEvent`     | `function` | Called on change events (raw event)            |
 
-## Validation Rules
+### Validation Rules
 
 The `rules` prop accepts an array of validation rule objects. Each rule object should have the following structure:
 
@@ -105,17 +82,17 @@ The `rules` prop accepts an array of validation rule objects. Each rule object s
 }
 ```
 
-### Supported Rule Types
+#### Supported Rule Types
 
-| Rule Type | Description | Condition Required |
-|-----------|-------------|-------------------|
-| `required` | Field is required | No |
-| `minLength` | Minimum character length | Yes (number) |
-| `maxLength` | Maximum character length | Yes (number) |
-| `email` | Valid email format | No |
-| `pattern` | Custom regex pattern | Yes (RegExp or string) |
+| Rule Type   | Description              | Condition Required |
+| ---------- | ------------------------ | ------------------ |
+| `required` | Field is required        | No                 |
+| `minLength`| Minimum character length | Yes (number)       |
+| `maxLength`| Maximum character length | Yes (number)       |
+| `email`    | Valid email format       | No                 |
+| `pattern`  | Custom regex pattern     | Yes (RegExp or string) |
 
-### Example Validation Rules
+#### Example Validation Rules
 
 ```jsx
 const validationRules = [
@@ -133,50 +110,55 @@ const validationRules = [
 />
 ```
 
-## Styling
+### Auto Grow
 
-The component uses CSS classes for styling. You can customize the appearance by targeting these classes:
+When `autoGrow` is enabled, the textarea automatically adjusts its height based on content:
 
-### Main Classes
-
-- `.default-text-area-wrapper` - Main wrapper class
-- `.text-area-field` - The textarea element
-- `.char-counter` - Character counter element
-
-### State Classes
-
-- `.focused` - Applied when textarea is focused
-- `.disabled` - Applied when textarea is disabled
-- `.readonly` - Applied when textarea is readonly
-- `.loading` - Applied when textarea is in loading state
-- `.error` - Applied when validation fails
-
-### Example Custom Styling
-
-```scss
-.default-text-area-wrapper {
-  .text-area-field {
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 16px;
-    line-height: 1.5;
-    
-    &:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-    }
-  }
-  
-  .char-counter {
-    color: #666;
-    font-size: 12px;
-    text-align: right;
-  }
-}
+```jsx
+<BasicTextarea
+  label="Auto Growing Textarea"
+  value={value}
+  onChange={setValue}
+  autoGrow={true}
+  minRows={2}
+/>
 ```
 
-## Accessibility
+### Character Counter
+
+Display a character counter with optional maximum length:
+
+```jsx
+<BasicTextarea
+  label="With Character Counter"
+  value={value}
+  onChange={setValue}
+  maxlength={100}
+  counter={true}
+/>
+```
+
+### Custom Icons
+
+The component supports custom icons for prepend, prependInner, append, and appendInner positions:
+
+```jsx
+const customIcon = (
+  <svg width="24" height="24" viewBox="0 0 24 24">
+    {/* SVG content */}
+  </svg>
+);
+
+<BasicTextarea
+  label="Custom Icons"
+  value={value}
+  onChange={setValue}
+  prependIcon={customIcon}
+  appendIcon={customIcon}
+/>
+```
+
+### Accessibility
 
 The component includes several accessibility features:
 
@@ -184,64 +166,3 @@ The component includes several accessibility features:
 - **Keyboard Navigation**: Full keyboard support
 - **Focus Management**: Clear focus indicators
 - **Screen Reader Support**: Descriptive text and hints
-
-### Accessibility Props
-
-| Prop | Description |
-|------|-------------|
-| `label` | Provides accessible label for the textarea |
-| `hint` | Provides additional context for screen readers |
-| `placeholder` | Provides placeholder text for guidance |
-
-## Examples
-
-### Basic Usage
-
-```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
-
-const MyComponent = () => {
-  const [value, setValue] = useState("");
-
-  return (
-    <BasicTextarea
-      label="Your Message"
-      placeholder="Enter your message here..."
-      value={value}
-      onChange={setValue}
-      hint="This is a helpful hint"
-    />
-  );
-};
-```
-
-### Advanced Usage
-
-```jsx
-import BasicTextarea from "@/src/components/sharedComponents/BasicTextarea";
-import { useState } from "react";
-
-const MyComponent = () => {
-  const [value, setValue] = useState("");
-
-  return (
-    <BasicTextarea
-      label="Feature-Rich Textarea"
-      placeholder="Try all features..."
-      value={value}
-      onChange={setValue}
-      autoGrow={true}
-      counter={true}
-      maxlength={200}
-      rows={3}
-      minRows={2}
-      rules={[
-        { rule: "required", message: "This field is required" },
-        { rule: "minLength", condition: 5, message: "Must be at least 5 characters" },
-      ]}
-      hint="This textarea demonstrates all available features"
-    />
-  );
-};
-```
