@@ -1,28 +1,22 @@
-# SliderGroup
+# Slider Group
 
-A horizontal card slider with arrows and optional dots, supporting custom card content and selection.
+A horizontal card slider component with navigation arrows, optional dots, card selection, and custom content rendering support.
 
-## Features
+## Overview
 
-- **Arrow positions**: `top`, `bottom`, `center`, `center-outside`
-- **Dots navigation**: Optional, auto-calculated based on content width
-- **Selection**: Click to select a card (toggleable)
-- **Custom cards**: Render function to supply any JSX per item
-- **Responsive**: Smooth scrolling and resize handling
+The SliderGroup component provides:
 
-## Basic Usage
-
-```jsx
-import SliderGroup from "../components/sharedComponents/SliderGroup";
-
-export default function Example() {
-  const items = [1,2,3,4,5,6,7,8,9,10];
-  return (
-    <SliderGroup items={items} arrowsPosition="bottom" showArrowsAlways={true} showDots={true} />
-  );
-}
-```
+- Multiple arrow positions (top, bottom, center, center-outside)
+- Optional dot navigation with auto-calculation
+- Card selection with visual feedback
+- Custom card content via render function
+- Smooth scrolling and animations
+- Responsive design with resize handling
+- Hover-based arrow visibility
+- Disabled state for navigation buttons
 
 [API Reference →](./api)
 
 [View Code →](./code)
+
+[View Demos →](./demo)
