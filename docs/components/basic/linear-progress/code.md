@@ -2,13 +2,15 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
 - SCSS for styling
 - PropTypes for prop validation
 
-## Files
+## Component Files
 
-### Component File
+### React Component
 
 ```
 src/
@@ -17,24 +19,23 @@ src/
         └── LinearProgress.jsx
 ```
 
-- Path: `src/components/sharedComponents/LinearProgress.jsx`
-- Description: Linear progress bar with determinate/indeterminate modes
+- **Path**: `src/components/sharedComponents/LinearProgress.jsx`
+- **Description**: Linear progress bar component implementation
 
 ```jsx
-import React, { useMemo, memo } from "react";
-import PropTypes from "prop-types";
+import React, { useMemo, memo } from 'react';
+import PropTypes from 'prop-types';
 
 const LinearProgress = memo(
   ({
     absolute = false,
-    bgColor = "#e0e0e0",
-    color = "#000",
+    variant = 'default',
     height = 4,
     indeterminate = false,
     modelValue = 0,
     max = 100,
     rounded = false,
-    className = "",
+    className = '',
     style = {},
     ...props
   }) => {
@@ -51,33 +52,31 @@ const LinearProgress = memo(
     const containerStyle = useMemo(
       () => ({
         height: `${height}px`,
-        backgroundColor: bgColor,
         ...style,
       }),
-      [height, bgColor, style]
+      [height, style]
     );
 
     const progressBarStyle = useMemo(
       () => ({
-        width: indeterminate ? "40%" : `${percentage}%`,
-        backgroundColor: color,
+        width: indeterminate ? '40%' : `${percentage}%`,
       }),
-      [indeterminate, percentage, color]
+      [indeterminate, percentage]
     );
 
     const containerClass = useMemo(() => {
-      const classes = ["linear-progress-container"];
-      if (absolute) classes.push("absolute");
-      if (rounded) classes.push("rounded");
-      if (indeterminate) classes.push("indeterminate");
+      const classes = ['linear-progress-container', variant];
+      if (absolute) classes.push('absolute');
+      if (rounded) classes.push('rounded');
+      if (indeterminate) classes.push('indeterminate');
       if (className) classes.push(className);
-      return classes.join(" ");
-    }, [absolute, rounded, indeterminate, className]);
+      return classes.join(' ');
+    }, [variant, absolute, rounded, indeterminate, className]);
 
     const progressBarClass = useMemo(() => {
-      const classes = ["linear-progress-bar"];
-      if (indeterminate) classes.push("indeterminate-bar");
-      return classes.join(" ");
+      const classes = ['linear-progress-bar'];
+      if (indeterminate) classes.push('indeterminate-bar');
+      return classes.join(' ');
     }, [indeterminate]);
 
     // =============================================================================
@@ -96,8 +95,7 @@ const LinearProgress = memo(
 // =============================================================================
 LinearProgress.propTypes = {
   absolute: PropTypes.bool,
-  bgColor: PropTypes.string,
-  color: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
   height: PropTypes.number,
   indeterminate: PropTypes.bool,
   modelValue: PropTypes.number,
@@ -109,23 +107,22 @@ LinearProgress.propTypes = {
 
 LinearProgress.defaultProps = {
   absolute: false,
-  bgColor: "#e0e0e0",
-  color: "#000",
+  variant: 'default',
   height: 4,
   indeterminate: false,
   modelValue: 0,
   max: 100,
   rounded: false,
-  className: "",
+  className: '',
   style: {},
 };
 
-LinearProgress.displayName = "LinearProgress";
+LinearProgress.displayName = 'LinearProgress';
 
 export default LinearProgress;
 ```
 
-### Styles
+### SCSS Component
 
 ```
 src/
@@ -135,19 +132,22 @@ src/
             └── _linear-progress.scss
 ```
 
-- Path: `src/assets/scss/components/_linear-progress.scss`
-- Description: Linear progress styles and indeterminate animation
+- **Path**: `src/assets/scss/components/_linear-progress.scss`
+- **Description**: Linear progress component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
 // LINEAR PROGRESS COMPONENT STYLES
 // =============================================================================
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 .linear-progress-container {
   width: 100%;
   position: relative;
   overflow: hidden;
+  background-color: #e9ecef;
 
   *,
   *::before,
@@ -182,6 +182,64 @@ src/
   &.indeterminate {
     .linear-progress-bar {
       transition: none;
+    }
+  }
+
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+
+  // Default Variant
+  &.default {
+    background-color: #e9ecef;
+
+    .linear-progress-bar {
+      background-color: #007bff;
+    }
+  }
+
+  // Primary Variant
+  &.primary {
+    background-color: #e9ecef;
+
+    .linear-progress-bar {
+      background-color: #007bff;
+    }
+  }
+
+  // Success Variant
+  &.success {
+    background-color: #e9ecef;
+
+    .linear-progress-bar {
+      background-color: #28a745;
+    }
+  }
+
+  // Warning Variant
+  &.warning {
+    background-color: #e9ecef;
+
+    .linear-progress-bar {
+      background-color: #ffc107;
+    }
+  }
+
+  // Danger Variant
+  &.danger {
+    background-color: #e9ecef;
+
+    .linear-progress-bar {
+      background-color: #dc3545;
+    }
+  }
+
+  // Info Variant
+  &.info {
+    background-color: #e9ecef;
+
+    .linear-progress-bar {
+      background-color: #17a2b8;
     }
   }
 }
@@ -223,57 +281,4 @@ src/
     width: 80%;
   }
 }
-
-// =============================================================================
-// RESPONSIVE DESIGN
-// =============================================================================
-
-@media (max-width: 768px) {
-  .linear-progress-container {
-    .linear-progress-bar {
-      transition: width 0.2s ease;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .linear-progress-container {
-    .linear-progress-bar {
-      transition: width 0.15s ease;
-    }
-  }
-}
-```
-
-#abstracts
-
-```
-src/
-├── assets/
-    └── scss/
-        └── abstracts/
-            └── index.scss
-```
-
-- **Path**: `src/assets/scss/abstracts/index.scss`
-- **Description**: Global SCSS variables, mixins, and functions
-  > **Note:**  
-  > This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like linear progress variables) are available when importing abstracts.
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-
-// breakpoints
-@forward "breakpoints";
 ```
