@@ -1,23 +1,30 @@
-# code
+# Code
 
 ## Dependencies
 
 This component requires:
 
 - React 18+
-- SCSS for styling
 - PropTypes for prop validation
+- SCSS for styling
 
 ## Component Files
 
 ### React Component
 
-**File:** `./sharedComponents/BasicPagination.jsx`
+```
+src/
+├── components/
+    └── sharedComponents/
+        └── BasicPagination.jsx
+```
+
+- **Path**: `src/components/sharedComponents/BasicPagination.jsx`
+- **Description**: Main pagination component implementation
 
 ```jsx
 import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import '@site/src/assets/scss/components/_basic-pagination.scss';
 
 const BasicPagination = ({
   currentPage = 1,
@@ -38,29 +45,41 @@ const BasicPagination = ({
   ...props
 }) => {
   // Default icon components
-  const defaultFirstIcon = useCallback(() => (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M18.41,16.59L13.82,12L18.41,7.41L17,6L11,12L17,18L18.41,16.59M6,6H8V18H6V6Z" />
-    </svg>
-  ), []);
+  const defaultFirstIcon = useCallback(
+    () => (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M18.41,16.59L13.82,12L18.41,7.41L17,6L11,12L17,18L18.41,16.59M6,6H8V18H6V6Z" />
+      </svg>
+    ),
+    []
+  );
 
-  const defaultPrevIcon = useCallback(() => (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M15.41,16.58L10.83,12L15.41,7.42L14,6L8,12L14,18L15.41,16.58Z" />
-    </svg>
-  ), []);
+  const defaultPrevIcon = useCallback(
+    () => (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M15.41,16.58L10.83,12L15.41,7.42L14,6L8,12L14,18L15.41,16.58Z" />
+      </svg>
+    ),
+    []
+  );
 
-  const defaultNextIcon = useCallback(() => (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M8.59,16.58L13.17,12L8.59,7.42L10,6L16,12L10,18L8.59,16.58Z" />
-    </svg>
-  ), []);
+  const defaultNextIcon = useCallback(
+    () => (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M8.59,16.58L13.17,12L8.59,7.42L10,6L16,12L10,18L8.59,16.58Z" />
+      </svg>
+    ),
+    []
+  );
 
-  const defaultLastIcon = useCallback(() => (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M5.59,7.41L10.18,12L5.59,16.59L7,18L13,12L7,6L5.59,7.41M16,6H18V18H16V6Z" />
-    </svg>
-  ), []);
+  const defaultLastIcon = useCallback(
+    () => (
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+        <path d="M5.59,7.41L10.18,12L5.59,16.59L7,18L13,12L7,6L5.59,7.41M16,6H18V18H16V6Z" />
+      </svg>
+    ),
+    []
+  );
 
   // Computed properties for button states
   const isFirstDisabled = useMemo(() => disabled || currentPage <= 1, [disabled, currentPage]);
@@ -112,56 +131,77 @@ const BasicPagination = ({
   // CSS classes
   const paginationClasses = useMemo(() => {
     const classes = ['pagination'];
-    if (size !== 'default') classes.push(`pagination--${size}`);
-    if (disabled) classes.push('pagination--disabled');
+    if (size !== 'default') classes.push(`pagination-${size}`);
+    if (disabled) classes.push('pagination-disabled');
     if (className) classes.push(className);
     return classes.join(' ');
   }, [size, disabled, className]);
 
-  const getButtonClasses = useCallback((active = false) => {
-    const classes = ['pagination-button'];
-    if (size !== 'default') classes.push(`pagination-button--${size}`);
-    if (active) classes.push(`pagination-button--${color}`, 'pagination-button--active');
-    if (disabled) classes.push('pagination-button--disabled');
-    if (rounded) classes.push('pagination-button--rounded');
-    return classes.join(' ');
-  }, [size, color, disabled, rounded]);
+  const getButtonClasses = useCallback(
+    (active = false) => {
+      const classes = ['pagination-button'];
+      if (size !== 'default') classes.push(`pagination-button-${size}`);
+      if (active) classes.push(`pagination-button-${color}`, 'pagination-button-active');
+      if (disabled) classes.push('pagination-button-disabled');
+      if (rounded) classes.push('pagination-button-rounded');
+      return classes.join(' ');
+    },
+    [size, color, disabled, rounded]
+  );
 
-  const getPageButtonClasses = useCallback((page) => getButtonClasses(page === currentPage), [getButtonClasses, currentPage]);
+  const getPageButtonClasses = useCallback(
+    (page) => getButtonClasses(page === currentPage),
+    [getButtonClasses, currentPage]
+  );
 
   // Event handlers
-  const handleFirstClick = useCallback((e) => {
-    if (isFirstDisabled) return;
-    onFirst?.(1);
-    onPageChange?.(1);
-  }, [isFirstDisabled, onFirst, onPageChange]);
+  const handleFirstClick = useCallback(
+    (e) => {
+      if (isFirstDisabled) return;
+      onFirst?.(1);
+      onPageChange?.(1);
+    },
+    [isFirstDisabled, onFirst, onPageChange]
+  );
 
-  const handlePrevClick = useCallback((e) => {
-    if (isPrevDisabled) return;
-    const prevPage = currentPage - 1;
-    onPrev?.(prevPage);
-    onPageChange?.(prevPage);
-  }, [isPrevDisabled, currentPage, onPrev, onPageChange]);
+  const handlePrevClick = useCallback(
+    (e) => {
+      if (isPrevDisabled) return;
+      const prevPage = currentPage - 1;
+      onPrev?.(prevPage);
+      onPageChange?.(prevPage);
+    },
+    [isPrevDisabled, currentPage, onPrev, onPageChange]
+  );
 
-  const handleNextClick = useCallback((e) => {
-    if (isNextDisabled) return;
-    const nextPage = currentPage + 1;
-    onNext?.(nextPage);
-    onPageChange?.(nextPage);
-  }, [isNextDisabled, currentPage, onNext, onPageChange]);
+  const handleNextClick = useCallback(
+    (e) => {
+      if (isNextDisabled) return;
+      const nextPage = currentPage + 1;
+      onNext?.(nextPage);
+      onPageChange?.(nextPage);
+    },
+    [isNextDisabled, currentPage, onNext, onPageChange]
+  );
 
-  const handleLastClick = useCallback((e) => {
-    if (isLastDisabled) return;
-    onLast?.(totalPages);
-    onPageChange?.(totalPages);
-  }, [isLastDisabled, totalPages, onLast, onPageChange]);
+  const handleLastClick = useCallback(
+    (e) => {
+      if (isLastDisabled) return;
+      onLast?.(totalPages);
+      onPageChange?.(totalPages);
+    },
+    [isLastDisabled, totalPages, onLast, onPageChange]
+  );
 
-  const handlePageClick = useCallback((page) => {
-    if (disabled || page < 1 || page > totalPages || page === currentPage) {
-      return;
-    }
-    onPageChange?.(page);
-  }, [disabled, totalPages, currentPage, onPageChange]);
+  const handlePageClick = useCallback(
+    (page) => {
+      if (disabled || page < 1 || page > totalPages || page === currentPage) {
+        return;
+      }
+      onPageChange?.(page);
+    },
+    [disabled, totalPages, currentPage, onPageChange]
+  );
 
   // Don't render if no pages
   if (totalPages <= 0) {
@@ -173,7 +213,7 @@ const BasicPagination = ({
       {/* First page button */}
       {showFirstLast && totalPages > 0 && (
         <button
-          className={`pagination-button pagination-button--icon ${getButtonClasses()}`}
+          className={`pagination-button pagination-button-icon ${getButtonClasses()}`}
           disabled={isFirstDisabled}
           aria-label="Go to first page"
           aria-disabled={isFirstDisabled}
@@ -187,7 +227,7 @@ const BasicPagination = ({
       {/* Previous page button */}
       {showPrevNext && (
         <button
-          className={`pagination-button pagination-button--icon ${getButtonClasses()}`}
+          className={`pagination-button pagination-button-icon ${getButtonClasses()}`}
           disabled={isPrevDisabled}
           aria-label="Go to previous page"
           aria-disabled={isPrevDisabled}
@@ -211,7 +251,7 @@ const BasicPagination = ({
           ) : (
             /* Page number button */
             <button
-              className={`pagination-button pagination-button--page ${getPageButtonClasses(pageItem)}`}
+              className={`pagination-button pagination-button-page ${getPageButtonClasses(pageItem)}`}
               aria-label={`Go to page ${pageItem}`}
               aria-current={pageItem === currentPage ? 'page' : undefined}
               onClick={() => handlePageClick(pageItem)}
@@ -226,7 +266,7 @@ const BasicPagination = ({
       {/* Next page button */}
       {showPrevNext && (
         <button
-          className={`pagination-button pagination-button--icon ${getButtonClasses()}`}
+          className={`pagination-button pagination-button-icon ${getButtonClasses()}`}
           disabled={isNextDisabled}
           aria-label="Go to next page"
           aria-disabled={isNextDisabled}
@@ -240,7 +280,7 @@ const BasicPagination = ({
       {/* Last page button */}
       {showFirstLast && totalPages > 0 && (
         <button
-          className={`pagination-button pagination-button--icon ${getButtonClasses()}`}
+          className={`pagination-button pagination-button-icon ${getButtonClasses()}`}
           disabled={isLastDisabled}
           aria-label="Go to last page"
           aria-disabled={isLastDisabled}
@@ -277,166 +317,167 @@ export default BasicPagination;
 
 ### SCSS Component
 
-**File:** `./assets/scss/components/_basic-pagination.scss`
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _basic-pagination.scss
+```
+
+- **Path**: `src/assets/scss/components/_basic-pagination.scss`
+- **Description**: Pagination component styles
+
+**Note:** This component uses SCSS variables from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
 // BASIC PAGINATION COMPONENT STYLES
 // =============================================================================
+@use '../abstracts' as *;
 
 .pagination {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   padding: 0.5rem;
-}
 
-.pagination-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.5rem;
-  height: 2.5rem;
-  padding: 0 0.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 1;
-  cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  background: transparent;
-  color: rgba(0, 0, 0, 0.87);
-  position: relative;
-  overflow: hidden;
-}
+  // =============================================================================
+  // PAGINATION BUTTON STYLES
+  // =============================================================================
+  .pagination-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding: 0 0.5rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    background: transparent;
+    color: rgba(0, 0, 0, 0.87);
+    position: relative;
+    overflow: hidden;
 
-.pagination-button:hover:not(.pagination-button--disabled) {
-  background-color: rgba(0, 0, 0, 0.04);
-}
+    // Hover state
+    &:hover:not(.pagination-button-disabled) {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
 
-.pagination-button:focus {
-  outline: none;
-  box-shadow: 0 0 0 0.125rem rgba(25, 118, 210, 0.2);
-}
+    // Focus state
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 0.125rem rgba(25, 118, 210, 0.2);
+    }
 
-.pagination-button--disabled {
-  cursor: default;
-  color: rgba(0, 0, 0, 0.26) !important;
-  pointer-events: none;
-}
+    // =============================================================================
+    // BUTTON MODIFIERS
+    // =============================================================================
+    &-disabled {
+      cursor: default;
+      color: rgba(0, 0, 0, 0.26) !important;
+      pointer-events: none;
+    }
 
-.pagination-button--icon {
-  min-width: 2.5rem;
-  width: 2.5rem;
-  border-radius: 0.5rem;
-}
+    &-icon {
+      min-width: 2.5rem;
+      width: 2.5rem;
+      border-radius: 0.5rem;
+    }
 
-.pagination-button--page {
-  min-width: 2.5rem;
-  border-radius: 0.5rem;
-}
+    &-page {
+      min-width: 2.5rem;
+      border-radius: 0.5rem;
+    }
 
-.pagination-button--active {
-  background-color: #1976d2 !important;
-  color: white !important;
-}
+    &-active {
+      background-color: #1976d2 !important;
+      color: white !important;
 
-.pagination-button--active:hover {
-  background-color: #1565c0 !important;
-}
+      &:hover {
+        background-color: #1565c0 !important;
+      }
+    }
 
-.pagination-button--rounded {
-  border-radius: 50%;
-}
+    &-rounded {
+      border-radius: 50%;
+    }
 
-/* Size variants */
-.pagination--small .pagination-button {
-  min-width: 2rem;
-  height: 2rem;
-  font-size: 0.75rem;
-}
+    // =============================================================================
+    // COLOR VARIANTS
+    // =============================================================================
+    &-primary.pagination-button-active {
+      background-color: #1976d2 !important;
+    }
 
-.pagination--small .pagination-button--icon {
-  width: 2rem;
-}
+    &-secondary.pagination-button-active {
+      background-color: #424242 !important;
+    }
 
-.pagination--large .pagination-button {
-  min-width: 3rem;
-  height: 3rem;
-  font-size: 1rem;
-}
+    // =============================================================================
+    // RIPPLE EFFECT
+    // =============================================================================
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: currentColor;
+      opacity: 0;
+      border-radius: inherit;
+      transition: opacity 0.2s;
+    }
 
-.pagination--large .pagination-button--icon {
-  width: 3rem;
-}
+    &:active::before,
+    &-active::before {
+      opacity: 0.12;
+    }
+  }
 
-.pagination-ellipsis {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2.5rem;
-  height: 2.5rem;
-  color: rgba(0, 0, 0, 0.6);
-}
+  // =============================================================================
+  // ELLIPSIS STYLES
+  // =============================================================================
+  .pagination-ellipsis {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    color: rgba(0, 0, 0, 0.6);
+  }
 
-/* Ripple effect */
-.pagination-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: currentColor;
-  opacity: 0;
-  border-radius: inherit;
-  transition: opacity 0.2s;
-}
+  // =============================================================================
+  // SIZE VARIANTS
+  // =============================================================================
+  &-small {
+    .pagination-button {
+      min-width: 2rem;
+      height: 2rem;
+      font-size: 0.75rem;
 
-.pagination-button:active::before {
-  opacity: 0.12;
-}
+      &-icon {
+        width: 2rem;
+      }
+    }
+  }
 
-.pagination-button--active::before {
-  opacity: 0.12;
-}
+  &-large {
+    .pagination-button {
+      min-width: 3rem;
+      height: 3rem;
+      font-size: 1rem;
 
-/* Color variants */
-.pagination-button--primary.pagination-button--active {
-  background-color: #1976d2 !important;
-}
-
-.pagination-button--secondary.pagination-button--active {
-  background-color: #424242 !important;
+      &-icon {
+        width: 3rem;
+      }
+    }
+  }
 }
 ```
-
-## SCSS Abstracts
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── index.scss
-```
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-
-// breakpoints
-@forward "breakpoints";
-```
-

@@ -2,14 +2,16 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
-- PropTypes 15.8+
-- Use-deep-compare 1.0+
+- PropTypes for prop validation
+- use-deep-compare hook for effect optimization
 - SCSS for styling
 
-## Files
+## Component Files
 
-### Component File
+### React Component
 
 ```
 src/
@@ -22,35 +24,25 @@ src/
 - **Description**: Main range component implementation
 
 ```jsx
-import React, {
-  useMemo,
-  useCallback,
-  memo,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
-import PropTypes from "prop-types";
-import { useDeepCompareEffect } from "use-deep-compare";
-import "@site/src/assets/scss/components/_basic-range.scss";
+import React, { useMemo, useCallback, memo, useRef, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useDeepCompareEffect } from 'use-deep-compare';
 
 const BasicRange = memo(
   ({
-    size = "md",
+    size = 'md',
+    variant = 'default',
     disabled = false,
     readonly = false,
     step = 0.1,
-    color = "black",
-    thumbColor = "black",
-    trackColor = "grey",
-    label = "",
+    label = '',
     min = 0,
     max = 100,
     thumbLabel = false,
     thumbLabelClasses = [],
     labelClasses = [],
     value = [0, 0],
-    className = "",
+    className = '',
     style = {},
     onChange,
     ...props
@@ -69,7 +61,7 @@ const BasicRange = memo(
     // =============================================================================
     const roundToStep = useCallback((value, step) => {
       const stepStr = step.toString();
-      const decimals = stepStr.includes(".") ? stepStr.split(".")[1].length : 0;
+      const decimals = stepStr.includes('.') ? stepStr.split('.')[1].length : 0;
       const multiplier = Math.pow(10, decimals);
       return Math.round(value * multiplier) / multiplier;
     }, []);
@@ -85,14 +77,12 @@ const BasicRange = memo(
 
     const displayValues = useMemo(() => {
       const stepStr = step.toString();
-      const decimalPlaces = stepStr.includes(".")
-        ? stepStr.split(".")[1].length
-        : 0;
+      const decimalPlaces = stepStr.includes('.') ? stepStr.split('.')[1].length : 0;
       return currentValues.map((value) => value.toFixed(decimalPlaces));
     }, [currentValues, step]);
 
     const showThumbLabel = useMemo(() => {
-      if (thumbLabel === "always") return true;
+      if (thumbLabel === 'always') return true;
       if (thumbLabel === true) return isDragging || isFocused;
       return false;
     }, [thumbLabel, isDragging, isFocused]);
@@ -113,15 +103,12 @@ const BasicRange = memo(
         let percent = (e.clientX - rect.left) / rect.width;
         percent = Math.max(0, Math.min(1, percent));
         let rawValue = min + percent * (max - min);
-        const steppedValue = roundToStep(
-          Math.round(rawValue / step) * step,
-          step
-        );
+        const steppedValue = roundToStep(Math.round(rawValue / step) * step, step);
 
         setCurrentValues((prevValues) => {
           const newValues = [...prevValues];
 
-          if (activeThumb === "min") {
+          if (activeThumb === 'min') {
             if (steppedValue > prevValues[1]) return prevValues;
             if (steppedValue === prevValues[0]) return prevValues;
             newValues[0] = steppedValue;
@@ -144,15 +131,12 @@ const BasicRange = memo(
         let percent = (e.touches[0].clientX - rect.left) / rect.width;
         percent = Math.max(0, Math.min(1, percent));
         let rawValue = min + percent * (max - min);
-        const steppedValue = roundToStep(
-          Math.round(rawValue / step) * step,
-          step
-        );
+        const steppedValue = roundToStep(Math.round(rawValue / step) * step, step);
 
         setCurrentValues((prevValues) => {
           const newValues = [...prevValues];
 
-          if (activeThumb === "min") {
+          if (activeThumb === 'min') {
             if (steppedValue > prevValues[1]) return prevValues;
             if (steppedValue === prevValues[0]) return prevValues;
             newValues[0] = steppedValue;
@@ -174,16 +158,16 @@ const BasicRange = memo(
       const handleMouseUp = () => stopDrag();
       const handleTouchEnd = () => stopDrag();
 
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("touchmove", handleTouchMove);
-      window.addEventListener("mouseup", handleMouseUp);
-      window.addEventListener("touchend", handleTouchEnd);
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('touchmove', handleTouchMove);
+      window.addEventListener('mouseup', handleMouseUp);
+      window.addEventListener('touchend', handleTouchEnd);
 
       return () => {
-        window.removeEventListener("mousemove", handleMouseMove);
-        window.removeEventListener("touchmove", handleTouchMove);
-        window.removeEventListener("mouseup", handleMouseUp);
-        window.removeEventListener("touchend", handleTouchEnd);
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('touchmove', handleTouchMove);
+        window.removeEventListener('mouseup', handleMouseUp);
+        window.removeEventListener('touchend', handleTouchEnd);
       };
     }, [isDragging, handleMouseMove, handleTouchMove, stopDrag]);
 
@@ -196,20 +180,16 @@ const BasicRange = memo(
         // Update position immediately on start first
         if (!trackRef.current) return;
         const rect = trackRef.current.getBoundingClientRect();
-        const clientX =
-          e.type === "mousedown" ? e.clientX : e.touches[0].clientX;
+        const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
         let percent = (clientX - rect.left) / rect.width;
         percent = Math.max(0, Math.min(1, percent));
         let rawValue = min + percent * (max - min);
-        const steppedValue = roundToStep(
-          Math.round(rawValue / step) * step,
-          step
-        );
+        const steppedValue = roundToStep(Math.round(rawValue / step) * step, step);
 
         setCurrentValues((prevValues) => {
           const newValues = [...prevValues];
 
-          if (thumb === "min") {
+          if (thumb === 'min') {
             if (steppedValue > prevValues[1]) return prevValues;
             if (steppedValue === prevValues[0]) return prevValues;
             newValues[0] = steppedValue;
@@ -234,14 +214,10 @@ const BasicRange = memo(
         if (disabled || readonly) return;
 
         const rect = trackRef.current.getBoundingClientRect();
-        const clickX =
-          e.type === "mousedown" ? e.clientX : e.touches[0].clientX;
+        const clickX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
         const percent = (clickX - rect.left) / rect.width;
         const clickedValue = min + percent * (max - min);
-        const steppedValue = roundToStep(
-          Math.round(clickedValue / step) * step,
-          step
-        );
+        const steppedValue = roundToStep(Math.round(clickedValue / step) * step, step);
 
         setCurrentValues((prevValues) => {
           const newValues = [...prevValues];
@@ -272,22 +248,22 @@ const BasicRange = memo(
 
         if (!isMinThumb && !isMaxThumb) return;
 
-        const thumb = isMinThumb ? "min" : "max";
-        const index = thumb === "min" ? 0 : 1;
+        const thumb = isMinThumb ? 'min' : 'max';
+        const index = thumb === 'min' ? 0 : 1;
 
         setCurrentValues((prevValues) => {
           let newValue = prevValues[index];
 
-          if (e.key === "ArrowRight") {
+          if (e.key === 'ArrowRight') {
             newValue = Math.min(max, prevValues[index] + step);
-          } else if (e.key === "ArrowLeft") {
+          } else if (e.key === 'ArrowLeft') {
             newValue = Math.max(min, prevValues[index] - step);
           } else {
             return prevValues;
           }
 
-          if (thumb === "min" && newValue > prevValues[1]) return prevValues;
-          if (thumb === "max" && newValue < prevValues[0]) return prevValues;
+          if (thumb === 'min' && newValue > prevValues[1]) return prevValues;
+          if (thumb === 'max' && newValue < prevValues[0]) return prevValues;
 
           const steppedValue = roundToStep(newValue, step);
           if (steppedValue !== prevValues[index]) {
@@ -328,56 +304,46 @@ const BasicRange = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["basic-range-input-wrapper", size];
-      if (disabled) classes.push("disabled");
-      if (readonly) classes.push("readonly");
-      if (label) classes.push("has-label");
+      const classes = ['basic-range-input-wrapper', size, variant];
+      if (disabled) classes.push('disabled');
+      if (readonly) classes.push('readonly');
+      if (label) classes.push('has-label');
       if (className) classes.push(className);
-      return classes.join(" ");
-    }, [size, disabled, readonly, label, className]);
-
-    const trackStyle = useMemo(
-      () => ({
-        "--track-color": trackColor,
-      }),
-      [trackColor]
-    );
+      return classes.join(' ');
+    }, [size, variant, disabled, readonly, label, className]);
 
     const filledStyle = useMemo(
       () => ({
-        left: fillPercent.min + "%",
-        width: fillPercent.max - fillPercent.min + "%",
-        backgroundColor: color,
+        left: fillPercent.min + '%',
+        width: fillPercent.max - fillPercent.min + '%',
       }),
-      [fillPercent, color]
+      [fillPercent]
     );
 
     const minThumbStyle = useMemo(
       () => ({
-        left: fillPercent.min + "%",
-        backgroundColor: thumbColor,
+        left: fillPercent.min + '%',
       }),
-      [fillPercent.min, thumbColor]
+      [fillPercent.min]
     );
 
     const maxThumbStyle = useMemo(
       () => ({
-        left: fillPercent.max + "%",
-        backgroundColor: thumbColor,
+        left: fillPercent.max + '%',
       }),
-      [fillPercent.max, thumbColor]
+      [fillPercent.max]
     );
 
     const minLabelStyle = useMemo(
       () => ({
-        left: fillPercent.min + "%",
+        left: fillPercent.min + '%',
       }),
       [fillPercent.min]
     );
 
     const maxLabelStyle = useMemo(
       () => ({
-        left: fillPercent.max + "%",
+        left: fillPercent.max + '%',
       }),
       [fillPercent.max]
     );
@@ -387,11 +353,7 @@ const BasicRange = memo(
     // =============================================================================
     const renderLabel = useMemo(() => {
       if (label) {
-        return (
-          <label className={`slider-label ${labelClasses.join(" ")}`}>
-            {label}
-          </label>
-        );
+        return <label className={`slider-label ${labelClasses.join(' ')}`}>{label}</label>;
       }
       return null;
     }, [label, labelClasses]);
@@ -401,27 +363,15 @@ const BasicRange = memo(
 
       return (
         <>
-          <div
-            className={`thumb-label min-label ${thumbLabelClasses.join(" ")}`}
-            style={minLabelStyle}
-          >
+          <div className={`thumb-label min-label ${thumbLabelClasses.join(' ')}`} style={minLabelStyle}>
             {displayValues[0]}
           </div>
-          <div
-            className={`thumb-label max-label ${thumbLabelClasses.join(" ")}`}
-            style={maxLabelStyle}
-          >
+          <div className={`thumb-label max-label ${thumbLabelClasses.join(' ')}`} style={maxLabelStyle}>
             {displayValues[1]}
           </div>
         </>
       );
-    }, [
-      showThumbLabel,
-      thumbLabelClasses,
-      minLabelStyle,
-      maxLabelStyle,
-      displayValues,
-    ]);
+    }, [showThumbLabel, thumbLabelClasses, minLabelStyle, maxLabelStyle, displayValues]);
 
     // =============================================================================
     // RENDER
@@ -430,7 +380,7 @@ const BasicRange = memo(
       <div className={containerClass} style={style} {...props}>
         {renderLabel}
         <div
-          className={`slider-track ${isDragging ? "dragging" : ""}`}
+          className={`slider-track ${isDragging ? 'dragging' : ''}`}
           ref={trackRef}
           tabIndex={disabled || readonly ? -1 : 0}
           onMouseDown={handleTrackClick}
@@ -444,20 +394,19 @@ const BasicRange = memo(
           aria-valuenow={currentValues[0]}
           aria-disabled={disabled}
           aria-readonly={readonly}
-          style={trackStyle}
         >
           <div className="slider-filled" style={filledStyle} />
           <div
-            className={`slider-thumb min-thumb ${isDragging ? "dragging" : ""}`}
+            className={`slider-thumb min-thumb ${isDragging ? 'dragging' : ''}`}
             style={minThumbStyle}
-            onMouseDown={(e) => startDrag(e, "min")}
-            onTouchStart={(e) => startDrag(e, "min")}
+            onMouseDown={(e) => startDrag(e, 'min')}
+            onTouchStart={(e) => startDrag(e, 'min')}
           />
           <div
-            className={`slider-thumb max-thumb ${isDragging ? "dragging" : ""}`}
+            className={`slider-thumb max-thumb ${isDragging ? 'dragging' : ''}`}
             style={maxThumbStyle}
-            onMouseDown={(e) => startDrag(e, "max")}
-            onTouchStart={(e) => startDrag(e, "max")}
+            onMouseDown={(e) => startDrag(e, 'max')}
+            onTouchStart={(e) => startDrag(e, 'max')}
           />
           {renderThumbLabels}
         </div>
@@ -470,13 +419,11 @@ const BasicRange = memo(
 // PROP TYPES
 // =============================================================================
 BasicRange.propTypes = {
-  size: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   step: PropTypes.number,
-  color: PropTypes.string,
-  thumbColor: PropTypes.string,
-  trackColor: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
   label: PropTypes.string,
   min: PropTypes.number,
   max: PropTypes.number,
@@ -489,12 +436,12 @@ BasicRange.propTypes = {
   onChange: PropTypes.func,
 };
 
-BasicRange.displayName = "BasicRange";
+BasicRange.displayName = 'BasicRange';
 
 export default BasicRange;
 ```
 
-### Styles
+### SCSS Component
 
 ```
 src/
@@ -507,18 +454,25 @@ src/
 - **Path**: `src/assets/scss/components/_basic-range.scss`
 - **Description**: Range component styles
 
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
+
 ```scss
 // =============================================================================
 // BASIC RANGE COMPONENT
 // =============================================================================
-@use "../abstracts" as *;
-@use "sass:math";
+@use '../abstracts' as *;
 
 .basic-range-input-wrapper {
   width: 100%;
   display: grid;
   grid-template-columns: max-content 1fr;
   align-items: center;
+
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   &.has-label {
     gap: 1rem;
@@ -543,7 +497,7 @@ src/
 
   .slider-label {
     font-size: 1rem;
-    color: $range-label-color;
+    color: #333333;
     font-weight: 500;
   }
 
@@ -553,14 +507,13 @@ src/
 
   .slider-track {
     position: relative;
-    background-color: var(--track-color, $range-track-color);
-    border-radius: $range-track-border-radius;
+    border-radius: 0.25rem;
     cursor: pointer;
     user-select: none;
     outline: none;
 
     &:focus-visible {
-      box-shadow: 0 0 0 $range-focus-outline-width $range-focus-shadow;
+      box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.1);
     }
 
     // =============================================================================
@@ -570,7 +523,7 @@ src/
     .slider-filled {
       position: absolute;
       height: 100%;
-      border-radius: $range-track-border-radius;
+      border-radius: 0.25rem;
     }
 
     // =============================================================================
@@ -584,11 +537,11 @@ src/
       border-radius: 50%;
       cursor: grab;
       z-index: 2;
-      box-shadow: 0 0.125rem 0.25rem $range-thumb-shadow;
+      box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
 
       &:active {
         cursor: grabbing;
-        transform: translate(-50%, -50%) scale($range-thumb-scale-active);
+        transform: translate(-50%, -50%) scale(1.1);
       }
 
       &.min-thumb {
@@ -607,25 +560,25 @@ src/
     .thumb-label {
       position: absolute;
       transform: translateX(-50%);
-      background: $range-thumb-label-bg;
-      color: $range-thumb-label-color;
+      background: #333333;
+      color: #ffffff;
       font-size: 0.75rem;
-      padding: $range-thumb-label-padding;
-      border-radius: $range-thumb-label-border-radius;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
       white-space: nowrap;
       bottom: 0;
-      margin-bottom: $range-thumb-label-margin-bottom;
+      margin-bottom: 1rem;
       z-index: 4;
       pointer-events: none;
 
       &::before {
-        content: "";
+        content: '';
         position: absolute;
-        left: calc(50% - math.div($range-thumb-label-arrow-size, 2));
+        left: calc(50% - 0.25rem);
         top: 100%;
-        width: $range-thumb-label-arrow-size;
-        height: $range-thumb-label-arrow-size;
-        background: $range-thumb-label-bg;
+        width: 0.5rem;
+        height: 0.5rem;
+        background: #333333;
         transform: rotate(45deg) translate(-50%, -50%);
       }
 
@@ -642,176 +595,173 @@ src/
   // =============================================================================
   // SIZE VARIANTS
   // =============================================================================
-  @include generate-range-sizes;
-}
-```
 
-### SCSS Abstracts
+  &.xs {
+    .slider-track {
+      height: 0.25rem;
 
-```
-src/
-├── assets/
-    └── scss/
-        └── abstracts/
-            └── index.scss
-```
+      .slider-thumb {
+        width: 0.75rem;
+        height: 0.75rem;
+      }
+    }
 
-- **Path**: `src/assets/scss/abstracts/index.scss`
-- **Description**: Global SCSS variables, mixins, and functions
-  > **Note:**  
-  > This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like range variables) are available when importing abstracts.
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-@forward "variables/range-variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-@forward "mixins/range-mixins";
-
-// breakpoints
-@forward "breakpoints";
-```
-
-### Range SCSS Variables
-
-```
-src/
-├── assets/
-    └── scss/
-        └── variables/
-            └── _range-variables.scss
-```
-
-- **Path**: `src/assets/scss/abstracts/variables/_range-variables.scss`
-- **Description**: Range component variables
-
-> **Note:**  
-> All base color, spacing, and typography variables should be defined in `variables.scss` for consistency and theme support.  
-> In this file, import those variables and use them to define range-specific variables. This ensures that the range component inherits the global theme and can be easily updated by changing the main variables file.
-
-```scss
-// =============================================================================
-// RANGE COMPONENT VARIABLES
-// =============================================================================
-@use "../variables" as *;
-
-// Colors
-$range-track-color: #e9ecef !default;
-$range-thumb-color: #007bff !default;
-$range-filled-color: #007bff !default;
-$range-label-color: #333 !default;
-$range-thumb-label-bg: #333 !default;
-$range-thumb-label-color: white !default;
-$range-focus-shadow: rgba(0, 0, 0, 0.1) !default;
-$range-thumb-shadow: rgba(0, 0, 0, 0.2) !default;
-
-// Sizes
-$range-sizes: (
-  xs: (
-    track-height: 0.25rem,
-    thumb-size: 0.75rem,
-    label-font-size: 0.875rem,
-  ),
-  sm: (
-    track-height: 0.3125rem,
-    thumb-size: 0.875rem,
-    label-font-size: 0.9375rem,
-  ),
-  md: (
-    track-height: 0.375rem,
-    thumb-size: 1rem,
-    label-font-size: 1rem,
-  ),
-  lg: (
-    track-height: 0.5rem,
-    thumb-size: 1.25rem,
-    label-font-size: 1.125rem,
-  ),
-  xl: (
-    track-height: 0.625rem,
-    thumb-size: 1.5rem,
-    label-font-size: 1.25rem,
-  ),
-) !default;
-
-// Spacing
-$range-thumb-label-margin-bottom: 1rem !default;
-$range-thumb-label-padding: 0.25rem 0.5rem !default;
-$range-thumb-label-arrow-size: 0.5rem !default;
-
-// Border radius
-$range-track-border-radius: 0.25rem !default;
-$range-thumb-label-border-radius: 0.25rem !default;
-
-// Focus
-$range-focus-outline-width: 0.25rem !default;
-
-// Thumb interactions
-$range-thumb-scale-active: 1.1 !default;
-```
-
-### Range SCSS Mixins
-
-```
-src/
-├── assets/
-    └── scss/
-        └── mixins/
-            └── _range-mixins.scss
-```
-
-- **Path**: `src/assets/scss/abstracts/mixins/_range-mixins.scss`
-- **Description**: Range component mixins
-
-> **Note:**  
-> All base mixins should be defined in `mixins.scss` for consistency and theme support.  
-> In this file, import those mixins and use them to define range-specific mixins. This ensures that the range component inherits the global theme and can be easily updated by changing the main mixins file.
-
-```scss
-// =============================================================================
-// RANGE COMPONENT MIXINS
-// =============================================================================
-
-// =============================================================================
-// SIZE MIXINS
-// =============================================================================
-@use "../variables" as *;
-@use "../functions" as *;
-@use "../mixins" as *;
-
-@use "../variables/range-variables" as *;
-@use "sass:map";
-
-@mixin range-size($size) {
-  $size-config: map.get($range-sizes, $size);
-
-  .slider-track {
-    height: map.get($size-config, track-height);
-
-    .slider-thumb {
-      width: map.get($size-config, thumb-size);
-      height: map.get($size-config, thumb-size);
+    .slider-label {
+      font-size: 0.875rem;
     }
   }
 
-  .slider-label {
-    font-size: map.get($size-config, label-font-size);
-  }
-}
+  &.sm {
+    .slider-track {
+      height: 0.3125rem;
 
-@mixin generate-range-sizes {
-  @each $size, $config in $range-sizes {
-    &.#{$size} {
-      @include range-size($size);
+      .slider-thumb {
+        width: 0.875rem;
+        height: 0.875rem;
+      }
+    }
+
+    .slider-label {
+      font-size: 0.9375rem;
+    }
+  }
+
+  &.md {
+    .slider-track {
+      height: 0.375rem;
+
+      .slider-thumb {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    .slider-label {
+      font-size: 1rem;
+    }
+  }
+
+  &.lg {
+    .slider-track {
+      height: 0.5rem;
+
+      .slider-thumb {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+
+    .slider-label {
+      font-size: 1.125rem;
+    }
+  }
+
+  &.xl {
+    .slider-track {
+      height: 0.625rem;
+
+      .slider-thumb {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .slider-label {
+      font-size: 1.25rem;
+    }
+  }
+
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+
+  // Default Variant
+  &.default {
+    .slider-track {
+      background-color: #e9ecef;
+
+      .slider-filled {
+        background-color: #007bff;
+      }
+
+      .slider-thumb {
+        background-color: #007bff;
+      }
+    }
+  }
+
+  // Primary Variant
+  &.primary {
+    .slider-track {
+      background-color: #e9ecef;
+
+      .slider-filled {
+        background-color: #007bff;
+      }
+
+      .slider-thumb {
+        background-color: #007bff;
+      }
+    }
+  }
+
+  // Success Variant
+  &.success {
+    .slider-track {
+      background-color: #e9ecef;
+
+      .slider-filled {
+        background-color: #28a745;
+      }
+
+      .slider-thumb {
+        background-color: #28a745;
+      }
+    }
+  }
+
+  // Warning Variant
+  &.warning {
+    .slider-track {
+      background-color: #e9ecef;
+
+      .slider-filled {
+        background-color: #ffc107;
+      }
+
+      .slider-thumb {
+        background-color: #ffc107;
+      }
+    }
+  }
+
+  // Danger Variant
+  &.danger {
+    .slider-track {
+      background-color: #e9ecef;
+
+      .slider-filled {
+        background-color: #dc3545;
+      }
+
+      .slider-thumb {
+        background-color: #dc3545;
+      }
+    }
+  }
+
+  // Info Variant
+  &.info {
+    .slider-track {
+      background-color: #e9ecef;
+
+      .slider-filled {
+        background-color: #17a2b8;
+      }
+
+      .slider-thumb {
+        background-color: #17a2b8;
+      }
     }
   }
 }

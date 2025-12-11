@@ -12,22 +12,22 @@ This component requires:
 
 ### React Component
 
-**File:** `./sharedComponents/BasicAccordion.jsx`
+```
+src/
+├── components/
+    └── sharedComponents/
+        └── BasicAccordion.jsx
+```
+
+- **Path**: `src/components/sharedComponents/BasicAccordion.jsx`
+- **Description**: Main accordion component implementation
 
 ```jsx
-import React, { useState, useCallback, useMemo, memo } from "react";
-import PropTypes from "prop-types";
+import React, { useState, useCallback, useMemo, memo } from 'react';
+import PropTypes from 'prop-types';
 
 const BasicAccordion = memo(
-  ({
-    prepend,
-    title,
-    append,
-    children,
-    initialIsOpen = false,
-    onToggle,
-    disabled = false,
-  }) => {
+  ({ prepend, title, append, children, initialIsOpen = false, onToggle, disabled = false }) => {
     // =============================================================================
     // STATE MANAGEMENT
     // =============================================================================
@@ -50,7 +50,7 @@ const BasicAccordion = memo(
       (e) => {
         if (disabled) return;
 
-        if (e.key === "Enter" || e.key === " ") {
+        if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           handleToggle();
         }
@@ -61,22 +61,13 @@ const BasicAccordion = memo(
     // =============================================================================
     // COMPUTED VALUES
     // =============================================================================
-    const accordionContentClass = useMemo(
-      () => `accordion-content-slot ${isOpen ? "open" : ""}`,
-      [isOpen]
-    );
+    const accordionContentClass = useMemo(() => `accordion-content-slot ${isOpen ? 'open' : ''}`, [isOpen]);
 
-    const accordionHeaderClass = useMemo(() => "accordion-header", []);
+    const accordionHeaderClass = useMemo(() => 'accordion-header', []);
 
-    const accordionContainerClass = useMemo(
-      () => `basic-accordion ${disabled ? "disabled" : ""}`,
-      [disabled]
-    );
+    const accordionContainerClass = useMemo(() => `basic-accordion ${disabled ? 'disabled' : ''}`, [disabled]);
 
-    const defaultAppendIconClass = useMemo(
-      () => `default-append-icon ${isOpen ? "rotated" : ""}`,
-      [isOpen]
-    );
+    const defaultAppendIconClass = useMemo(() => `default-append-icon ${isOpen ? 'rotated' : ''}`, [isOpen]);
 
     // =============================================================================
     // RENDER FUNCTIONS
@@ -94,10 +85,7 @@ const BasicAccordion = memo(
       return (
         <div className={defaultAppendIconClass}>
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path
-              d="M8 12L2 6L3.4 4.6L8 9.2L12.6 4.6L14 6L8 12Z"
-              fill="currentColor"
-            />
+            <path d="M8 12L2 6L3.4 4.6L8 9.2L12.6 4.6L14 6L8 12Z" fill="currentColor" />
           </svg>
         </div>
       );
@@ -108,10 +96,10 @@ const BasicAccordion = memo(
     // =============================================================================
     const accessibilityProps = useMemo(
       () => ({
-        role: "button",
+        role: 'button',
         tabIndex: disabled ? -1 : 0,
-        "aria-expanded": isOpen,
-        "aria-disabled": disabled,
+        'aria-expanded': isOpen,
+        'aria-disabled': disabled,
       }),
       [disabled, isOpen]
     );
@@ -121,14 +109,9 @@ const BasicAccordion = memo(
     // =============================================================================
     return (
       <div className={accordionContainerClass}>
-        <div
-          className={accordionHeaderClass}
-          onClick={handleToggle}
-          onKeyDown={handleKeyDown}
-          {...accessibilityProps}
-        >
+        <div className={accordionHeaderClass} onClick={handleToggle} onKeyDown={handleKeyDown} {...accessibilityProps}>
           {renderPrepend}
-          <div className="accordion-title">{title || "Accordion Title"}</div>
+          <div className="accordion-title">{title || 'Accordion Title'}</div>
           <div className="append-slot">{renderAppend}</div>
         </div>
 
@@ -151,43 +134,23 @@ BasicAccordion.propTypes = {
   disabled: PropTypes.bool,
 };
 
-BasicAccordion.displayName = "BasicAccordion";
+BasicAccordion.displayName = 'BasicAccordion';
 
 export default BasicAccordion;
 ```
 
 ### SCSS Component
 
-- **Accordion SCSS Variables**
-  **File:** `./assets/scss/abstracts/variables/_accordion-variables.scss`
-
-> **Note:**  
-> All base color, spacing, and typography variables should be defined in `variables.scss` for consistency and theme support.  
-> In this file, import those variables and use them to define accordion-specific variables. This ensures that the accordion component inherits the global theme and can be easily updated by changing the main variables file.
-
-```scss
-// =============================================================================
-// ACCORDION VARIABLES - COMPLETE SYSTEM
-// =============================================================================
-@use "../variables" as *;
-
-// Accordion chip variables
-$accordion-bg-1: $white;
-$accordion-bg-2: $gray-50;
-$accordion-bg-3: $gray-100;
-$accordion-bg-4: $gray-200;
-$accordion-color-1: $gray-800;
-$accordion-color-2: $gray-700;
-$accordion-color-3: $gray-600;
-$accordion-color-4: $gray-900;
-$accordion-border-1: $gray-200;
-$accordion-border-2: $gray-300;
-$accordion-shadow-1: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _basic-accordion.scss
 ```
 
-- **Accordion Main SCSS**
-  **File:** `./assets/scss/components/_basic-accordion.scss`
+- **Path**: `src/assets/scss/components/_basic-accordion.scss`
+- **Description**: Accordion component styles
 
 ```scss
 // =============================================================================
@@ -195,7 +158,7 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
 // =============================================================================
 // This file contains all styles for the BasicAccordion component.
 // The accordion supports both enabled and disabled states with smooth transitions.
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 .basic-accordion {
   // =============================================================================
@@ -204,8 +167,8 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
   width: 100%; // Full width container
   border-radius: 0.5rem; // Rounded corners for modern look
   overflow: hidden; // Hide content that overflows
-  border: 0.0625rem solid $accordion-border-1; // Subtle border
-  background: $accordion-bg-1; // Background color
+  border: 0.0625rem solid #e9ecef; // Subtle border
+  background: #fff; // Background color
   transition: all $transition-base; // Smooth transitions for all changes
 
   // =============================================================================
@@ -230,8 +193,8 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
     cursor: pointer; // Pointer cursor for clickable area
     padding: 1rem 1.25rem; // Comfortable padding
     font-size: 1rem; // Standard font size
-    font-weight: $font-weight-medium; // Medium font weight
-    color: $accordion-color-1; // Primary text color
+    font-weight: 500; // Medium font weight
+    color: #343a40; // Primary text color
     text-align: left; // Left-aligned text
     transition: all $transition-slow; // Smooth transitions
     position: relative; // Relative positioning for child elements
@@ -248,8 +211,8 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
     // =============================================================================
     // Hover effects for interactive state
     &:hover {
-      background-color: $accordion-bg-2; // Subtle background change
-      color: $primary-color; // Primary color for text
+      background-color: #f9fafb; // Subtle background change
+      color: #007bff; // Primary color for text
     }
 
     // =============================================================================
@@ -268,7 +231,7 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
     // Area for the main accordion title
     .title-slot {
       flex: 1; // Take remaining space
-      font-weight: $font-weight-medium; // Medium font weight
+      font-weight: 500; // Medium font weight
     }
 
     // =============================================================================
@@ -290,7 +253,7 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
         display: flex; // Flexbox for centering
         align-items: center; // Vertically center
         justify-content: center; // Horizontally center
-        color: $accordion-color-3; // Icon color
+        color: #6c757d; // Icon color
         transition: all $transition-base; // Smooth rotation transition
 
         // =============================================================================
@@ -321,7 +284,7 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
     // =============================================================================
     // DEFAULT STATE (CLOSED)
     // =============================================================================
-    background-color: $accordion-bg-1; // Background color
+    background-color: #ffffff; // Background color
     visibility: hidden; // Hidden by default
     opacity: 0; // Transparent by default
     height: 0; // No height by default
@@ -340,11 +303,20 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
 }
 ```
 
-- **SCSS Abstracts Index**
-  **File:** `./assets/scss/abstracts/index.scss`
+### SCSS Abstracts
 
-> **Note:**  
-> This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like accordion variables) are available when importing abstracts.
+```
+src/
+├── assets/
+    └── scss/
+        └── abstracts/
+            └── index.scss
+```
+
+- **Path**: `src/assets/scss/abstracts/index.scss`
+- **Description**: Global SCSS variables, mixins, and functions
+
+**Note:** The accordion component uses variables, functions, mixins, and breakpoints from the abstracts directory. These are imported via the abstracts index file.
 
 ```scss
 // =============================================================================
@@ -352,15 +324,16 @@ $accordion-shadow-2: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0,
 // =============================================================================
 
 // variables
-@forward "variables";
-@forward "variables/accordion-variables";
+@forward 'variables';
 
 // functions
-@forward "functions";
+@forward 'functions';
 
 // mixins
-@forward "mixins";
+@forward 'mixins';
 
 // breakpoints
-@forward "breakpoints";
+@forward 'breakpoints';
 ```
+
+**Note:** The accordion component uses variables, functions, mixins, and breakpoints from the abstracts directory. These are imported via the abstracts index file.

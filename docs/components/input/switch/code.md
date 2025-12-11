@@ -2,23 +2,25 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
-- SCSS for styling
 - PropTypes for prop validation
+- SCSS for styling
 
-## Files
+## Component Files
 
-### Component File
+### React Component
 
 ```
 src/
 ├── components/
-│   └── sharedComponents/
-│       └── BasicSwitch.jsx
+    └── sharedComponents/
+        └── BasicSwitch.jsx
 ```
 
-- Path: `src/components/sharedComponents/BasicSwitch.jsx`
-- Description: Toggle switch with sizes, colors, inset, labels
+- **Path**: `src/components/sharedComponents/BasicSwitch.jsx`
+- **Description**: Main switch component implementation
 
 ```jsx
 import React, { useMemo, useCallback, memo, useState, useEffect } from 'react';
@@ -27,18 +29,14 @@ import PropTypes from 'prop-types';
 const BasicSwitch = memo(
   ({
     value,
+    variant = 'default',
     disabled = false,
     readonly = false,
-    bgColor = 'grey',
-    activeBgColor = 'grey',
-    sliderColor,
-    activeSliderColor,
     size = 'xl',
     label = '',
     labelPosition = 'right',
     inset = false,
     dotLabels = null,
-    dotLabelColors = { true: '#000', false: '#000' },
     className = '',
     style = {},
     onChange,
@@ -52,19 +50,6 @@ const BasicSwitch = memo(
     // =============================================================================
     // COMPUTED VALUES
     // =============================================================================
-    const computedSliderColor = useMemo(() => {
-      if (sliderColor) return sliderColor;
-      return inset ? 'grey' : 'white';
-    }, [sliderColor, inset]);
-
-    const computedActiveSliderColor = useMemo(() => {
-      if (activeSliderColor) return activeSliderColor;
-      return inset ? 'grey' : 'white';
-    }, [activeSliderColor, inset]);
-
-    const currentDotLabelColor = useMemo(() => {
-      return dotLabelColors?.[internalValue] || '#000';
-    }, [dotLabelColors, internalValue]);
 
     const currentDotLabel = useMemo(() => {
       return dotLabels?.[internalValue] || '';
@@ -84,10 +69,10 @@ const BasicSwitch = memo(
     // =============================================================================
     const handleSwitchChange = useCallback(() => {
       if (readonly || disabled) return;
-      
+
       const newValue = !internalValue;
       setInternalValue(newValue);
-      
+
       onChange?.(newValue);
     }, [readonly, disabled, internalValue, onChange]);
 
@@ -95,52 +80,36 @@ const BasicSwitch = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ['switch-container', size];
-      
+      const classes = ['switch-container', size, variant];
+
       if (disabled) classes.push('disabled');
       if (readonly) classes.push('readonly');
       if (internalValue) classes.push('checked');
       if (inset) classes.push('inset');
       if (className) classes.push(className);
-      
+
       return classes.join(' ');
-    }, [size, disabled, readonly, internalValue, inset, className]);
-
-    const sliderStyle = useMemo(() => ({
-      '--bg-color': bgColor,
-      '--active-bg-color': activeBgColor,
-      color: currentDotLabelColor,
-      ...style,
-    }), [bgColor, activeBgColor, currentDotLabelColor, style]);
-
-    const dotStyle = useMemo(() => ({
-      '--slider-color': computedSliderColor,
-      '--active-slider-color': computedActiveSliderColor,
-    }), [computedSliderColor, computedActiveSliderColor]);
+    }, [size, variant, disabled, readonly, internalValue, inset, className]);
 
     // =============================================================================
     // RENDER FUNCTIONS
     // =============================================================================
-    const renderLabel = useCallback((position) => {
-      if (!label || labelPosition !== position) return null;
-      
-      return (
-        <span className={`${position}-label`}>
-          {label}
-        </span>
-      );
-    }, [label, labelPosition]);
+    const renderLabel = useCallback(
+      (position) => {
+        if (!label || labelPosition !== position) return null;
+
+        return <span className={`${position}-label`}>{label}</span>;
+      },
+      [label, labelPosition]
+    );
 
     // =============================================================================
     // RENDER
     // =============================================================================
     return (
-      <label
-        className={containerClass}
-        {...props}
-      >
+      <label className={containerClass} {...props}>
         {renderLabel('left')}
-        
+
         <input
           type="checkbox"
           checked={internalValue}
@@ -149,12 +118,12 @@ const BasicSwitch = memo(
           disabled={disabled}
           onChange={handleSwitchChange}
         />
-        
-        <span className="switch-slider" style={sliderStyle}>
+
+        <span className="switch-slider" style={style}>
           {currentDotLabel}
-          <span className="switch-slider-dot" style={dotStyle} />
+          <span className="switch-slider-dot" />
         </span>
-        
+
         {renderLabel('right')}
       </label>
     );
@@ -166,18 +135,14 @@ const BasicSwitch = memo(
 // =============================================================================
 BasicSwitch.propTypes = {
   value: PropTypes.bool,
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
-  bgColor: PropTypes.string,
-  activeBgColor: PropTypes.string,
-  sliderColor: PropTypes.string,
-  activeSliderColor: PropTypes.string,
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
   label: PropTypes.string,
   labelPosition: PropTypes.oneOf(['left', 'right']),
   inset: PropTypes.bool,
   dotLabels: PropTypes.object,
-  dotLabelColors: PropTypes.object,
   className: PropTypes.string,
   style: PropTypes.object,
   onChange: PropTypes.func,
@@ -188,18 +153,20 @@ BasicSwitch.displayName = 'BasicSwitch';
 export default BasicSwitch;
 ```
 
-### Styles
+### SCSS Component
 
 ```
 src/
 ├── assets/
-│   └── scss/
-│       └── components/
-│           └── _basic-switch.scss
+    └── scss/
+        └── components/
+            └── _basic-switch.scss
 ```
 
-- Path: `src/assets/scss/components/_basic-switch.scss`
-- Description: Switch slider, dot, label, sizes and state styles
+- **Path**: `src/assets/scss/components/_basic-switch.scss`
+- **Description**: Switch component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
@@ -208,471 +175,429 @@ src/
 @use '../abstracts' as *;
 
 .switch-container {
-    flex-shrink: 0;
-    display: inline-flex;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+
+  *,
+  ::before *,
+  ::after * {
+    box-sizing: border-box;
+  }
+
+  // Focus styles for accessibility
+  &:focus-visible {
+    outline: 0.125rem solid #2196f3;
+    outline-offset: 0.125rem;
+  }
+
+  // =============================================================================
+  // INPUT
+  // =============================================================================
+
+  input {
+    display: none;
+
+    &:checked + .switch-slider {
+      justify-content: flex-start;
+
+      .switch-slider-dot {
+        transform: translateX(-100%);
+        margin: 0;
+      }
+    }
+  }
+
+  // =============================================================================
+  // SWITCH SLIDER
+  // =============================================================================
+
+  .switch-slider {
+    position: relative;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
     align-items: center;
-    gap: 0.5rem;
     cursor: pointer;
+    justify-content: flex-end;
 
-    *,
-    ::before *,
-    ::after * {
-        box-sizing: border-box;
+    .switch-slider-dot {
+      position: absolute;
+      left: 0;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      transform: translateX(0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.5rem;
+      overflow: hidden;
+    }
+  }
+
+  // =============================================================================
+  // INSET VARIANT
+  // =============================================================================
+
+  &.inset {
+    input + .switch-slider .switch-slider-dot {
+      transform: translateX(-50%);
+      left: 0;
+      margin: 0;
+      box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14),
+        0px 1px 3px 0px rgba(0, 0, 0, 0.12);
     }
 
-    // Generate all sizes, colors, and states using mixins
-    @include generate-switch-sizes;
-    @include generate-switch-colors;
-    @include generate-switch-states;
-
-    // Focus styles for accessibility
-    &:focus-visible {
-        outline: 0.125rem solid #2196f3;
-        outline-offset: 0.125rem;
+    input:checked + .switch-slider .switch-slider-dot {
+      left: calc(100%);
+      margin: 0;
     }
+  }
 
-    // =============================================================================
-    // INPUT
-    // =============================================================================
+  // =============================================================================
+  // LABELS
+  // =============================================================================
 
-    input {
-        display: none;
+  .left-label,
+  .right-label {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-        &:checked + .switch-slider {
-            background-color: var(--active-bg-color);
-            justify-content: flex-start;
+  // =============================================================================
+  // DISABLED AND READONLY STATES
+  // =============================================================================
 
-            .switch-slider-dot {
-                background-color: var(--active-slider-color);
-                transform: translateX(-100%);
-                margin: 0;
-            }
-        }
-    }
+  &.disabled {
+    opacity: 0.6;
+    cursor: default;
+    pointer-events: none;
+  }
 
-    // =============================================================================
-    // SWITCH SLIDER
-    // =============================================================================
+  &.readonly {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  // =============================================================================
+  // SIZE VARIANTS
+  // =============================================================================
+
+  &.xs {
+    font-size: 0.75rem;
 
     .switch-slider {
-        position: relative;
-        background-color: var(--bg-color);
-        border-radius: $switch-slider-border-radius;
-        transition: all $switch-transition-duration $switch-transition-timing;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        justify-content: flex-end;
+      min-width: 2.5rem;
+      height: 1.25rem;
+      font-size: 0.375rem;
+      padding-inline: 0.25rem;
 
-        .switch-slider-dot {
-            position: absolute;
-            left: 0;
-            border-radius: $switch-dot-border-radius;
-            transition: all $switch-transition-duration $switch-transition-timing;
-            background-color: var(--slider-color);
-            transform: translateX(0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.5rem;
-            overflow: hidden;
-        }
+      .switch-slider-dot {
+        width: 1rem;
+        height: 1rem;
+        margin: 0 0.1875rem;
+      }
     }
 
-    // =============================================================================
-    // INSET VARIANT
-    // =============================================================================
+    input:checked + .switch-slider .switch-slider-dot {
+      left: calc(100% - 0.1875rem);
+    }
 
     &.inset {
-        input + .switch-slider .switch-slider-dot {
-            transform: translateX(-50%);
-            left: 0;
-            margin: 0;
+      .switch-slider {
+        min-width: 1.75rem;
+        height: 0.75rem;
+        margin-right: 0.5rem;
+
+        .switch-slider-dot {
+          width: 1rem;
+          height: 1rem;
+          margin: 0 0.1875rem;
         }
+      }
+    }
+  }
 
-        input:checked + .switch-slider .switch-slider-dot {
-            left: calc(100%);
-            margin: 0;
+  &.sm {
+    font-size: 0.875rem;
+
+    .switch-slider {
+      min-width: 3rem;
+      height: 1.5rem;
+      font-size: 0.4375rem;
+      padding-inline: 0.3125rem;
+
+      .switch-slider-dot {
+        width: 1.25rem;
+        height: 1.25rem;
+        margin: 0 0.1875rem;
+      }
+    }
+
+    input:checked + .switch-slider .switch-slider-dot {
+      left: calc(100% - 0.1875rem);
+    }
+
+    &.inset {
+      .switch-slider {
+        min-width: 2.125rem;
+        height: 0.875rem;
+        margin-right: 0.5rem;
+
+        .switch-slider-dot {
+          width: 1.125rem;
+          height: 1.125rem;
+          margin: 0 0.1875rem;
         }
+      }
+    }
+  }
+
+  &.md {
+    font-size: 1rem;
+
+    .switch-slider {
+      min-width: 4rem;
+      height: 2rem;
+      font-size: 0.5625rem;
+      padding-inline: 0.375rem;
+
+      .switch-slider-dot {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin: 0 0.25rem;
+      }
     }
 
-    // =============================================================================
-    // LABELS
-    // =============================================================================
-
-    .left-label,
-    .right-label {
-        font-weight: 500;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+    input:checked + .switch-slider .switch-slider-dot {
+      left: calc(100% - 0.25rem);
     }
 
-    // Default color (when no color class is applied)
-    &:not([class*='color-']) {
-        @include switch-color('default');
-    }
-}
-```
+    &.inset {
+      .switch-slider {
+        min-width: 2.5rem;
+        height: 1rem;
+        margin-right: 0.625rem;
+        padding-inline: 0.25rem;
 
-### SCSS Abstracts
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── index.scss
-```
-
-- **Path**: `src/assets/scss/abstracts/index.scss`
-- **Description**: Forwards variables (including `switch-variables`) and mixins (`switch-mixins`)
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-- Path: `src/assets/scss/abstracts/index.scss`
-- Description: Forwards variables (including `switch-variables`) and mixins (`switch-mixins`)
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward 'variables';
-@forward 'variables/switch-variables';
-
-// functions
-@forward 'functions';
-
-// mixins
-@forward 'mixins';
-@forward 'mixins/switch-mixins';
-
-// breakpoints
-@forward 'breakpoints';
-```
-
-### Switch Variables
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── variables/
-│               └── switch-variables.scss
-```
-
-- Path: `src/assets/scss/abstracts/variables/_switch-variables.scss`
-- Description: Sizes, colors, states, transitions, border radii
-
-```scss
-// =============================================================================
-// SWITCH COMPONENT VARIABLES - COMPLETE SYSTEM
-// =============================================================================
-@use '../variables' as *;
-
-// Switch size variables
-$switch-sizes: (
-    'xs': ('container-font-size': 0.75rem,
-        'slider-min-width': 2.5rem,
-        'slider-height': 1.25rem,
-        'slider-font-size': 0.375rem,
-        'slider-padding-inline': 0.25rem,
-        'dot-width': 1rem,
-        'dot-height': 1rem,
-        'dot-margin': 0 0.1875rem,
-        'dot-checked-left': calc(100% - 0.1875rem),
-        'inset-slider-min-width': 1.75rem,
-        'inset-slider-height': 0.75rem,
-        'inset-slider-margin-right': 0.5rem,
-        'inset-dot-width': 1rem,
-        'inset-dot-height': 1rem,
-        'inset-dot-margin': 0 0.1875rem),
-    'sm': ('container-font-size': 0.875rem,
-        'slider-min-width': 3rem,
-        'slider-height': 1.5rem,
-        'slider-font-size': 0.4375rem,
-        'slider-padding-inline': 0.3125rem,
-        'dot-width': 1.25rem,
-        'dot-height': 1.25rem,
-        'dot-margin': 0 0.1875rem,
-        'dot-checked-left': calc(100% - 0.1875rem),
-        'inset-slider-min-width': 2.125rem,
-        'inset-slider-height': 0.875rem,
-        'inset-slider-margin-right': 0.5rem,
-        'inset-dot-width': 1.125rem,
-        'inset-dot-height': 1.125rem,
-        'inset-dot-margin': 0 0.1875rem),
-    'md': ('container-font-size': 1rem,
-        'slider-min-width': 4rem,
-        'slider-height': 2rem,
-        'slider-font-size': 0.5625rem,
-        'slider-padding-inline': 0.375rem,
-        'dot-width': 1.5rem,
-        'dot-height': 1.5rem,
-        'dot-margin': 0 0.25rem,
-        'dot-checked-left': calc(100% - 0.25rem),
-        'inset-slider-min-width': 2.5rem,
-        'inset-slider-height': 1rem,
-        'inset-slider-margin-right': 0.625rem,
-        'inset-slider-padding-inline': 0.25rem,
-        'inset-dot-width': 1.25rem,
-        'inset-dot-height': 1.25rem,
-        'inset-dot-margin': 0 0.25rem),
-    'lg': ('container-font-size': 1.125rem,
-        'slider-min-width': 5rem,
-        'slider-height': 2.5rem,
-        'slider-border-radius': 1.25rem,
-        'slider-font-size': 0.6875rem,
-        'slider-padding-inline': 0.5rem,
-        'dot-width': 2rem,
-        'dot-height': 2rem,
-        'dot-margin': 0 0.375rem,
-        'dot-checked-left': calc(100% - 0.375rem),
-        'inset-slider-min-width': 3.125rem,
-        'inset-slider-height': 1rem,
-        'inset-slider-margin-right': 0.625rem,
-        'inset-slider-padding-inline': 0.375rem,
-        'inset-dot-width': 1.5rem,
-        'inset-dot-height': 1.5rem,
-        'inset-dot-margin': 0 0.375rem),
-    'xl': ('container-font-size': 1.25rem,
-        'slider-min-width': 6rem,
-        'slider-height': 3rem,
-        'slider-border-radius': 1.5rem,
-        'slider-font-size': 0.875rem,
-        'slider-padding-inline': 0.5rem,
-        'dot-width': 2.5rem,
-        'dot-height': 2.5rem,
-        'dot-margin': 0 0.375rem,
-        'dot-checked-left': calc(100% - 0.375rem),
-        'inset-slider-min-width': 3.5rem,
-        'inset-slider-height': 1.25rem,
-        'inset-slider-margin-right': 0.625rem,
-        'inset-slider-font-size': 0.75rem,
-        'inset-dot-width': 1.75rem,
-        'inset-dot-height': 1.75rem,
-        'inset-dot-margin': 0 0.375rem)
-);
-
-// Switch color variables
-$switch-colors: (
-    'default': ('bg': $gray-400,
-        'active-bg': $primary-color,
-        'slider': $white,
-        'active-slider': $white),
-    'primary': ('bg': $gray-400,
-        'active-bg': $primary-color,
-        'slider': $white,
-        'active-slider': $white),
-    'success': ('bg': $gray-400,
-        'active-bg': $success-color,
-        'slider': $white,
-        'active-slider': $white),
-    'warning': ('bg': $gray-400,
-        'active-bg': $warning-color,
-        'slider': $white,
-        'active-slider': $white),
-    'danger': ('bg': $gray-400,
-        'active-bg': $danger-color,
-        'slider': $white,
-        'active-slider': $white),
-    'info': ('bg': $gray-400,
-        'active-bg': $info-color,
-        'slider': $white,
-        'active-slider': $white)
-);
-
-// Switch state variables
-$switch-states: (
-    'enabled': ('opacity': 1,
-        'cursor': pointer,
-        'pointer-events': auto
-    ),
-    'disabled': ('opacity': 0.6,
-        'cursor': default,
-        'pointer-events': none
-    ),
-    'readonly': ('opacity': 1,
-        'cursor': default,
-        'pointer-events': none
-    )
-);
-
-// Switch transition variables
-$switch-transition-duration: 0.3s !default;
-$switch-transition-timing: ease !default;
-
-// Switch shadow variables
-$switch-dot-shadow: (
-    0px 2px 1px -1px rgba(0, 0, 0, 0.2),
-    0px 1px 1px 0px rgba(0, 0, 0, 0.14),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.12)
-) !default;
-
-// Switch border radius
-$switch-slider-border-radius: 1rem !default;
-$switch-dot-border-radius: 50% !default;
-```
-
-### Switch Mixins
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── mixins/
-│               └── switch-mixins.scss
-```
-
-- Path: `src/assets/scss/abstracts/mixins/_switch-mixins.scss`
-- Description: Size, color, and state mixins + generators
-
-```scss
-// =============================================================================
-// SWITCH COMPONENT MIXINS
-// =============================================================================
-@use '../variables' as *;
-@use '../functions' as *;
-@use '../mixins' as *;
-
-@use '../variables/switch-variables' as *;
-@use "sass:map";
-
-// =============================================================================
-// SIZE MIXINS
-// =============================================================================
-
-@mixin switch-size($size) {
-    $size-config: map.get($switch-sizes, $size);
-
-    @if $size-config {
-        font-size: map.get($size-config, 'container-font-size');
-
-        .switch-slider {
-            min-width: map.get($size-config, 'slider-min-width');
-            height: map.get($size-config, 'slider-height');
-            font-size: map.get($size-config, 'slider-font-size');
-            padding-inline: map.get($size-config, 'slider-padding-inline');
-
-            @if map.has-key($size-config, 'slider-border-radius') {
-                border-radius: map.get($size-config, 'slider-border-radius');
-            }
-
-            .switch-slider-dot {
-                width: map.get($size-config, 'dot-width');
-                height: map.get($size-config, 'dot-height');
-                margin: map.get($size-config, 'dot-margin');
-            }
+        .switch-slider-dot {
+          width: 1.25rem;
+          height: 1.25rem;
+          margin: 0 0.25rem;
         }
+      }
+    }
+  }
 
-        input:checked + .switch-slider .switch-slider-dot {
-            left: map.get($size-config, 'dot-checked-left');
+  &.lg {
+    font-size: 1.125rem;
+
+    .switch-slider {
+      min-width: 5rem;
+      height: 2.5rem;
+      border-radius: 1.25rem;
+      font-size: 0.6875rem;
+      padding-inline: 0.5rem;
+
+      .switch-slider-dot {
+        width: 2rem;
+        height: 2rem;
+        margin: 0 0.375rem;
+      }
+    }
+
+    input:checked + .switch-slider .switch-slider-dot {
+      left: calc(100% - 0.375rem);
+    }
+
+    &.inset {
+      .switch-slider {
+        min-width: 3.125rem;
+        height: 1rem;
+        margin-right: 0.625rem;
+        padding-inline: 0.375rem;
+
+        .switch-slider-dot {
+          width: 1.5rem;
+          height: 1.5rem;
+          margin: 0 0.375rem;
         }
+      }
+    }
+  }
 
-        // Inset variant
-        &.inset {
-            .switch-slider {
-                min-width: map.get($size-config, 'inset-slider-min-width');
-                height: map.get($size-config, 'inset-slider-height');
-                margin-right: map.get($size-config, 'inset-slider-margin-right');
+  &.xl {
+    font-size: 1.25rem;
 
-                @if map.has-key($size-config, 'inset-slider-padding-inline') {
-                    padding-inline: map.get($size-config, 'inset-slider-padding-inline');
-                }
+    .switch-slider {
+      min-width: 6rem;
+      height: 3rem;
+      border-radius: 1.5rem;
+      font-size: 0.875rem;
+      padding-inline: 0.5rem;
 
-                @if map.has-key($size-config, 'inset-slider-font-size') {
-                    font-size: map.get($size-config, 'inset-slider-font-size');
-                }
+      .switch-slider-dot {
+        width: 2.5rem;
+        height: 2.5rem;
+        margin: 0 0.375rem;
+      }
+    }
 
-                .switch-slider-dot {
-                    width: map.get($size-config, 'inset-dot-width');
-                    height: map.get($size-config, 'inset-dot-height');
-                    margin: map.get($size-config, 'inset-dot-margin');
-                    box-shadow: $switch-dot-shadow;
-                }
-            }
+    input:checked + .switch-slider .switch-slider-dot {
+      left: calc(100% - 0.375rem);
+    }
+
+    &.inset {
+      .switch-slider {
+        min-width: 3.5rem;
+        height: 1.25rem;
+        margin-right: 0.625rem;
+        font-size: 0.75rem;
+
+        .switch-slider-dot {
+          width: 1.75rem;
+          height: 1.75rem;
+          margin: 0 0.375rem;
         }
+      }
     }
-}
+  }
 
-// =============================================================================
-// COLOR MIXINS
-// =============================================================================
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
 
-@mixin switch-color($color) {
-    $color-config: map.get($switch-colors, $color);
+  // Default Variant
+  &.default {
+    .switch-slider {
+      background-color: #ced4da;
 
-    @if $color-config {
-        .switch-slider {
-            background-color: map.get($color-config, 'bg');
-
-            .switch-slider-dot {
-                background-color: map.get($color-config, 'slider');
-            }
-        }
-
-        input:checked + .switch-slider {
-            background-color: map.get($color-config, 'active-bg');
-
-            .switch-slider-dot {
-                background-color: map.get($color-config, 'active-slider');
-            }
-        }
-    }
-}
-
-// =============================================================================
-// STATE MIXINS
-// =============================================================================
-
-@mixin switch-state($state) {
-    $state-config: map.get($switch-states, $state);
-
-    @if $state-config {
-        opacity: map.get($state-config, 'opacity');
-        cursor: map.get($state-config, 'cursor');
-        pointer-events: map.get($state-config, 'pointer-events');
-    }
-}
-
-// =============================================================================
-// GENERATOR MIXINS
-// =============================================================================
-
-@mixin generate-switch-sizes {
-    @each $size, $config in $switch-sizes {
-        &.#{$size} {
-            @include switch-size($size);
-        }
-    }
-}
-
-@mixin generate-switch-colors {
-    @each $color, $config in $switch-colors {
-        &.color-#{$color} {
-            @include switch-color($color);
-        }
-    }
-}
-
-@mixin generate-switch-states {
-    // Default enabled state (applies when no disabled or readonly classes are present)
-    &:not(.disabled):not(.readonly) {
-        @include switch-state('enabled');
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
     }
 
-    &.disabled {
-        @include switch-state('disabled');
+    input:checked + .switch-slider {
+      background-color: #007bff;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  // Primary Variant
+  &.primary {
+    .switch-slider {
+      background-color: #ced4da;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
     }
 
-    &.readonly {
-        @include switch-state('readonly');
+    input:checked + .switch-slider {
+      background-color: #007bff;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
     }
+  }
+
+  // Success Variant
+  &.success {
+    .switch-slider {
+      background-color: #ced4da;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+
+    input:checked + .switch-slider {
+      background-color: #28a745;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  // Warning Variant
+  &.warning {
+    .switch-slider {
+      background-color: #ced4da;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+
+    input:checked + .switch-slider {
+      background-color: #ffc107;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  // Danger Variant
+  &.danger {
+    .switch-slider {
+      background-color: #ced4da;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+
+    input:checked + .switch-slider {
+      background-color: #dc3545;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  // Info Variant
+  &.info {
+    .switch-slider {
+      background-color: #ced4da;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+
+    input:checked + .switch-slider {
+      background-color: #17a2b8;
+
+      .switch-slider-dot {
+        background-color: #ffffff;
+      }
+    }
+  }
+
+  // Inset Variant - Slider Colors
+  &.inset {
+    .switch-slider {
+      .switch-slider-dot {
+        background-color: #e0e0e0;
+      }
+    }
+
+    input:checked + .switch-slider {
+      .switch-slider-dot {
+        background-color: #e0e0e0;
+      }
+    }
+  }
 }
 ```

@@ -17,9 +17,26 @@
 @use 'components/basic-accordion';
 @use 'components/basic-checkbox';
 @use 'components/basic-chip';
+@use 'components/basic-input';
+@use 'components/basic-file-input';
+@use 'components/basic-textarea';
 @use 'components/basic-radio';
 @use 'components/basic-range';
+@use 'components/basic-slider';
+@use 'components/slider-group';
+@use 'components/basic-switch';
+@use 'components/basic-tabs';
+@use 'components/basic-breadcrumb';
+@use 'components/linear-progress';
+@use 'components/loader';
 @use 'components/side-panel';
+@use 'components/vertical-app-bar';
+@use 'components/basic-tooltip';
+@use 'components/basic-toast';
+@use 'components/basic-snackbar';
+@use 'components/basic-pagination';
+@use 'components/basic-table';
+@use 'components/basic-menu';
 
 // 5. Pages
 @use 'pages/home';
@@ -27,6 +44,23 @@
 @use 'pages/not-found';
 @use 'pages/radio-demo';
 @use 'pages/range-demo';
+@use 'pages/slider-demo';
+@use 'pages/slider-group-demo';
+@use 'pages/switch-demo';
+@use 'pages/tabs-demo';
+@use 'pages/breadcrumb-demo';
+@use 'pages/linear-progress-demo';
+@use 'pages/loader-demo';
+@use 'pages/tooltip-demo';
+@use 'pages/vertical-app-bar-demo';
+@use 'pages/toast-demo';
+@use 'pages/input-demo';
+@use 'pages/file-input-demo';
+@use 'pages/textarea-demo';
+@use 'pages/snackbar-demo';
+@use 'pages/pagination-demo';
+@use 'pages/table-demo';
+@use 'pages/menu-demo';
 
 // 6. Utilities (should be last for specificity)
 @use 'utilities/spacing';

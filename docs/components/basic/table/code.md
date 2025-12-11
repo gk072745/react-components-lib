@@ -12,12 +12,11 @@ This component requires:
 
 ### React Component
 
-**File:** `./sharedComponents/BasicTable.jsx`
+**File:** `src/components/sharedComponents/BasicTable.jsx`
 
 ```jsx
 import React, { useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import '@site/src/assets/scss/components/_basic-table.scss';
 
 const BasicTable = ({
   headers = [],
@@ -30,7 +29,7 @@ const BasicTable = ({
   totalItems = 0,
   async = false,
   isAlternateRowColored = false,
-  defaultCellWidth = "1fr",
+  defaultCellWidth = '1fr',
   isAlternateColumnColored = false,
   onCellClicked,
   onScrolledToEndInTable,
@@ -44,7 +43,7 @@ const BasicTable = ({
   // Internal state for sorting
   const [sortState, setSortState] = useState({
     key: null,
-    direction: 'asc'
+    direction: 'asc',
   });
 
   // Computed properties for sorting and pagination
@@ -67,9 +66,7 @@ const BasicTable = ({
 
       if (aIsNumber && bIsNumber) {
         // Numerical comparison
-        return sortState.direction === 'asc' 
-          ? Number(aValue) - Number(bValue)
-          : Number(bValue) - Number(aValue);
+        return sortState.direction === 'asc' ? Number(aValue) - Number(bValue) : Number(bValue) - Number(aValue);
       } else {
         // String comparison (case-insensitive)
         const comparison = String(aValue).toLowerCase().localeCompare(String(bValue).toLowerCase());
@@ -93,48 +90,57 @@ const BasicTable = ({
     return Math.ceil(totalItems / itemsPerPage);
   }, [enablePagination, totalItems, itemsPerPage]);
 
-  const gridTemplate = useMemo(() => 
-    headers.map(h => h.width || defaultCellWidth).join(" "),
+  const gridTemplate = useMemo(
+    () => headers.map((h) => h.width || defaultCellWidth).join(' '),
     [headers, defaultCellWidth]
   );
 
   // Methods for handling sorting and pagination
-  const handleSort = useCallback((header) => {
-    if (!header.sortable) return;
+  const handleSort = useCallback(
+    (header) => {
+      if (!header.sortable) return;
 
-    if (async) {
-      let direction = sortState.key === header.key && sortState.direction === 'asc' ? 'desc' : 'asc';
-      onSort?.({
-        key: header.key,
-        direction,
-      });
-      setSortState({ key: header.key, direction });
-      return;
-    }
+      if (async) {
+        let direction = sortState.key === header.key && sortState.direction === 'asc' ? 'desc' : 'asc';
+        onSort?.({
+          key: header.key,
+          direction,
+        });
+        setSortState({ key: header.key, direction });
+        return;
+      }
 
-    if (sortState.key === header.key) {
-      setSortState(prev => ({
-        ...prev,
-        direction: prev.direction === 'asc' ? 'desc' : 'asc'
-      }));
-    } else {
-      setSortState({
-        key: header.key,
-        direction: 'asc'
-      });
-    }
-  }, [sortState, async, onSort]);
+      if (sortState.key === header.key) {
+        setSortState((prev) => ({
+          ...prev,
+          direction: prev.direction === 'asc' ? 'desc' : 'asc',
+        }));
+      } else {
+        setSortState({
+          key: header.key,
+          direction: 'asc',
+        });
+      }
+    },
+    [sortState, async, onSort]
+  );
 
-  const handlePageChange = useCallback((page) => {
-    onPageChange?.(page);
-  }, [onPageChange]);
+  const handlePageChange = useCallback(
+    (page) => {
+      onPageChange?.(page);
+    },
+    [onPageChange]
+  );
 
   /**
    * Handles cell click events and emits data
    */
-  const tableCellClicked = useCallback((data, cell) => {
-    onCellClicked?.(data, cell);
-  }, [onCellClicked]);
+  const tableCellClicked = useCallback(
+    (data, cell) => {
+      onCellClicked?.(data, cell);
+    },
+    [onCellClicked]
+  );
 
   /**
    * Handles reaching the end of the table for infinite scroll
@@ -146,16 +152,22 @@ const BasicTable = ({
   /**
    * Handles keydown events on table cells
    */
-  const handleTableCellKeyDown = useCallback((event, rowData, cell) => {
-    onTableCellKeyDown?.(event, rowData, cell);
-  }, [onTableCellKeyDown]);
+  const handleTableCellKeyDown = useCallback(
+    (event, rowData, cell) => {
+      onTableCellKeyDown?.(event, rowData, cell);
+    },
+    [onTableCellKeyDown]
+  );
 
   /**
    * Handles blur events on table cells
    */
-  const handleTableCellBlur = useCallback((event, rowData, cell) => {
-    onTableCellBlur?.(rowData, cell);
-  }, [onTableCellBlur]);
+  const handleTableCellBlur = useCallback(
+    (event, rowData, cell) => {
+      onTableCellBlur?.(rowData, cell);
+    },
+    [onTableCellBlur]
+  );
 
   const copyValue = useCallback((rowData, cell) => {
     navigator.clipboard.writeText(rowData[cell.key]);
@@ -178,7 +190,7 @@ const BasicTable = ({
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <path d="M7 15l5 5 5-5M7 9l5-5 5 5"/>
+          <path d="M7 15l5 5 5-5M7 9l5-5 5 5" />
         </svg>
       );
     }
@@ -196,7 +208,7 @@ const BasicTable = ({
           strokeLinecap="round"
           strokeLinejoin="round"
         >
-          <path d="M7 15l5 5 5-5"/>
+          <path d="M7 15l5 5 5-5" />
         </svg>
       );
     }
@@ -213,7 +225,7 @@ const BasicTable = ({
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M7 9l5-5 5 5"/>
+        <path d="M7 9l5-5 5 5" />
       </svg>
     );
   };
@@ -227,13 +239,9 @@ const BasicTable = ({
             {headers.map((header, index) => (
               <div
                 key={index}
-                className={`table-header-cell ${header.headerClasses || ''} ${
-                  header.sortable ? 'sortable' : ''
-                } ${
+                className={`table-header-cell ${header.headerClasses || ''} ${header.sortable ? 'sortable' : ''} ${
                   sortState.key === header.key && sortState.direction === 'asc' ? 'sorted-asc' : ''
-                } ${
-                  sortState.key === header.key && sortState.direction === 'desc' ? 'sorted-desc' : ''
-                }`}
+                } ${sortState.key === header.key && sortState.direction === 'desc' ? 'sorted-desc' : ''}`}
                 onClick={() => header.sortable && handleSort(header)}
               >
                 <div className="header-content">
@@ -250,13 +258,9 @@ const BasicTable = ({
           {paginatedData.map((rowData, rowIndex) => (
             <div
               key={rowIndex}
-              className={`table-body-row ${
-                enableHover ? 'hover-enabled' : ''
-              } ${
+              className={`table-body-row ${enableHover ? 'hover-enabled' : ''} ${
                 isAlternateRowColored ? 'alternate-row-colored' : ''
-              } ${
-                isAlternateColumnColored ? 'alternate-column-colored' : ''
-              }`}
+              } ${isAlternateColumnColored ? 'alternate-column-colored' : ''}`}
               style={{ gridTemplateColumns: gridTemplate }}
             >
               {headers.map((cell, cellIndex) => (
@@ -274,9 +278,8 @@ const BasicTable = ({
                   <div className={`cell-content ${cell.enableCopy ? 'copy-enabled' : ''}`}>
                     <div className="cell-content-text">
                       {cell.domFunc
-                        ? cell.domFunc(rowData[cell.key] !== undefined ? rowData[cell.key] : "-")
-                        : rowData[cell.key]
-                      }
+                        ? cell.domFunc(rowData[cell.key] !== undefined ? rowData[cell.key] : '-')
+                        : rowData[cell.key]}
                     </div>
                     {cell.enableCopy && (
                       <svg
@@ -292,11 +295,7 @@ const BasicTable = ({
                         xmlns="http://www.w3.org/2000/svg"
                       >
                         <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-                        <g
-                          id="SVGRepo_tracerCarrier"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        ></g>
+                        <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
                         <g id="SVGRepo_iconCarrier">
                           <path
                             d="M27,3.56A1.56,1.56,0,0,0,25.43,2H5.57A1.56,1.56,0,0,0,4,3.56V28.44A1.56,1.56,0,0,0,5.57,30h.52V4.07H27Z"
@@ -350,16 +349,18 @@ const BasicTable = ({
 };
 
 BasicTable.propTypes = {
-  headers: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    key: PropTypes.string.isRequired,
-    classes: PropTypes.string,
-    headerClasses: PropTypes.string,
-    sortable: PropTypes.bool,
-    width: PropTypes.string,
-    enableCopy: PropTypes.bool,
-    domFunc: PropTypes.func
-  })).isRequired,
+  headers: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      key: PropTypes.string.isRequired,
+      classes: PropTypes.string,
+      headerClasses: PropTypes.string,
+      sortable: PropTypes.bool,
+      width: PropTypes.string,
+      enableCopy: PropTypes.bool,
+      domFunc: PropTypes.func,
+    })
+  ).isRequired,
   tableData: PropTypes.array.isRequired,
   enableHover: PropTypes.bool,
   enableInfiniteScroll: PropTypes.bool,
@@ -385,7 +386,7 @@ export default BasicTable;
 
 ### SCSS Component
 
-**File:** `./assets/scss/components/_basic-table.scss`
+**File:** `src/assets/scss/components/_basic-table.scss`
 
 ```scss
 // =============================================================================
@@ -654,30 +655,4 @@ export default BasicTable;
 }
 ```
 
-## SCSS Abstracts
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── index.scss
-```
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-
-// breakpoints
-@forward "breakpoints";
-```
+Note: This component uses SCSS variables, functions, mixins, and breakpoints from the abstracts directory. Refer to the abstracts for shared styling utilities.

@@ -1,34 +1,22 @@
 # Tabs
 
-Configurable tabs with single or multiple selection, variants (single-packed, bottom-line), icons/slots, and i18n-friendly labels.
+A flexible and customizable tabs component that allows users to navigate between different sections or views.
 
-## Features
+## Overview
 
-- **Selection**: single or multiple
-- **Variants**: single-packed, bottom-line (with moving active line)
-- **Slots**: prepend, tab-icon, append via render function
-- **i18n labels**: control plain vs i18n via `isLabeli18String`
-- **Custom classes**: `tabClasses` to apply style variants
+The BasicTabs component provides:
 
-## Basic Usage
-
-```jsx
-import React, { useState } from 'react';
-import BasicTabs from '../components/sharedComponents/BasicTabs';
-
-export default function Example() {
-  const [selected, setSelected] = useState('home');
-  const items = [
-    { value: 'home', name: 'Home' },
-    { value: 'profile', name: 'Profile' },
-    { value: 'settings', name: 'Settings' }
-  ];
-  return (
-    <BasicTabs tabItems={items} selected={selected} onItemClicked={(item) => setSelected(item.value)} />
-  );
-}
-```
+- Single and multiple selection modes
+- Two visual variants (default, dark-gold)
+- Single packed style for grouped appearance
+- Bottom line style with animated indicator
+- Custom icons and slots support
+- i18n-friendly labels
+- Keyboard navigation support
+- Accessible design with proper semantics
 
 [API Reference →](./api)
 
 [View Code →](./code)
+
+[View Demos →](./demo)

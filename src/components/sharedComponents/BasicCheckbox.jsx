@@ -5,15 +5,13 @@ import '@site/src/assets/scss/components/_basic-checkbox.scss';
 const BasicCheckbox = memo(
   ({
     size = 'md',
+    variant = 'default',
     disabled = false,
     readonly = false,
     label = '',
     value = '',
     selected = [],
     valueComparator = (a, b) => Array.isArray(a) && a.includes(b),
-    innerTickColor = '#ffffff',
-    backgroundColor = '#000000',
-    labelColor = '#000000',
     allItems = [],
     valueKey = '',
     onChange,
@@ -25,7 +23,6 @@ const BasicCheckbox = memo(
     // COMPUTED VALUES
     // =============================================================================
     const internalValue = useMemo(() => {
-      console.log('selected', selected);
       return Array.isArray(selected) ? selected : [];
     }, [selected]);
 
@@ -87,33 +84,11 @@ const BasicCheckbox = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ['checkbox-container', size];
+      const classes = ['checkbox-container', size, variant];
       if (disabled) classes.push('disabled');
       if (readonly) classes.push('readonly');
       return classes.join(' ');
-    }, [size, disabled, readonly]);
-
-    const checkboxStyle = useMemo(
-      () => ({
-        borderColor: backgroundColor,
-        '--background-checked-color': backgroundColor,
-      }),
-      [backgroundColor]
-    );
-
-    const innerTickStyle = useMemo(
-      () => ({
-        borderColor: innerTickColor,
-      }),
-      [innerTickColor]
-    );
-
-    const labelStyle = useMemo(
-      () => ({
-        color: labelColor,
-      }),
-      [labelColor]
-    );
+    }, [size, variant, disabled, readonly]);
 
     // =============================================================================
     // RENDER FUNCTIONS
@@ -124,11 +99,11 @@ const BasicCheckbox = memo(
       }
 
       return (
-        <div className="checkbox" style={checkboxStyle}>
-          <div className="inner-tick" style={innerTickStyle}></div>
+        <div className="checkbox">
+          <div className="inner-tick"></div>
         </div>
       );
-    }, [IconSlot, isChecked, checkboxStyle, innerTickStyle]);
+    }, [IconSlot, isChecked]);
 
     const renderLabel = useMemo(() => {
       if (LabelSlot) {
@@ -142,7 +117,7 @@ const BasicCheckbox = memo(
     // RENDER
     // =============================================================================
     return (
-      <label className={containerClass} style={labelStyle}>
+      <label className={containerClass}>
         <input
           type="checkbox"
           value={value}
@@ -164,15 +139,13 @@ const BasicCheckbox = memo(
 // =============================================================================
 BasicCheckbox.propTypes = {
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
+  variant: PropTypes.oneOf(['default', 'info']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   label: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   selected: PropTypes.array,
   valueComparator: PropTypes.func,
-  innerTickColor: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  labelColor: PropTypes.string,
   allItems: PropTypes.array,
   valueKey: PropTypes.string,
   onChange: PropTypes.func,

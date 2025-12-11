@@ -2,189 +2,407 @@ import React, { useState } from "react";
 import BasicSlider from "../components/sharedComponents/BasicSlider";
 import "./sliderDemo.scss";
 
-export const ColorVariantsExample = () => {
+// Demo 1: Basic Slider
+export const BasicSliderDemo = () => {
+  const [sliderValue, setSliderValue] = useState(50);
+
+  const handleSliderChange = (newValue) => {
+    console.log("Basic slider changed:", newValue);
+    setSliderValue(newValue);
+  };
+
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Color Variants</h2>
-        <div className="demo-group">
-          <BasicSlider value={50} label="Default Color" min={0} max={100} step={1} color="default" size="md" />
-          <BasicSlider value={60} label="Primary Color" min={0} max={100} step={1} color="primary" size="md" />
-          <BasicSlider value={70} label="Success Color" min={0} max={100} step={1} color="success" size="md" />
-          <BasicSlider value={80} label="Warning Color" min={0} max={100} step={1} color="warning" size="md" />
-          <BasicSlider value={90} label="Danger Color" min={0} max={100} step={1} color="danger" size="md" />
-          <BasicSlider value={40} label="Info Color" min={0} max={100} step={1} color="info" size="md" />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">Basic Slider</h3>
+        <div className="demo-content">
+          <div className="slider-grid">
+            <BasicSlider
+              value={sliderValue}
+              onChange={handleSliderChange}
+              label="Volume Control"
+              min={0}
+              max={100}
+              step={1}
+              variant="primary"
+              size="md"
+            />
+          </div>
+          <div className="demo-state">
+            <strong>Current Value:</strong> {sliderValue}
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
 
-export const BasicControlledExample = () => {
-  const [sliderValue1, setSliderValue1] = useState(50);
-  const handleSliderChange1 = (newValue) => setSliderValue1(newValue);
+// Demo 2: Variant Colors
+export const VariantColorsDemo = () => {
+  const [defaultValue, setDefaultValue] = useState(50);
+  const [primaryValue, setPrimaryValue] = useState(60);
+  const [successValue, setSuccessValue] = useState(70);
+  const [warningValue, setWarningValue] = useState(80);
+  const [dangerValue, setDangerValue] = useState(90);
+  const [infoValue, setInfoValue] = useState(40);
+
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Basic Slider</h2>
-        <div className="demo-group">
-          <BasicSlider
-            value={sliderValue1}
-            onChange={handleSliderChange1}
-            label="Volume Control"
-            min={0}
-            max={100}
-            step={1}
-            color="primary"
-            size="md"
-          />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">Variant Colors</h3>
+        <div className="demo-content">
+          <div className="variant-colors-grid">
+            <BasicSlider
+              value={defaultValue}
+              onChange={setDefaultValue}
+              label="Default"
+              min={0}
+              max={100}
+              step={1}
+              variant="default"
+              size="md"
+            />
+            <BasicSlider
+              value={primaryValue}
+              onChange={setPrimaryValue}
+              label="Primary"
+              min={0}
+              max={100}
+              step={1}
+              variant="primary"
+              size="md"
+            />
+            <BasicSlider
+              value={successValue}
+              onChange={setSuccessValue}
+              label="Success"
+              min={0}
+              max={100}
+              step={1}
+              variant="success"
+              size="md"
+            />
+            <BasicSlider
+              value={warningValue}
+              onChange={setWarningValue}
+              label="Warning"
+              min={0}
+              max={100}
+              step={1}
+              variant="warning"
+              size="md"
+            />
+            <BasicSlider
+              value={dangerValue}
+              onChange={setDangerValue}
+              label="Danger"
+              min={0}
+              max={100}
+              step={1}
+              variant="danger"
+              size="md"
+            />
+            <BasicSlider
+              value={infoValue}
+              onChange={setInfoValue}
+              label="Info"
+              min={0}
+              max={100}
+              step={1}
+              variant="info"
+              size="md"
+            />
+          </div>
         </div>
-        <p>Current Value: {sliderValue1}</p>
-      </section>
+      </div>
     </div>
   );
 };
 
-export const ThumbLabelsExample = () => {
-  const [sliderValue2, setSliderValue2] = useState(75);
-  const handleSliderChange2 = (newValue) => setSliderValue2(newValue);
+// Demo 3: Sizes
+export const SizesDemo = () => {
+  const [xsValue, setXsValue] = useState(25);
+  const [smValue, setSmValue] = useState(30);
+  const [mdValue, setMdValue] = useState(35);
+  const [lgValue, setLgValue] = useState(40);
+  const [xlValue, setXlValue] = useState(45);
+
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Slider with Thumb Labels</h2>
-        <div className="demo-group">
-          <BasicSlider
-            value={sliderValue2}
-            onChange={handleSliderChange2}
-            label="Temperature Control"
-            min={-50}
-            max={150}
-            step={5}
-            color="success"
-            thumbLabel={true}
-            size="lg"
-          />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">Size Variants</h3>
+        <div className="demo-content">
+          <div className="size-variants-grid">
+            <BasicSlider
+              value={xsValue}
+              onChange={setXsValue}
+              label="Extra Small (xs)"
+              min={0}
+              max={100}
+              step={1}
+              variant="info"
+              size="xs"
+            />
+            <BasicSlider
+              value={smValue}
+              onChange={setSmValue}
+              label="Small (sm)"
+              min={0}
+              max={100}
+              step={1}
+              variant="warning"
+              size="sm"
+            />
+            <BasicSlider
+              value={mdValue}
+              onChange={setMdValue}
+              label="Medium (md)"
+              min={0}
+              max={100}
+              step={1}
+              variant="success"
+              size="md"
+            />
+            <BasicSlider
+              value={lgValue}
+              onChange={setLgValue}
+              label="Large (lg)"
+              min={0}
+              max={100}
+              step={1}
+              variant="danger"
+              size="lg"
+            />
+            <BasicSlider
+              value={xlValue}
+              onChange={setXlValue}
+              label="Extra Large (xl)"
+              min={0}
+              max={100}
+              step={1}
+              variant="primary"
+              size="xl"
+            />
+          </div>
         </div>
-        <p>Current Temperature: {sliderValue2}°C</p>
-      </section>
+      </div>
     </div>
   );
 };
 
-export const AlwaysVisibleLabelsExample = () => {
-  const [sliderValue3, setSliderValue3] = useState(25);
-  const handleSliderChange3 = (newValue) => setSliderValue3(newValue);
+// Demo 4: Thumb Labels
+export const ThumbLabelsDemo = () => {
+  const [thumbLabelValue, setThumbLabelValue] = useState(75);
+  const [alwaysLabelValue, setAlwaysLabelValue] = useState(25);
+
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Slider with Always Visible Labels</h2>
-        <div className="demo-group">
-          <BasicSlider
-            value={sliderValue3}
-            onChange={handleSliderChange3}
-            label="Percentage Control"
-            min={0}
-            max={100}
-            step={0.1}
-            color="danger"
-            thumbLabel="always"
-            size="md"
-          />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">Thumb Labels</h3>
+        <div className="demo-content">
+          <div className="slider-grid">
+            <BasicSlider
+              value={thumbLabelValue}
+              onChange={setThumbLabelValue}
+              label="Show on Drag/Focus"
+              min={-50}
+              max={150}
+              step={5}
+              variant="success"
+              thumbLabel={true}
+              size="lg"
+            />
+            <div className="demo-state">
+              <strong>Current Value:</strong> {thumbLabelValue}°C
+            </div>
+            <BasicSlider
+              value={alwaysLabelValue}
+              onChange={setAlwaysLabelValue}
+              label="Always Visible"
+              min={0}
+              max={100}
+              step={0.1}
+              variant="danger"
+              thumbLabel="always"
+              size="md"
+            />
+            <div className="demo-state">
+              <strong>Current Percentage:</strong> {alwaysLabelValue.toFixed(1)}%
+            </div>
+          </div>
         </div>
-        <p>Current Percentage: {sliderValue3.toFixed(1)}%</p>
-      </section>
+      </div>
     </div>
   );
 };
 
-export const SizesExample = () => {
+// Demo 5: Step Control
+export const StepControlDemo = () => {
+  const [decimalValue, setDecimalValue] = useState(60);
+
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Different Sizes</h2>
-        <div className="demo-group">
-          <BasicSlider value={25} label="Extra Small" min={0} max={100} step={1} color="info" size="xs" />
-          <BasicSlider value={30} label="Small" min={0} max={100} step={1} color="warning" size="sm" />
-          <BasicSlider value={35} label="Medium" min={0} max={100} step={1} color="success" size="md" />
-          <BasicSlider value={40} label="Large" min={0} max={100} step={1} color="danger" size="lg" />
-          <BasicSlider value={45} label="Extra Large" min={0} max={100} step={1} color="primary" size="xl" />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">Step Control</h3>
+        <div className="demo-content">
+          <div className="slider-grid">
+            <BasicSlider
+              value={decimalValue}
+              onChange={setDecimalValue}
+              label="Decimal Control (step: 0.25)"
+              min={0}
+              max={10}
+              step={0.25}
+              variant="info"
+              thumbLabel={true}
+              size="md"
+            />
+            <div className="demo-state">
+              <strong>Current Value:</strong> {decimalValue.toFixed(2)}
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
 
-export const DisabledReadonlyExample = () => {
+// Demo 6: Custom Ranges
+export const CustomRangesDemo = () => {
+  const [smallRangeValue, setSmallRangeValue] = useState(5);
+  const [largeRangeValue, setLargeRangeValue] = useState(500);
+  const [negativeRangeValue, setNegativeRangeValue] = useState(-25);
+
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Disabled and Readonly</h2>
-        <div className="demo-group">
-          <BasicSlider value={50} label="Disabled Slider" min={0} max={100} step={1} color="primary" disabled={true} size="md" />
-          <BasicSlider value={60} label="Readonly Slider" min={0} max={100} step={1} color="success" readonly={true} size="md" />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">Custom Ranges</h3>
+        <div className="demo-content">
+          <div className="slider-grid">
+            <BasicSlider
+              value={smallRangeValue}
+              onChange={setSmallRangeValue}
+              label="Small Range (0-10)"
+              min={0}
+              max={10}
+              step={1}
+              variant="primary"
+              size="md"
+            />
+            <div className="demo-state">
+              <strong>Value:</strong> {smallRangeValue}
+            </div>
+            <BasicSlider
+              value={largeRangeValue}
+              onChange={setLargeRangeValue}
+              label="Large Range (0-1000)"
+              min={0}
+              max={1000}
+              step={10}
+              variant="success"
+              size="md"
+            />
+            <div className="demo-state">
+              <strong>Value:</strong> {largeRangeValue}
+            </div>
+            <BasicSlider
+              value={negativeRangeValue}
+              onChange={setNegativeRangeValue}
+              label="Negative Range (-100 to 100)"
+              min={-100}
+              max={100}
+              step={5}
+              variant="warning"
+              size="md"
+            />
+            <div className="demo-state">
+              <strong>Value:</strong> {negativeRangeValue}
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
 
-export const CustomStepValuesExample = () => {
-  const [sliderValue4, setSliderValue4] = useState(60);
-  const handleSliderChange4 = (newValue) => setSliderValue4(newValue);
+// Demo 7: States
+export const StatesDemo = () => {
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Custom Step Values</h2>
-        <div className="demo-group">
-          <BasicSlider
-            value={sliderValue4}
-            onChange={handleSliderChange4}
-            label="Decimal Control"
-            min={0}
-            max={10}
-            step={0.25}
-            color="info"
-            thumbLabel={true}
-            size="md"
-          />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">States</h3>
+        <div className="demo-content">
+          <div className="states-grid">
+            <BasicSlider
+              value={50}
+              label="Disabled Slider"
+              min={0}
+              max={100}
+              step={1}
+              variant="primary"
+              disabled={true}
+              size="md"
+            />
+            <BasicSlider
+              value={60}
+              label="Readonly Slider"
+              min={0}
+              max={100}
+              step={1}
+              variant="success"
+              readonly={true}
+              size="md"
+            />
+          </div>
         </div>
-        <p>Current Value: {sliderValue4.toFixed(2)}</p>
-      </section>
+      </div>
     </div>
   );
 };
 
-export const CustomRangesExample = () => {
+// Demo 8: With Labels
+export const WithLabelsDemo = () => {
+  const [labeledValue, setLabeledValue] = useState(50);
+
   return (
-    <div className="slider-demo">
-      <section className="demo-section">
-        <h2>Custom Ranges</h2>
-        <div className="demo-group">
-          <BasicSlider value={5} label="Small Range (0-10)" min={0} max={10} step={1} color="primary" size="md" />
-          <BasicSlider value={500} label="Large Range (0-1000)" min={0} max={1000} step={10} color="success" size="md" />
-          <BasicSlider value={-25} label="Negative Range (-100 to 100)" min={-100} max={100} step={5} color="warning" size="md" />
+    <div className="slider-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">With Labels</h3>
+        <div className="demo-content">
+          <div className="slider-grid">
+            <BasicSlider
+              value={labeledValue}
+              onChange={setLabeledValue}
+              label="Volume"
+              min={0}
+              max={100}
+              step={1}
+              variant="primary"
+              size="md"
+            />
+            <div className="demo-state">
+              <strong>Volume Level:</strong> {labeledValue}%
+            </div>
+          </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 };
 
 const SliderDemo = () => {
   return (
-    <div className="slider-demo">
-      <h1>Basic Slider Component Demo</h1>
-      <ColorVariantsExample />
-      <BasicControlledExample />
-      <ThumbLabelsExample />
-      <AlwaysVisibleLabelsExample />
-      <SizesExample />
-      <DisabledReadonlyExample />
-      <CustomStepValuesExample />
-      <CustomRangesExample />
+    <div className="slider-demo-container">
+      <BasicSliderDemo />
+      <VariantColorsDemo />
+      <SizesDemo />
+      <ThumbLabelsDemo />
+      <StepControlDemo />
+      <CustomRangesDemo />
+      <StatesDemo />
+      <WithLabelsDemo />
     </div>
   );
 };
 
 export default SliderDemo;
-
-

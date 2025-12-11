@@ -1,48 +1,27 @@
-# BasicInput
+# Basic Input
 
-A comprehensive, feature-rich input component with validation, loading states, and modern React 19 support.
+A comprehensive input component with support for various input types, validation, custom icons, floating labels, and extensive event handling.
 
 ## Overview
 
-The BasicInput component provides a flexible and powerful input field with extensive customization options including validation, loading states, prepend/append functionality, and modern React 19 features like async validation.
+The BasicInput component provides:
 
-## Key Features
+- Multiple input types (text, email, number, password, tel, url, etc.)
+- Built-in validation with custom rules
+- Async validation support
+- Floating label functionality
+- Custom prepend/append icons (outer and inner)
+- Clearable input support
+- Loading state with spinner
+- Disabled and readonly states
+- Custom input field renderer
+- Custom details right content
+- Drag-and-drop support
+- Password visibility toggle
+- Accessible design with proper form semantics
 
-- **Multiple Input Types**: Text, email, password, number, tel, url
-- **Validation System**: Built-in validation rules with custom error messages
-- **Loading States**: Visual loading indicators with spinner animations
-- **Prepend/Append Support**: Icons and buttons on both sides of the input
-- **Password Toggle**: Built-in show/hide password functionality
-- **Clear Button**: Optional clear functionality with smooth animations
-- **Floating Labels**: Animated labels that float when focused or filled
-- **React 19 Support**: Modern async validation and enhanced performance
-- **Accessibility**: Full keyboard navigation and screen reader support
-- **Customizable**: Extensive styling and behavior options
+[API Reference →](./api)
 
-## Quick Start
+[View Code →](./code)
 
-```jsx
-import BasicInput from "../components/sharedComponents/BasicInput";
-
-function MyComponent() {
-  const [value, setValue] = useState("");
-
-  return (
-    <BasicInput
-      value={value}
-      onChange={setValue}
-      label="Email Address"
-      type="email"
-      placeholder="Enter your email"
-    />
-  );
-}
-```
-
-## Common Use Cases
-
-- **Form Inputs**: Standard form fields with validation
-- **Search Fields**: With prepend/append icons and clear functionality
-- **Password Fields**: With toggle visibility and strength indicators
-- **Loading States**: During async operations like API calls
-- **Data Entry**: Number inputs, URLs, phone numbers with proper validation
+[View Demos →](./demo)

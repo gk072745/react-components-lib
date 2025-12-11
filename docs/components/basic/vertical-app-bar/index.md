@@ -1,31 +1,27 @@
 # Vertical App Bar
 
-A configurable vertical application bar with logo/title area, navigation items, nested menus, left/right positioning, overlays, and smart expand behavior.
+A configurable vertical application bar component with logo/title area, navigation items, nested menus, left/right positioning, overlays, and smart expand behavior.
 
-## Features
+## Overview
 
-- **Layout**: Left or right, overlay or inline, sticky and floating options
-- **Branding**: Logo (inline SVG or image), rounded option, title with custom color
-- **Navigation**: Flat or nested items, chevrons, active state, multi-expand modes
-- **Behavior**: Expand on hover/click, persist icons when collapsed
-- **Styling**: Width, background, elevation, transitions
+The VerticalAppBar component provides:
 
-## Basic Usage
-
-```jsx
-import VerticalAppBar from '../components/sharedComponents/VerticalAppBar';
-
-export default function Example() {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <VerticalAppBar modelValue={open} onModelValueChange={setOpen} title="Navigation" />
-      <button onClick={() => setOpen(!open)}>{open ? 'Close' : 'Open'} App Bar</button>
-    </>
-  );
-}
-```
+- Left or right positioning
+- Logo support (inline SVG or image URL)
+- Title with click handler
+- Navigation items with icons
+- Nested menu support with unlimited depth
+- Active item highlighting
+- Expand/collapse functionality
+- Hover-based expansion
+- Icon persistence when collapsed
+- Overlay backdrop support
+- Sticky and floating positioning
+- Elevation/shadow effects
+- Custom render props for complete control
 
 [API Reference →](./api)
 
 [View Code →](./code)
+
+[View Demos →](./demo)

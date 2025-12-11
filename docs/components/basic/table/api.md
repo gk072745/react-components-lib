@@ -1,147 +1,235 @@
 # API
 
-## BasicTable Props
+## BasicTable Component
 
-### Core Props
+A powerful and flexible table component for displaying structured data with advanced features like sorting, pagination, and interactive functionality.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `headers` | `Array<Header>` | `[]` | **Required.** Array of column header configurations |
-| `tableData` | `Array<Object>` | `[]` | **Required.** Array of data objects to display in table |
-| `className` | `string` | `''` | Additional CSS class for the table wrapper |
+### Props
+
+| Prop | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| `headers` | `Array<Header>` | `[]` | Yes | Array of column header configurations |
+| `tableData` | `Array<Object>` | `[]` | Yes | Array of data objects to display in table |
+| `enableHover` | `boolean` | `true` | No | Enable row hover effects |
+| `enableInfiniteScroll` | `boolean` | `true` | No | Enable infinite scroll functionality |
+| `enablePagination` | `boolean` | `false` | No | Enable built-in pagination |
+| `itemsPerPage` | `number` | `10` | No | Number of items per page |
+| `currentPage` | `number` | `1` | No | Current active page |
+| `totalItems` | `number` | `0` | No | Total number of items for pagination |
+| `async` | `boolean` | `false` | No | Enable async data handling |
+| `isAlternateRowColored` | `boolean` | `false` | No | Apply alternating row colors |
+| `isAlternateColumnColored` | `boolean` | `false` | No | Apply alternating column colors |
+| `defaultCellWidth` | `string` | `"1fr"` | No | Default width for columns without specified width |
+| `className` | `string` | `''` | No | Additional CSS classes for the table wrapper |
+| `onCellClicked` | `function` | - | No | Callback when a cell is clicked |
+| `onScrolledToEndInTable` | `function` | - | No | Callback when scrolled to end |
+| `onTableCellKeyDown` | `function` | - | No | Callback for cell keydown events |
+| `onTableCellBlur` | `function` | - | No | Callback for cell blur events |
+| `onSort` | `function` | - | No | Callback when column is sorted |
+| `onPageChange` | `function` | - | No | Callback when page changes |
 
 ### Header Configuration
 
-Each header object supports:
+Each header object in the `headers` array supports the following properties:
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| `text` | `string` | - | **Required.** Display text for the column header |
-| `key` | `string` | - | **Required.** Data key to access in tableData |
-| `sortable` | `boolean` | `false` | Whether the column can be sorted |
-| `width` | `string` | `"1fr"` | Column width (CSS grid value) |
-| `classes` | `string` | `''` | CSS classes for data cells |
-| `headerClasses` | `string` | `''` | CSS classes for header cells |
-| `enableCopy` | `boolean` | `false` | Enable copy functionality for cells |
-| `domFunc` | `function` | - | Custom rendering function for cell content |
+| Property | Type | Default | Required | Description |
+|----------|------|---------|----------|-------------|
+| `text` | `string` | - | Yes | Display text for the column header |
+| `key` | `string` | - | Yes | Data key to access in tableData |
+| `sortable` | `boolean` | `false` | No | Whether the column can be sorted |
+| `width` | `string` | `"1fr"` | No | Column width (CSS grid value) |
+| `classes` | `string` | `''` | No | CSS classes for data cells |
+| `headerClasses` | `string` | `''` | No | CSS classes for header cells |
+| `enableCopy` | `boolean` | `false` | No | Enable copy functionality for cells |
+| `domFunc` | `function` | - | No | Custom rendering function for cell content |
 
-### Visual Configuration
+### Event Handlers
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `enableHover` | `boolean` | `true` | Enable row hover effects |
-| `isAlternateRowColored` | `boolean` | `false` | Apply alternating row colors |
-| `isAlternateColumnColored` | `boolean` | `false` | Apply alternating column colors |
-| `defaultCellWidth` | `string` | `"1fr"` | Default width for columns without specified width |
+#### onCellClicked
 
-### Pagination Props
+Callback function that is called when a table cell is clicked.
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `enablePagination` | `boolean` | `false` | Enable built-in pagination |
-| `itemsPerPage` | `number` | `10` | Number of items per page |
-| `currentPage` | `number` | `1` | Current active page |
-| `totalItems` | `number` | `0` | Total number of items for pagination |
+**Signature:**
 
-### Advanced Configuration
-
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `enableInfiniteScroll` | `boolean` | `true` | Enable infinite scroll functionality |
-| `async` | `boolean` | `false` | Enable async data handling |
-| `onCellClicked` | `function` | - | Callback when a cell is clicked |
-| `onScrolledToEndInTable` | `function` | - | Callback when scrolled to end |
-| `onTableCellKeyDown` | `function` | - | Callback for cell keydown events |
-| `onTableCellBlur` | `function` | - | Callback for cell blur events |
-| `onSort` | `function` | - | Callback when column is sorted |
-| `onPageChange` | `function` | - | Callback when page changes |
-
-## Event Handlers
-
-### onCellClicked
-
-Called when a cell is clicked.
-
-```jsx
-onCellClicked={(rowData, cell) => {
-  console.log('Cell clicked:', rowData, cell);
-}}
+```js
+onCellClicked: (rowData, cell) => void
 ```
 
 **Parameters:**
+
 - `rowData` (Object): The complete row data object
 - `cell` (Object): The cell configuration object
 
-### onSort
-
-Called when a column header is clicked for sorting.
+**Example:**
 
 ```jsx
-onSort={(sortData) => {
-  console.log('Sort:', sortData);
-}}
+<BasicTable
+  headers={headers}
+  tableData={data}
+  onCellClicked={(rowData, cell) => {
+    console.log('Cell clicked:', rowData, cell);
+  }}
+/>
+```
+
+#### onSort
+
+Callback function that is called when a column header is clicked for sorting.
+
+**Signature:**
+
+```js
+onSort: (sortData) => void
 ```
 
 **Parameters:**
+
 - `sortData` (Object): Contains `key` and `direction` properties
   - `key` (string): The column key being sorted
   - `direction` (string): Sort direction ('asc' or 'desc')
 
-### onPageChange
-
-Called when pagination page changes.
+**Example:**
 
 ```jsx
-onPageChange={(page) => {
-  console.log('Page changed to:', page);
-}}
+<BasicTable
+  headers={headers}
+  tableData={data}
+  onSort={(sortData) => {
+    console.log('Sort:', sortData.key, sortData.direction);
+  }}
+/>
+```
+
+#### onPageChange
+
+Callback function that is called when pagination page changes.
+
+**Signature:**
+
+```js
+onPageChange: (page) => void
 ```
 
 **Parameters:**
+
 - `page` (number): The new page number
 
-### onScrolledToEndInTable
-
-Called when user scrolls to the end of the table (for infinite scroll).
+**Example:**
 
 ```jsx
-onScrolledToEndInTable={() => {
-  console.log('Scrolled to end');
-}}
+<BasicTable
+  headers={headers}
+  tableData={data}
+  enablePagination={true}
+  currentPage={currentPage}
+  totalItems={totalItems}
+  onPageChange={(page) => {
+    setCurrentPage(page);
+  }}
+/>
 ```
 
-### onTableCellKeyDown
+#### onScrolledToEndInTable
 
-Called when a key is pressed on a table cell.
+Callback function that is called when user scrolls to the end of the table (for infinite scroll).
+
+**Signature:**
+
+```js
+onScrolledToEndInTable: () => void
+```
+
+**Example:**
 
 ```jsx
-onTableCellKeyDown={(event, rowData, cell) => {
-  console.log('Key pressed:', event.key);
-}}
+<BasicTable
+  headers={headers}
+  tableData={data}
+  enableInfiniteScroll={true}
+  onScrolledToEndInTable={() => {
+    loadMoreData();
+  }}
+/>
+```
+
+#### onTableCellKeyDown
+
+Callback function that is called when a key is pressed on a table cell.
+
+**Signature:**
+
+```js
+onTableCellKeyDown: (event, rowData, cell) => void
 ```
 
 **Parameters:**
+
 - `event` (KeyboardEvent): The keyboard event
 - `rowData` (Object): The row data
 - `cell` (Object): The cell configuration
 
-### onTableCellBlur
+#### onTableCellBlur
 
-Called when a table cell loses focus.
+Callback function that is called when a table cell loses focus.
 
-```jsx
-onTableCellBlur={(rowData, cell) => {
-  console.log('Cell blurred');
-}}
+**Signature:**
+
+```js
+onTableCellBlur: (rowData, cell) => void
 ```
 
 **Parameters:**
+
 - `rowData` (Object): The row data
 - `cell` (Object): The cell configuration
 
-## Usage Examples
+### Custom Cell Rendering
 
-### Basic Table
+Use the `domFunc` property in header configuration to customize how cell content is rendered:
+
+```jsx
+const headers = [
+  { text: 'Name', key: 'name' },
+  { 
+    text: 'Status', 
+    key: 'status',
+    domFunc: (value) => (
+      <span className={`status ${value.toLowerCase()}`}>
+        {value}
+      </span>
+    )
+  }
+];
+```
+
+### Column Alignment
+
+Use the `classes` and `headerClasses` properties to align column content:
+
+```jsx
+const headers = [
+  { text: 'Name', key: 'name', classes: 'left-align', headerClasses: 'left-align' },
+  { text: 'Age', key: 'age', classes: 'right-align', headerClasses: 'right-align' },
+  { text: 'Code', key: 'code', classes: 'center-align', headerClasses: 'center-align' }
+];
+```
+
+### Copy Functionality
+
+Enable copy functionality for specific columns by setting `enableCopy: true`:
+
+```jsx
+const headers = [
+  { text: 'Email', key: 'email', enableCopy: true },
+  { text: 'Phone', key: 'phone', enableCopy: true }
+];
+```
+
+When enabled, a copy icon appears on hover and clicking it copies the cell value to the clipboard.
+
+### Usage Examples
+
+#### Basic Table
 
 ```jsx
 <BasicTable
@@ -157,7 +245,7 @@ onTableCellBlur={(rowData, cell) => {
 />
 ```
 
-### Sortable Table
+#### Sortable Table
 
 ```jsx
 <BasicTable
@@ -171,7 +259,7 @@ onTableCellBlur={(rowData, cell) => {
 />
 ```
 
-### Paginated Table
+#### Paginated Table
 
 ```jsx
 <BasicTable
@@ -185,7 +273,7 @@ onTableCellBlur={(rowData, cell) => {
 />
 ```
 
-### Table with Copy Functionality
+#### Table with Copy Functionality
 
 ```jsx
 <BasicTable
@@ -199,17 +287,21 @@ onTableCellBlur={(rowData, cell) => {
 />
 ```
 
-### Custom Cell Rendering
+#### Custom Cell Rendering
 
 ```jsx
 <BasicTable
   headers={[
     { text: 'Name', key: 'name' },
-    { text: 'Status', key: 'status', domFunc: (value) => (
-      <span className={`status ${value.toLowerCase()}`}>
-        {value}
-      </span>
-    )}
+    { 
+      text: 'Status', 
+      key: 'status',
+      domFunc: (value) => (
+        <span className={`status ${value.toLowerCase()}`}>
+          {value}
+        </span>
+      )
+    }
   ]}
   tableData={data}
 />

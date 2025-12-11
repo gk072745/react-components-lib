@@ -5,21 +5,24 @@
 This component requires:
 
 - React 18+
+- PropTypes for prop validation
 - SCSS for styling
-- Custom hooks for state management
+- useToast custom hook
+- useRemToPixels custom hook
 
 ## Component Files
 
 ### React Component
 
-**File:** `./sharedComponents/OToast.jsx`
-
 ```
 src/
 ├── components/
-│   └── sharedComponents/
-│       └── OToast.jsx
+    └── sharedComponents/
+        └── BasicToast.jsx
 ```
+
+- **Path**: `src/components/sharedComponents/BasicToast.jsx`
+- **Description**: Main toast component implementation
 
 ```jsx
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
@@ -67,13 +70,10 @@ function AnimatedToast({ notification, onRemove, position, index }) {
   if (!isVisible) return null;
 
   return (
-    <div 
-      className={[
-        "toast-notification", 
-        `position-${position}`,
-        animationState,
-        ...notification.notificationClass
-      ].join(' ')}
+    <div
+      className={['toast-notification', `position-${position}`, animationState, ...notification.notificationClass].join(
+        ' '
+      )}
     >
       <div className="toast-content">
         {notification.iconRef ? (
@@ -86,13 +86,15 @@ function AnimatedToast({ notification, onRemove, position, index }) {
           ) : null}
         </div>
         {notification.showCloseButton ? (
-          <button 
-            className="toast-close-button" 
-            aria-label="Close notification" 
-            onClick={handleRemove}
-          >
+          <button className="toast-close-button" aria-label="Close notification" onClick={handleRemove}>
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <path
+                d="M10.5 3.5L3.5 10.5M3.5 3.5L10.5 10.5"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
           </button>
         ) : null}
@@ -108,61 +110,64 @@ export default function OToast() {
   // Group notifications by position and sort by creation time
   const notificationsByPosition = useMemo(() => {
     const grouped = {};
-    notifications.forEach(notification => {
+    notifications.forEach((notification) => {
       const position = notification.position || 'bottom-right';
       if (!grouped[position]) {
         grouped[position] = [];
       }
       grouped[position].push(notification);
     });
-    
+
     // Sort notifications by creation time (newest first for proper stacking)
-    Object.keys(grouped).forEach(position => {
+    Object.keys(grouped).forEach((position) => {
       grouped[position].sort((a, b) => b.createdAt - a.createdAt);
     });
-    
+
     return grouped;
   }, [notifications]);
 
   // Get container style for a specific position
-  const getContainerStyle = useCallback((position, offset) => {
-    const { x, y } = offset;
-    const pxX = convertRemToPixels ? convertRemToPixels(x) : x * 16;
-    const pxY = convertRemToPixels ? convertRemToPixels(y) : y * 16;
-    const pos = positions.has(position) ? position : 'bottom-right';
-    const styles = {};
-    
-    switch (pos) {
-      case 'top-right': 
-        styles.top = pxX; // First offset = top
-        styles.right = pxY; // Second offset = right
-        break;
-      case 'top-left': 
-        styles.top = pxX; // First offset = top
-        styles.left = pxY; // Second offset = left
-        break;
-      case 'top': 
-        styles.top = pxX; // First offset = top
-        styles.left = '50%'; 
-        styles.transform = 'translateX(-50%)'; 
-        break;
-      case 'bottom-left': 
-        styles.bottom = pxX; // First offset = bottom
-        styles.left = pxY; // Second offset = left
-        break;
-      case 'bottom': 
-        styles.bottom = pxX; // First offset = bottom
-        styles.left = '50%'; 
-        styles.transform = 'translateX(-50%)'; 
-        break;
-      case 'bottom-right': 
-      default: 
-        styles.bottom = pxX; // First offset = bottom
-        styles.right = pxY; // Second offset = right
-        break;
-    }
-    return styles;
-  }, [convertRemToPixels]);
+  const getContainerStyle = useCallback(
+    (position, offset) => {
+      const { x, y } = offset;
+      const pxX = convertRemToPixels ? convertRemToPixels(x) : x * 16;
+      const pxY = convertRemToPixels ? convertRemToPixels(y) : y * 16;
+      const pos = positions.has(position) ? position : 'bottom-right';
+      const styles = {};
+
+      switch (pos) {
+        case 'top-right':
+          styles.top = pxX; // First offset = top
+          styles.right = pxY; // Second offset = right
+          break;
+        case 'top-left':
+          styles.top = pxX; // First offset = top
+          styles.left = pxY; // Second offset = left
+          break;
+        case 'top':
+          styles.top = pxX; // First offset = top
+          styles.left = '50%';
+          styles.transform = 'translateX(-50%)';
+          break;
+        case 'bottom-left':
+          styles.bottom = pxX; // First offset = bottom
+          styles.left = pxY; // Second offset = left
+          break;
+        case 'bottom':
+          styles.bottom = pxX; // First offset = bottom
+          styles.left = '50%';
+          styles.transform = 'translateX(-50%)';
+          break;
+        case 'bottom-right':
+        default:
+          styles.bottom = pxX; // First offset = bottom
+          styles.right = pxY; // Second offset = right
+          break;
+      }
+      return styles;
+    },
+    [convertRemToPixels]
+  );
 
   if (!notifications || notifications.length === 0) return null;
 
@@ -171,7 +176,7 @@ export default function OToast() {
       {Object.entries(notificationsByPosition).map(([position, positionNotifications]) => {
         const firstNotification = positionNotifications[0];
         const containerStyle = getContainerStyle(position, firstNotification.offset);
-        
+
         return (
           <div key={position} className={`toast-container position-${position}`} style={containerStyle}>
             <div className="toast-stack">
@@ -191,19 +196,20 @@ export default function OToast() {
     </>
   );
 }
-
-
 ```
 
-### Custom Hook
+### Custom Hooks
 
-**File:** `./customHooks/useToast.js`
+#### useToast Hook
 
 ```
 src/
 ├── customHooks/
-│   └── useToast.js
+    └── useToast.js
 ```
+
+- **Path**: `src/customHooks/useToast.js`
+- **Description**: Hook for managing toast notifications with global state
 
 ```jsx
 import { useCallback, useMemo, useSyncExternalStore } from 'react';
@@ -289,34 +295,30 @@ export function useToast() {
     };
 
     state = { ...state, notifications: [...state.notifications, notification] };
-    
+
     // Apply max notifications limit per position (default to 5 if not set)
     const maxNotifications = state.defaultConfig.maxNotifications || 5;
-    const positionNotifications = state.notifications.filter(n => n.position === position);
-    
+    const positionNotifications = state.notifications.filter((n) => n.position === position);
+
     if (positionNotifications.length > maxNotifications) {
       // Sort by creation time and remove oldest
       const sortedByTime = positionNotifications.sort((a, b) => a.createdAt - b.createdAt);
       const toRemove = sortedByTime.slice(0, positionNotifications.length - maxNotifications);
-      
-      state = { 
-        ...state, 
-        notifications: state.notifications.filter(n => !toRemove.some(remove => remove.id === n.id))
+
+      state = {
+        ...state,
+        notifications: state.notifications.filter((n) => !toRemove.some((remove) => remove.id === n.id)),
       };
     }
-    
+
     emit();
 
     if (!isPersistent && timeout > 0) {
       setTimeout(() => {
         // Mark notification for removal - the component will handle animation
-        state = { 
-          ...state, 
-          notifications: state.notifications.map(n => 
-            n.id === notification.id 
-              ? { ...n, shouldRemove: true }
-              : n
-          )
+        state = {
+          ...state,
+          notifications: state.notifications.map((n) => (n.id === notification.id ? { ...n, shouldRemove: true } : n)),
         };
         emit();
       }, timeout);
@@ -334,10 +336,22 @@ export function useToast() {
     emit();
   }, []);
 
-  const success = useCallback((primaryMessage, options = {}) => showToast({ type: 'success', primaryMessage, ...options }), [showToast]);
-  const error = useCallback((primaryMessage, options = {}) => showToast({ type: 'error', primaryMessage, isPersistent: true, ...options }), [showToast]);
-  const warning = useCallback((primaryMessage, options = {}) => showToast({ type: 'warning', primaryMessage, ...options }), [showToast]);
-  const info = useCallback((primaryMessage, options = {}) => showToast({ type: 'info', primaryMessage, ...options }), [showToast]);
+  const success = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'success', primaryMessage, ...options }),
+    [showToast]
+  );
+  const error = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'error', primaryMessage, isPersistent: true, ...options }),
+    [showToast]
+  );
+  const warning = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'warning', primaryMessage, ...options }),
+    [showToast]
+  );
+  const info = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'info', primaryMessage, ...options }),
+    [showToast]
+  );
 
   // These methods now only affect the default config for NEW toasts
   const setPosition = useCallback((position) => {
@@ -357,42 +371,73 @@ export function useToast() {
     emit();
   }, []);
 
-  const value = useMemo(() => ({
-    notifications: snapshot.notifications,
-    defaultConfig: snapshot.defaultConfig,
-    hasNotifications: snapshot.notifications.length > 0,
-    notificationCount: snapshot.notifications.length,
-    showToast,
-    removeNotification,
-    clearAll,
-    success,
-    error,
-    warning,
-    info,
-    setPosition,
-    setOffset,
-    setDefaultTimeout,
-    setMaxNotifications,
-  }), [snapshot, showToast, removeNotification, clearAll, success, error, warning, info, setPosition, setOffset, setDefaultTimeout, setMaxNotifications]);
+  const value = useMemo(
+    () => ({
+      notifications: snapshot.notifications,
+      defaultConfig: snapshot.defaultConfig,
+      hasNotifications: snapshot.notifications.length > 0,
+      notificationCount: snapshot.notifications.length,
+      showToast,
+      removeNotification,
+      clearAll,
+      success,
+      error,
+      warning,
+      info,
+      setPosition,
+      setOffset,
+      setDefaultTimeout,
+      setMaxNotifications,
+    }),
+    [
+      snapshot,
+      showToast,
+      removeNotification,
+      clearAll,
+      success,
+      error,
+      warning,
+      info,
+      setPosition,
+      setOffset,
+      setDefaultTimeout,
+      setMaxNotifications,
+    ]
+  );
 
   return value;
 }
-
-
-
 ```
 
-### Toast Main SCSS
-
-**File:** `./assets/scss/components/_toast.scss`
+#### useRemToPixels Hook
 
 ```
 src/
-└── assets/
+├── customHooks/
+    └── useRemToPixels.js
+```
+
+- **Path**: `src/customHooks/useRemToPixels.js`
+- **Description**: Hook for converting rem values to pixels with reactive updates
+
+```jsx
+by default come with boilerplate
+```
+
+### SCSS Component
+
+```
+src/
+├── assets/
     └── scss/
         └── components/
-            └── _toast.scss
+            └── _basic-toast.scss
 ```
+
+- **Path**: `src/assets/scss/components/_basic-toast.scss`
+- **Description**: Toast component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
@@ -406,10 +451,10 @@ src/
 
 .toast-container {
   position: fixed;
-  z-index: $toast-z;
+  z-index: 10060;
   background: transparent;
   pointer-events: none; // Allow clicks to pass through container
-  
+
   // Enable pointer events on toast notifications
   .toast-notification {
     pointer-events: auto;
@@ -423,10 +468,10 @@ src/
 .toast-stack {
   display: flex;
   flex-direction: column;
-  gap: $toast-gap;
+  gap: 0.5rem;
   max-height: 80vh; // Prevent toasts from going off-screen
   overflow: hidden; // Hide any overflow instead of scrolling
-  
+
   // For bottom positions, reverse the order so latest appears at bottom
   .position-bottom-right &,
   .position-bottom-left &,
@@ -440,7 +485,14 @@ src/
 // =============================================================================
 
 .toast-notification {
-  @include toast-base();
+  min-width: 18.75rem;
+  max-width: 25rem;
+  background: #ffffff;
+  border-radius: 0.5rem;
+  border: 0.0625rem solid #e5e7eb;
+  overflow: hidden;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.1), 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 1rem;
   transform: translateX(0);
   opacity: 1;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -449,8 +501,8 @@ src/
   .toast-content {
     display: flex;
     align-items: center;
-    padding: $toast-padding-y $toast-padding-x;
-    gap: .75rem;
+    padding: 0.75rem 1rem;
+    gap: 0.75rem;
   }
 
   .toast-icon {
@@ -458,27 +510,27 @@ src/
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: .125rem;
+    margin-top: 0.125rem;
   }
 
-  .toast-messages { 
-    flex: 1; 
-    min-width: 0; 
+  .toast-messages {
+    flex: 1;
+    min-width: 0;
   }
-  
-  .toast-primary-message { 
-    font-size: .875rem; 
-    font-weight: 500; 
-    color: #111827; 
-    margin: 0; 
-    line-height: 1.4; 
+
+  .toast-primary-message {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+    margin: 0;
+    line-height: 1.4;
   }
-  
-  .toast-secondary-message { 
-    font-size: .8125rem; 
-    color: #6b7280; 
-    margin: .25rem 0 0 0; 
-    line-height: 1.4; 
+
+  .toast-secondary-message {
+    font-size: 0.8125rem;
+    color: #6b7280;
+    margin: 0.25rem 0 0 0;
+    line-height: 1.4;
   }
 
   .toast-close-button {
@@ -486,22 +538,52 @@ src/
     background: none;
     border: none;
     cursor: pointer;
-    padding: .25rem;
-    border-radius: .25rem;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
     color: #9ca3af;
     transition: all 0.2s ease;
-    
-    &:hover { 
-      color: #6b7280; 
-      background-color: #f3f4f6; 
+
+    &:hover {
+      color: #6b7280;
+      background-color: #f3f4f6;
     }
   }
 
-  // Toast variants
-  &.success { @include toast-variant(success); }
-  &.error { @include toast-variant(error); }
-  &.warning { @include toast-variant(warning); }
-  &.info { @include toast-variant(info); }
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+
+  &.success {
+    border-left: 0.25rem solid #10b981;
+
+    .toast-primary-message {
+      color: #10b981;
+    }
+  }
+
+  &.error {
+    border-left: 0.25rem solid #ef4444;
+
+    .toast-primary-message {
+      color: #ef4444;
+    }
+  }
+
+  &.warning {
+    border-left: 0.25rem solid #f59e0b;
+
+    .toast-primary-message {
+      color: #f59e0b;
+    }
+  }
+
+  &.info {
+    border-left: 0.25rem solid #3b82f6;
+
+    .toast-primary-message {
+      color: #3b82f6;
+    }
+  }
 }
 
 // =============================================================================
@@ -510,20 +592,50 @@ src/
 
 // Enter animations
 .toast-notification.enter {
-  @include toast-enter-animation();
+  opacity: 0;
+
+  // ALL top positions: slide down from top
+  &.position-top-left,
+  &.position-top,
+  &.position-top-right {
+    transform: translateY(-100%);
+  }
+
+  // ALL bottom positions: slide up from bottom
+  &.position-bottom-left,
+  &.position-bottom,
+  &.position-bottom-right {
+    transform: translateY(100%);
+  }
 }
 
 .toast-notification.enter-active {
-  @include toast-enter-active-animation();
+  opacity: 1;
+  transform: translateY(0);
 }
 
 // Exit animations
 .toast-notification.exit {
-  @include toast-exit-animation();
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .toast-notification.exit-active {
-  @include toast-exit-active-animation();
+  opacity: 0;
+
+  // ALL top positions: slide up to top
+  &.position-top-left,
+  &.position-top,
+  &.position-top-right {
+    transform: translateY(-100%);
+  }
+
+  // ALL bottom positions: slide down to bottom
+  &.position-bottom-left,
+  &.position-bottom,
+  &.position-bottom-right {
+    transform: translateY(100%);
+  }
 }
 
 // =============================================================================
@@ -532,8 +644,8 @@ src/
 
 .position-bottom-right .toast-stack,
 .position-bottom-left .toast-stack,
-.position-bottom .toast-stack { 
-  flex-direction: column-reverse; 
+.position-bottom .toast-stack {
+  flex-direction: column-reverse;
 }
 
 // =============================================================================
@@ -545,7 +657,7 @@ src/
   .toast-notification {
     // Add a slight delay for stacking effect
     transition-delay: 0ms;
-    
+
     // When a toast is removed, other toasts should smoothly move to fill the gap
     &:not(.exit):not(.exit-active) {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -555,202 +667,23 @@ src/
 
 // Stagger animation for multiple toasts appearing at once
 .toast-notification {
-  &:nth-child(1) { transition-delay: 0ms; }
-  &:nth-child(2) { transition-delay: 50ms; }
-  &:nth-child(3) { transition-delay: 100ms; }
-  &:nth-child(4) { transition-delay: 150ms; }
-  &:nth-child(5) { transition-delay: 200ms; }
-  &:nth-child(n+6) { transition-delay: 250ms; }
-}
-
-
-```
-
-### SCSS Abstracts Index
-
-**File:** `./assets/scss/abstracts/index.scss`
-
-```
-src/
-└── assets/
-    └── scss/
-        └── abstracts/
-            └── index.scss
-```
-
-> **Note:**  
-> This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like toast variables) are available when importing abstracts.
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward 'variables';
-@forward 'variables/toast-variables';
-
-// functions
-@forward 'functions';
-
-// mixins
-@forward 'mixins';
-@forward 'mixins/toast-mixins';
-
-// breakpoints
-@forward 'breakpoints';
-```
-
-### Toast SCSS Variables
-
-**File:** `./assets/scss/abstracts/variables/_toast-variables.scss`
-
-```
-src/
-└── assets/
-    └── scss/
-        └── abstracts/
-            └── variables/
-                └── _toast-variables.scss
-```
-
-> **Note:**  
-> All base color, spacing, and typography variables should be defined in `variables.scss` for consistency and theme support.  
-> In this file, import those variables and use them to define toast-specific variables. This ensures that the toast component inherits the global theme and can be easily updated by changing the main variables file.
-
-```scss
-// =============================================================================
-// TOAST COMPONENT VARIABLES - COMPLETE SYSTEM
-// =============================================================================
-@use '../variables' as *;
-
-// Toast appearance variables
-$toast-shadow: 0 4px 12px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.05) !default;
-$toast-border: 1px solid #e5e7eb !default;
-$toast-radius: 8px !default;
-$toast-gap: .5rem !default;
-$toast-padding-y: .75rem !default;
-$toast-padding-x: 1rem !default;
-$toast-min-width: 18.75rem !default;
-$toast-max-width: 25rem !default;
-$toast-z: $z-tooltip + 10 !default;
-
-// Toast color variants
-$toast-colors: (
-  success: #10b981,
-  error: #ef4444,
-  warning: #f59e0b,
-  info: #3b82f6,
-) !default;
-
-
-```
-
-### Toast SCSS Mixins
-
-**File:** `./assets/scss/abstracts/mixins/_toast-mixins.scss`
-
-```
-src/
-└── assets/
-    └── scss/
-        └── abstracts/
-            └── mixins/
-                └── _toast-mixins.scss
-```
-
-> **Note:**  
-> All base mixins should be defined in `mixins.scss` for consistency and theme support.  
-> In this file, import those mixins and use them to define toast-specific mixins. This ensures that the toast component inherits the global theme and can be easily updated by changing the main mixins file.
-
-```scss
-// =============================================================================
-// TOAST COMPONENT MIXINS
-// =============================================================================
-@use '../variables' as *;
-@use '../functions' as *;
-@use '../mixins' as *;
-
-@use '../variables/toast-variables' as *;
-@use "sass:map";
-
-// =============================================================================
-// BASE MIXINS
-// =============================================================================
-
-@mixin toast-base() {
-  min-width: $toast-min-width;
-  max-width: $toast-max-width;
-  background: $white;
-  border-radius: $toast-radius;
-  border: $toast-border;
-  overflow: hidden;
-  box-shadow: $toast-shadow;
-  padding: $toast-padding-y $toast-padding-x;
-}
-
-// =============================================================================
-// VARIANT MIXINS
-// =============================================================================
-
-@mixin toast-variant($name) {
-  $color: map-get($toast-colors, $name);
-  border-left: 4px solid $color;
-  
-  .toast-primary-message { 
-    color: $color; 
+  &:nth-child(1) {
+    transition-delay: 0ms;
+  }
+  &:nth-child(2) {
+    transition-delay: 50ms;
+  }
+  &:nth-child(3) {
+    transition-delay: 100ms;
+  }
+  &:nth-child(4) {
+    transition-delay: 150ms;
+  }
+  &:nth-child(5) {
+    transition-delay: 200ms;
+  }
+  &:nth-child(n + 6) {
+    transition-delay: 250ms;
   }
 }
-
-// =============================================================================
-// ANIMATION MIXINS
-// =============================================================================
-
-@mixin toast-enter-animation() {
-  opacity: 0;
-  
-  // ALL top positions: slide down from top
-  &.position-top-left,
-  &.position-top,
-  &.position-top-right {
-    transform: translateY(-100%);
-  }
-  
-  // ALL bottom positions: slide up from bottom
-  &.position-bottom-left,
-  &.position-bottom,
-  &.position-bottom-right {
-    transform: translateY(100%);
-  }
-}
-
-@mixin toast-enter-active-animation() {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@mixin toast-exit-animation() {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@mixin toast-exit-active-animation() {
-  opacity: 0;
-  
-  // ALL top positions: slide up to top
-  &.position-top-left,
-  &.position-top,
-  &.position-top-right {
-    transform: translateY(-100%);
-  }
-  
-  // ALL bottom positions: slide down to bottom
-  &.position-bottom-left,
-  &.position-bottom,
-  &.position-bottom-right {
-    transform: translateY(100%);
-  }
-}
-
-
 ```

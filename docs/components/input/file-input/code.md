@@ -2,53 +2,35 @@
 
 ## Dependencies
 
-- React 19+ (for modern features)
-- PropTypes (for prop validation)
-- SCSS (for styling)
-- BasicInput component (inherits from BasicInput)
+This component requires:
 
-## File Structure
+- React 18+
+- PropTypes for prop validation
+- SCSS for styling
+- BasicInput component (from sharedComponents)
 
-```
-src/
-├── components/
-│   └── sharedComponents/
-│       └── BasicFileInput.jsx
-└── assets/
-    └── scss/
-        ├── components/
-        │   └── _basic-file-input.scss
-        └── abstracts/
-            └── index.scss
-```
+## Component Files
 
 ### React Component
 
-**File:** `./sharedComponents/BasicFileInput.jsx`
-
 ```
 src/
 ├── components/
-│   └── sharedComponents/
-│       └── BasicFileInput.jsx
+    └── sharedComponents/
+        └── BasicFileInput.jsx
 ```
 
+- **Path**: `src/components/sharedComponents/BasicFileInput.jsx`
+- **Description**: Main file input component implementation
+
 ```jsx
-import React, {
-  useMemo,
-  useCallback,
-  memo,
-  useRef,
-  useState,
-  useEffect,
-} from "react";
-import PropTypes from "prop-types";
-import BasicInput from "./BasicInput";
-import "@site/src/assets/scss/components/_basic-file-input.scss";
+import React, { useMemo, useCallback, memo, useRef, useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import BasicInput from './BasicInput';
 
 const BasicFileInput = memo(
   ({
-    label = "",
+    label = '',
     maxFiles,
     maxSize,
     multiple = false,
@@ -57,11 +39,11 @@ const BasicFileInput = memo(
     persistentDetails = true,
     accept,
     hideDetails = false,
-    hint = "",
+    hint = '',
     loading = false,
     disabled = false,
     readonly = false,
-    className = "",
+    className = '',
     style = {},
     onChange,
     onFocus,
@@ -114,12 +96,10 @@ const BasicFileInput = memo(
     // UTILITY FUNCTIONS
     // =============================================================================
     const formatFileSize = useCallback((bytes) => {
-      if (bytes === 0) return "0 B";
-      const units = ["B", "kB", "mB", "gB", "tB"];
+      if (bytes === 0) return '0 B';
+      const units = ['B', 'kB', 'mB', 'gB', 'tB'];
       const i = Math.floor(Math.log(bytes) / Math.log(1024));
-      return `${(bytes / Math.pow(1024, i)).toFixed(i <= 1 ? i : 2)} ${
-        units[i]
-      }`;
+      return `${(bytes / Math.pow(1024, i)).toFixed(i <= 1 ? i : 2)} ${units[i]}`;
     }, []);
 
     const calculateTotalSize = useCallback((files) => {
@@ -170,23 +150,18 @@ const BasicFileInput = memo(
           rule: (value) => {
             if (!value) return true;
             const files = Array.isArray(value) ? value : [value];
-            const acceptedTypes = accept.split(",").map((type) => type.trim());
+            const acceptedTypes = accept.split(',').map((type) => type.trim());
 
             return files.every((file) => {
-              const fileExtension = `.${file.name
-                .split(".")
-                .pop()
-                .toLowerCase()}`;
+              const fileExtension = `.${file.name.split('.').pop().toLowerCase()}`;
               const fileType = file.type.toLowerCase();
 
               return acceptedTypes.some((type) => {
-                if (type.includes("*")) {
-                  const [category] = type.split("/");
+                if (type.includes('*')) {
+                  const [category] = type.split('/');
                   return fileType.startsWith(`${category}/`);
                 }
-                return type.startsWith(".")
-                  ? type === fileExtension
-                  : type === fileType;
+                return type.startsWith('.') ? type === fileExtension : type === fileType;
               });
             });
           },
@@ -222,9 +197,7 @@ const BasicFileInput = memo(
           newValue = files[0] || null;
           setInternalValue(newValue);
         } else {
-          const currentValue = Array.isArray(internalValue)
-            ? internalValue
-            : [];
+          const currentValue = Array.isArray(internalValue) ? internalValue : [];
 
           const newFiles = files.filter((newFile) => {
             return !currentValue.some(
@@ -312,7 +285,7 @@ const BasicFileInput = memo(
         const files = [];
         for (let i = 0; i < items.length; i++) {
           const item = items[i];
-          if (item.kind === "file") {
+          if (item.kind === 'file') {
             const file = item.getAsFile();
             if (file) {
               files.push(file);
@@ -343,49 +316,47 @@ const BasicFileInput = memo(
               multiple={multiple}
               accept={accept}
               style={{
-                position: "absolute",
+                position: 'absolute',
                 width: 0,
                 height: 0,
                 opacity: 0,
-                cursor: "pointer",
+                cursor: 'pointer',
               }}
               onInput={handleInput}
-              onChange={(e) => triggerEvent("change", e)}
-              onFocus={(e) => triggerEvent("focus", e)}
-              onBlur={(e) => triggerEvent("blur", e)}
-              onKeyDown={(e) => triggerEvent("keydown", e)}
-              onKeyUp={(e) => triggerEvent("keyup", e)}
-              onKeyPress={(e) => triggerEvent("keypress", e)}
-              onClick={(e) => triggerEvent("click", e)}
-              onDoubleClick={(e) => triggerEvent("dblclick", e)}
-              onMouseDown={(e) => triggerEvent("mousedown", e)}
-              onMouseUp={(e) => triggerEvent("mouseup", e)}
-              onMouseEnter={(e) => triggerEvent("mouseenter", e)}
-              onMouseLeave={(e) => triggerEvent("mouseleave", e)}
-              onCompositionStart={(e) => triggerEvent("compositionstart", e)}
-              onCompositionUpdate={(e) => triggerEvent("compositionupdate", e)}
-              onCompositionEnd={(e) => triggerEvent("compositionend", e)}
-              onDragEnter={(e) => triggerEvent("dragenter", e)}
-              onDragOver={(e) => triggerEvent("dragover", e)}
-              onDragLeave={(e) => triggerEvent("dragleave", e)}
-              onDrop={(e) => triggerEvent("drop", e)}
+              onChange={(e) => triggerEvent('change', e)}
+              onFocus={(e) => triggerEvent('focus', e)}
+              onBlur={(e) => triggerEvent('blur', e)}
+              onKeyDown={(e) => triggerEvent('keydown', e)}
+              onKeyUp={(e) => triggerEvent('keyup', e)}
+              onKeyPress={(e) => triggerEvent('keypress', e)}
+              onClick={(e) => triggerEvent('click', e)}
+              onDoubleClick={(e) => triggerEvent('dblclick', e)}
+              onMouseDown={(e) => triggerEvent('mousedown', e)}
+              onMouseUp={(e) => triggerEvent('mouseup', e)}
+              onMouseEnter={(e) => triggerEvent('mouseenter', e)}
+              onMouseLeave={(e) => triggerEvent('mouseleave', e)}
+              onCompositionStart={(e) => triggerEvent('compositionstart', e)}
+              onCompositionUpdate={(e) => triggerEvent('compositionupdate', e)}
+              onCompositionEnd={(e) => triggerEvent('compositionend', e)}
+              onDragEnter={(e) => triggerEvent('dragenter', e)}
+              onDragOver={(e) => triggerEvent('dragover', e)}
+              onDragLeave={(e) => triggerEvent('dragleave', e)}
+              onDrop={(e) => triggerEvent('drop', e)}
               {...inputProps}
             />
-            {!(multiple
-              ? Array.isArray(internalValue) && internalValue.length > 0
-              : internalValue) ? (
+            {!(multiple ? Array.isArray(internalValue) && internalValue.length > 0 : internalValue) ? (
               <div
                 className="file-input-placeholder"
                 onClick={triggerFileInput}
                 style={{
-                  padding: "1rem 0",
-                  cursor: "pointer",
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  alignItems: "center",
-                  position: "relative",
-                  minHeight: "3.25rem",
+                  padding: '1rem 0',
+                  cursor: 'pointer',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  position: 'relative',
+                  minHeight: '3.25rem',
                 }}
               />
             ) : (
@@ -393,13 +364,13 @@ const BasicFileInput = memo(
                 className="file-input-selected-files"
                 onClick={triggerFileInput}
                 style={{
-                  padding: "1rem 0",
-                  cursor: "pointer",
-                  width: "100%",
-                  height: "100%",
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0.5rem",
+                  padding: '1rem 0',
+                  cursor: 'pointer',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  gap: '0.5rem',
                 }}
               >
                 {chip ? (
@@ -411,24 +382,24 @@ const BasicFileInput = memo(
                           className="file-chip"
                           onClick={(e) => e.stopPropagation()}
                           style={{
-                            display: "inline-flex",
-                            alignItems: "center",
-                            gap: "0.5rem",
-                            padding: "0.25rem 0.75rem",
-                            backgroundColor: "#f1f1f1",
-                            borderRadius: "9999px",
-                            fontSize: "0.875rem",
-                            color: "#333",
-                            border: "1px solid #ccc",
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.5rem',
+                            padding: '0.25rem 0.75rem',
+                            backgroundColor: '#f1f1f1',
+                            borderRadius: '9999px',
+                            fontSize: '0.875rem',
+                            color: '#333',
+                            border: '1px solid #ccc',
                           }}
                         >
                           <span
                             className="file-name"
                             style={{
-                              whiteSpace: "nowrap",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              maxWidth: "150px",
+                              whiteSpace: 'nowrap',
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              maxWidth: '150px',
                             }}
                           >
                             {file.name}
@@ -440,13 +411,13 @@ const BasicFileInput = memo(
                               handleRemoveFile(file);
                             }}
                             style={{
-                              background: "none",
-                              border: "none",
-                              fontSize: "1rem",
+                              background: 'none',
+                              border: 'none',
+                              fontSize: '1rem',
                               lineHeight: 1,
-                              cursor: "pointer",
-                              color: "#666",
-                              transition: "color 0.2s",
+                              cursor: 'pointer',
+                              color: '#666',
+                              transition: 'color 0.2s',
                             }}
                           >
                             &times;
@@ -459,24 +430,24 @@ const BasicFileInput = memo(
                       className="file-chip"
                       onClick={(e) => e.stopPropagation()}
                       style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        padding: "0.25rem 0.75rem",
-                        backgroundColor: "#f1f1f1",
-                        borderRadius: "9999px",
-                        fontSize: "0.875rem",
-                        color: "#333",
-                        border: "1px solid #ccc",
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        padding: '0.25rem 0.75rem',
+                        backgroundColor: '#f1f1f1',
+                        borderRadius: '9999px',
+                        fontSize: '0.875rem',
+                        color: '#333',
+                        border: '1px solid #ccc',
                       }}
                     >
                       <span
                         className="file-name"
                         style={{
-                          whiteSpace: "nowrap",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                          maxWidth: "150px",
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          maxWidth: '150px',
                         }}
                       >
                         {internalValue?.name}
@@ -488,13 +459,13 @@ const BasicFileInput = memo(
                           handleRemoveFile(internalValue);
                         }}
                         style={{
-                          background: "none",
-                          border: "none",
-                          fontSize: "1rem",
+                          background: 'none',
+                          border: 'none',
+                          fontSize: '1rem',
                           lineHeight: 1,
-                          cursor: "pointer",
-                          color: "#666",
-                          transition: "color 0.2s",
+                          cursor: 'pointer',
+                          color: '#666',
+                          transition: 'color 0.2s',
                         }}
                       >
                         &times;
@@ -503,27 +474,19 @@ const BasicFileInput = memo(
                   )
                 ) : multiple ? (
                   Array.isArray(internalValue) ? (
-                    internalValue.map((file) => file.name).join(", ")
+                    internalValue.map((file) => file.name).join(', ')
                   ) : (
-                    ""
+                    ''
                   )
                 ) : (
-                  internalValue?.name || ""
+                  internalValue?.name || ''
                 )}
               </div>
             )}
           </>
         );
       },
-      [
-        multiple,
-        internalValue,
-        chip,
-        handleInput,
-        triggerFileInput,
-        handleRemoveFile,
-        accept,
-      ]
+      [multiple, internalValue, chip, handleInput, triggerFileInput, handleRemoveFile, accept]
     );
 
     // =============================================================================
@@ -535,33 +498,26 @@ const BasicFileInput = memo(
           <div
             className="details-right-content"
             style={{
-              display: "flex",
-              gap: "0.5rem",
-              color: "#666",
+              display: 'flex',
+              gap: '0.5rem',
+              color: '#666',
               fontWeight: 300,
-              fontSize: "0.75rem",
+              fontSize: '0.75rem',
               flexShrink: 0,
               opacity: focused || persistentDetails ? 1 : 0,
-              visibility: focused || persistentDetails ? "visible" : "hidden",
-              minHeight: "0.875rem",
-              minWidth: "0.0625rem",
-              position: "relative",
-              transform:
-                focused || persistentDetails
-                  ? "translateY(0)"
-                  : "translateY(-100%)",
-              transition: "all 0.2s ease-in-out",
+              visibility: focused || persistentDetails ? 'visible' : 'hidden',
+              minHeight: '0.875rem',
+              minWidth: '0.0625rem',
+              position: 'relative',
+              transform: focused || persistentDetails ? 'translateY(0)' : 'translateY(-100%)',
+              transition: 'all 0.2s ease-in-out',
             }}
           >
             {Array.isArray(internalValue) && internalValue.length > 0 && (
-              <span style={{ whiteSpace: "nowrap" }}>
-                {internalValue.length} files
-              </span>
+              <span style={{ whiteSpace: 'nowrap' }}>{internalValue.length} files</span>
             )}
             {totalFileSizes > 0 && (
-              <span style={{ whiteSpace: "nowrap" }}>
-                ({formatFileSize(totalFileSizes)} in total)
-              </span>
+              <span style={{ whiteSpace: 'nowrap' }}>({formatFileSize(totalFileSizes)} in total)</span>
             )}
           </div>
         );
@@ -580,7 +536,7 @@ const BasicFileInput = memo(
           viewBox="0 0 24 24"
           role="img"
           aria-hidden="true"
-          style={{ width: "100%", height: "100%", cursor: "pointer" }}
+          style={{ width: '100%', height: '100%', cursor: 'pointer' }}
         >
           <path d="M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z" />
         </svg>
@@ -597,7 +553,7 @@ const BasicFileInput = memo(
           viewBox="0 0 32 32"
           xmlns="http://www.w3.org/2000/svg"
           fill="#000000"
-          style={{ width: "100%", height: "100%", cursor: "pointer" }}
+          style={{ width: '100%', height: '100%', cursor: 'pointer' }}
         >
           <path d="M20,8 C18.896,8 18,7.104 18,6 L18,2 L24,8 L20,8 Z M18,0 L18,0.028 C17.872,0.028 4,0 4,0 C1.791,0 0,1.791 0,4 L0,28 C0,30.209 1.791,32 4,32 L22,32 C24.209,32 26,30.209 26,28 L26,10 L26,8 L18,0 Z" />
         </svg>
@@ -614,14 +570,10 @@ const BasicFileInput = memo(
           width="64px"
           height="64px"
           viewBox="0 0 24 24"
-          style={{ width: "100%", height: "100%", cursor: "pointer" }}
+          style={{ width: '100%', height: '100%', cursor: 'pointer' }}
         >
           <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          ></g>
+          <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
           <g id="SVGRepo_iconCarrier">
             <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"></path>
           </g>
@@ -638,7 +590,7 @@ const BasicFileInput = memo(
           viewBox="0 0 24 24"
           role="img"
           aria-hidden="true"
-          style={{ width: "100%", height: "100%", cursor: "pointer" }}
+          style={{ width: '100%', height: '100%', cursor: 'pointer' }}
         >
           <path d="M16.5,6V17.5A4,4 0 0,1 12.5,21.5A4,4 0 0,1 8.5,17.5V5A2.5,2.5 0 0,1 11,2.5A2.5,2.5 0 0,1 13.5,5V15.5A1,1 0 0,1 12.5,16.5A1,1 0 0,1 11.5,15.5V6H10V15.5A2.5,2.5 0 0,0 12.5,18A2.5,2.5 0 0,0 15,15.5V5A4,4 0 0,0 11,1A4,4 0 0,0 7,5V17.5A5.5,5.5 0 0,0 12.5,23A5.5,5.5 0 0,0 18,17.5V6H16.5Z" />
         </svg>
@@ -652,19 +604,17 @@ const BasicFileInput = memo(
     return (
       <BasicInput
         ref={basicInputRef}
-        className={`file-input-wrapper ${className} ${
-          isDragging ? "is-dragging" : ""
-        }`}
+        className={`file-input-wrapper ${className} ${isDragging ? 'is-dragging' : ''}`}
         style={style}
-        label={label || (multiple ? "Upload your files" : "Upload your file")}
+        label={label || (multiple ? 'Upload your files' : 'Upload your file')}
         value={
           Array.isArray(internalValue)
             ? internalValue.length > 0
               ? internalValue
-              : ""
+              : ''
             : internalValue
             ? internalValue
-            : ""
+            : ''
         }
         rules={validationRules}
         persistentDetails={persistentDetails}
@@ -783,28 +733,31 @@ BasicFileInput.propTypes = {
   appendInnerIcon: PropTypes.node,
 };
 
-BasicFileInput.displayName = "BasicFileInput";
+BasicFileInput.displayName = 'BasicFileInput';
 
 export default BasicFileInput;
 ```
 
-### SCSS Component Styles
-
-**File:** `./components/_basic-file-input.scss`
+### SCSS Component
 
 ```
 src/
 ├── assets/
-│   └── scss/
-│       └── components/
-│           └── _basic-file-input.scss
+    └── scss/
+        └── components/
+            └── _basic-file-input.scss
 ```
+
+- **Path**: `src/assets/scss/components/_basic-file-input.scss`
+- **Description**: File input component styles
+
+**Note:** This component uses SCSS variables from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
 // BASIC FILE INPUT COMPONENT STYLES
 // =============================================================================
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 // =============================================================================
 // FILE INPUT WRAPPER
@@ -949,17 +902,20 @@ src/
 }
 ```
 
-### SCSS Abstracts Index
-
-**File:** `./abstracts/index.scss`
+### SCSS Abstracts
 
 ```
 src/
 ├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── index.scss
+    └── scss/
+        └── abstracts/
+            └── index.scss
 ```
+
+- **Path**: `src/assets/scss/abstracts/index.scss`
+- **Description**: Global SCSS variables, mixins, and functions
+
+**Note:** The file input component uses variables from the abstracts directory. These are imported via the abstracts index file.
 
 ```scss
 // =============================================================================
@@ -967,14 +923,16 @@ src/
 // =============================================================================
 
 // variables
-@forward "variables";
+@forward 'variables';
 
 // functions
-@forward "functions";
+@forward 'functions';
 
 // mixins
-@forward "mixins";
+@forward 'mixins';
 
 // breakpoints
-@forward "breakpoints";
+@forward 'breakpoints';
 ```
+
+**Note:** The file input component uses variables, functions, mixins, and breakpoints from the abstracts directory. These are imported via the abstracts index file.

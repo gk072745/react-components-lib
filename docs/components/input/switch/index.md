@@ -1,28 +1,22 @@
 # Switch
 
-A flexible on/off toggle with sizes, colors, optional inset style, labels, and accessibility support.
+A flexible and customizable toggle switch component that allows users to switch between on and off states.
 
-## Features
+## Overview
 
-- **Controlled**: `value` and `onChange`
-- **Sizes**: `xs`, `sm`, `md`, `lg`, `xl`
-- **Colors**: via classes `color-<variant>` or custom colors
-- **Inset variant**: compact slider style with dot shadow
-- **Labels**: left/right label and optional dot labels with colors
-- **Accessibility**: keyboard/touch/mouse interaction, focus-visible
+The BasicSwitch component provides:
 
-## Basic Usage
-
-```jsx
-import React, { useState } from 'react';
-import BasicSwitch from '../components/sharedComponents/BasicSwitch';
-
-export default function Example() {
-  const [isOn, setIsOn] = useState(false);
-  return <BasicSwitch value={isOn} onChange={setIsOn} label="Notifications" />;
-}
-```
+- Five size variants (xs, sm, md, lg, xl)
+- Six color variants (default, primary, success, warning, danger, info)
+- Inset variant for compact styling
+- Optional labels (left or right position)
+- Dot labels for visual feedback
+- Disabled and readonly states
+- Keyboard navigation support
+- Accessible design with proper form semantics
 
 [API Reference →](./api)
 
 [View Code →](./code)
+
+[View Demos →](./demo)

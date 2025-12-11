@@ -2,7 +2,7 @@ import {
 SingleSelectionDemo,
 MultipleSelectionDemo,
 SizesDemo,
-ColorsDemo,
+VariantColorsDemo,
 StatesDemo,
 ToggleModeDemo,
 CustomChildrenDemo
@@ -174,7 +174,7 @@ const SizesExample = () => {
 
 <SizesDemo />
 
-## Demo 4: Colors
+## Demo 4: Variant Colors
 
 ### Code Example
 
@@ -182,8 +182,8 @@ const SizesExample = () => {
 import React, { useState } from "react";
 import BasicRadio from "../components/sharedComponents/BasicRadio";
 
-const ColorsExample = () => {
-  const [colorValue, setColorValue] = useState("primary");
+const VariantColorsExample = () => {
+  const [colorValue, setColorValue] = useState("default");
 
   const handleColorChange = (newValue) => {
     setColorValue(newValue);
@@ -196,7 +196,7 @@ const ColorsExample = () => {
         modelValue={colorValue}
         onUpdateModelValue={handleColorChange}
         label="Default"
-        color="gray"
+        variant="default"
         size="md"
       />
       <BasicRadio
@@ -204,7 +204,7 @@ const ColorsExample = () => {
         modelValue={colorValue}
         onUpdateModelValue={handleColorChange}
         label="Primary"
-        color="blue"
+        variant="primary"
         size="md"
       />
       <BasicRadio
@@ -212,7 +212,7 @@ const ColorsExample = () => {
         modelValue={colorValue}
         onUpdateModelValue={handleColorChange}
         label="Success"
-        color="green"
+        variant="success"
         size="md"
       />
       <BasicRadio
@@ -220,7 +220,7 @@ const ColorsExample = () => {
         modelValue={colorValue}
         onUpdateModelValue={handleColorChange}
         label="Warning"
-        color="orange"
+        variant="warning"
         size="md"
       />
       <BasicRadio
@@ -228,7 +228,7 @@ const ColorsExample = () => {
         modelValue={colorValue}
         onUpdateModelValue={handleColorChange}
         label="Danger"
-        color="red"
+        variant="danger"
         size="md"
       />
       <BasicRadio
@@ -236,7 +236,7 @@ const ColorsExample = () => {
         modelValue={colorValue}
         onUpdateModelValue={handleColorChange}
         label="Info"
-        color="cyan"
+        variant="info"
         size="md"
       />
     </div>
@@ -246,7 +246,7 @@ const ColorsExample = () => {
 
 ### Interactive Demo
 
-<ColorsDemo />
+<VariantColorsDemo />
 
 ## Demo 5: States
 

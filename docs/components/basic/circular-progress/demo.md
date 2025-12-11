@@ -1,8 +1,14 @@
-import { BasicLoaderDemo, AutoHideLoaderDemo, BlockingActionDemo } from "@site/src/demoPages/CircularProgressDemo.jsx";
+import {
+  BasicLoaderDemo,
+  AutoHideLoaderDemo,
+  BlockingActionDemo,
+} from "@site/src/demoPages/CircularProgressDemo.jsx";
 
 # Demo
 
 This page demonstrates the Circular Progress Bar (loader overlay) with common usage patterns.
+
+**Note:** The component requires `AppProvider` context to access the loader image assets.
 
 ## Demo 1: Basic Toggle
 
@@ -11,17 +17,19 @@ This page demonstrates the Circular Progress Bar (loader overlay) with common us
 ```jsx
 import React, { useState } from "react";
 import CircularProgressBar from "../components/sharedComponents/CircularProgressBar";
+import { AppProvider } from "@site/src/context/AppProvider.jsx";
 
-const BasicLoaderDemo = () => {
+const BasicLoaderExample = () => {
   const [open, setOpen] = useState(false);
+
   return (
-    <div>
-      <button onClick={() => setOpen(true)}>Show Loader</button>
-      <button onClick={() => setOpen(false)} style={{ marginLeft: "0.5rem" }}>
-        Hide Loader
-      </button>
-      {open && <CircularProgressBar />}
-    </div>
+    <AppProvider>
+      <div>
+        <button onClick={() => setOpen(true)}>Show Loader</button>
+        <button onClick={() => setOpen(false)}>Hide Loader</button>
+        {open && <CircularProgressBar />}
+      </div>
+    </AppProvider>
   );
 };
 ```
@@ -37,8 +45,9 @@ const BasicLoaderDemo = () => {
 ```jsx
 import React, { useState } from "react";
 import CircularProgressBar from "../components/sharedComponents/CircularProgressBar";
+import { AppProvider } from "@site/src/context/AppProvider.jsx";
 
-const AutoHideLoaderDemo = () => {
+const AutoHideLoaderExample = () => {
   const [loading, setLoading] = useState(false);
 
   const runTask = async () => {
@@ -48,10 +57,12 @@ const AutoHideLoaderDemo = () => {
   };
 
   return (
-    <div>
-      <button onClick={runTask}>Run Task</button>
-      {loading && <CircularProgressBar />}
-    </div>
+    <AppProvider>
+      <div>
+        <button onClick={runTask}>Run Task</button>
+        {loading && <CircularProgressBar />}
+      </div>
+    </AppProvider>
   );
 };
 ```
@@ -67,8 +78,9 @@ const AutoHideLoaderDemo = () => {
 ```jsx
 import React, { useState } from "react";
 import CircularProgressBar from "../components/sharedComponents/CircularProgressBar";
+import { AppProvider } from "@site/src/context/AppProvider.jsx";
 
-const BlockingActionDemo = () => {
+const BlockingActionExample = () => {
   const [loading, setLoading] = useState(false);
 
   const submit = async () => {
@@ -81,12 +93,14 @@ const BlockingActionDemo = () => {
   };
 
   return (
-    <div>
-      <button onClick={submit} disabled={loading}>
-        {loading ? "Submitting..." : "Submit"}
-      </button>
-      {loading && <CircularProgressBar />}
-    </div>
+    <AppProvider>
+      <div>
+        <button onClick={submit} disabled={loading}>
+          {loading ? "Submitting..." : "Submit"}
+        </button>
+        {loading && <CircularProgressBar />}
+      </div>
+    </AppProvider>
   );
 };
 ```

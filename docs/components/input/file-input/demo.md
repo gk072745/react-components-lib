@@ -1,19 +1,18 @@
 import {
-SingleFileDemo,
-MultipleFilesDemo,
-ChipDisplayDemo,
-ImageFilesDemo,
-ValidationDemo,
-DragDropDemo,
-StatesDemo,
-IconsDemo,
-CustomIconsDemo
+  SingleFileDemo,
+  MultipleFilesDemo,
+  ChipDisplayDemo,
+  ImageFilesDemo,
+  ValidationDemo,
+  DragDropDemo,
+  StatesDemo,
+  IconsDemo,
+  CustomIconsDemo
 } from "@site/src/demoPages/FileInputDemo.jsx";
-import FileInputDemo from "@site/src/demoPages/FileInputDemo.jsx";
 
 # Demo
 
-This page demonstrates the BasicFileInput component with various configurations and examples.
+This page demonstrates the File Input component with various configurations and examples.
 
 ## Demo 1: Single File Input
 
@@ -28,7 +27,6 @@ const SingleFileDemo = () => {
 
   const handleSingleFileChange = (file) => {
     setSingleFile(file);
-    console.log("Single file changed:", file);
   };
 
   return (
@@ -59,7 +57,6 @@ const MultipleFilesDemo = () => {
 
   const handleMultipleFilesChange = (files) => {
     setMultipleFiles(files);
-    console.log("Multiple files changed:", files);
   };
 
   return (
@@ -91,17 +88,16 @@ const ChipDisplayDemo = () => {
 
   const handleChipFilesChange = (files) => {
     setChipFiles(files);
-    console.log("Chip files changed:", files);
   };
 
   return (
     <BasicFileInput
-      label="Upload files with chips"
+      label="Upload files with chip display"
       multiple={true}
       chip={true}
       value={chipFiles}
       onChange={handleChipFilesChange}
-      hint="Files will be displayed as removable chips"
+      hint="Files will be displayed as chips"
     />
   );
 };
@@ -124,7 +120,6 @@ const ImageFilesDemo = () => {
 
   const handleImageFilesChange = (files) => {
     setImageFiles(files);
-    console.log("Image files changed:", files);
   };
 
   return (
@@ -134,7 +129,7 @@ const ImageFilesDemo = () => {
       accept="image/*"
       value={imageFiles}
       onChange={handleImageFilesChange}
-      hint="Only image files are allowed"
+      hint="Only image files are accepted"
     />
   );
 };
@@ -157,11 +152,6 @@ const ValidationDemo = () => {
 
   const handleValidatedFilesChange = (files) => {
     setValidatedFiles(files);
-    console.log("Validated files changed:", files);
-  };
-
-  const handleValidation = (isValid, value, message) => {
-    console.log("Validation result:", { isValid, value, message });
   };
 
   return (
@@ -169,12 +159,10 @@ const ValidationDemo = () => {
       label="Upload with validation"
       multiple={true}
       maxFiles={3}
-      maxSize={5 * 1024 * 1024} // 5MB
-      accept=".pdf,.doc,.docx,.txt"
+      maxSize={5 * 1024 * 1024}
       value={validatedFiles}
       onChange={handleValidatedFilesChange}
-      onValidate={handleValidation}
-      hint="Max 3 files, 5MB total, PDF/DOC/TXT only"
+      hint="Maximum 3 files, 5MB total size"
     />
   );
 };
@@ -184,20 +172,29 @@ const ValidationDemo = () => {
 
 <ValidationDemo />
 
-## Demo 6: Drag & Drop Demo
+## Demo 6: Drag and Drop
 
 ### Code Example
 
 ```jsx
 import BasicFileInput from "@/src/components/sharedComponents/BasicFileInput";
+import { useState } from "react";
 
 const DragDropDemo = () => {
+  const [droppedFiles, setDroppedFiles] = useState([]);
+
+  const handleDroppedFilesChange = (files) => {
+    setDroppedFiles(files);
+  };
+
   return (
     <BasicFileInput
-      label="Drag & drop files here"
+      label="Drag and drop files here"
       multiple={true}
       chip={true}
-      hint="Drag files from your computer or click to browse"
+      value={droppedFiles}
+      onChange={handleDroppedFilesChange}
+      hint="You can drag and drop files or click to select"
     />
   );
 };
@@ -207,25 +204,38 @@ const DragDropDemo = () => {
 
 <DragDropDemo />
 
-## Demo 7: Different States
+## Demo 7: States (Disabled, Loading, Readonly)
 
 ### Code Example
 
 ```jsx
 import BasicFileInput from "@/src/components/sharedComponents/BasicFileInput";
+import { useState } from "react";
 
 const StatesDemo = () => {
+  const [loadingFiles, setLoadingFiles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLoadingFilesChange = (files) => {
+    setLoadingFiles(files);
+    setIsLoading(true);
+    setTimeout(() => setIsLoading(false), 2000);
+  };
+
   return (
-    <div className="file-input-grid">
+    <div>
       <BasicFileInput
         label="Disabled file input"
         disabled={true}
         hint="This input is disabled"
       />
       <BasicFileInput
-        label="Uploading files..."
-        loading={true}
-        hint="Files are being processed"
+        label="Loading file input"
+        multiple={true}
+        value={loadingFiles}
+        onChange={handleLoadingFilesChange}
+        loading={isLoading}
+        hint="Files are being uploaded..."
       />
       <BasicFileInput
         label="Readonly file input"
@@ -241,43 +251,29 @@ const StatesDemo = () => {
 
 <StatesDemo />
 
-## Demo 8: Icon Variations
+## Demo 8: Default Icons
 
 ### Code Example
 
 ```jsx
 import BasicFileInput from "@/src/components/sharedComponents/BasicFileInput";
+import { useState } from "react";
 
 const IconsDemo = () => {
+  const [iconFiles, setIconFiles] = useState([]);
+
+  const handleIconFilesChange = (files) => {
+    setIconFiles(files);
+  };
+
   return (
-    <div className="file-input-grid">
-      <BasicFileInput
-        label="No Outer Icons"
-        multiple={true}
-        chip={true}
-        prepend={false}
-        append={false}
-        hint="Only inner icons are visible"
-      />
-      <BasicFileInput
-        label="No Inner Icons"
-        multiple={true}
-        chip={true}
-        prependInner={false}
-        appendInner={false}
-        hint="Only outer icons are visible"
-      />
-      <BasicFileInput
-        label="No Icons At All"
-        multiple={true}
-        chip={true}
-        prepend={false}
-        prependInner={false}
-        appendInner={false}
-        append={false}
-        hint="No icons visible - clean design"
-      />
-    </div>
+    <BasicFileInput
+      label="Upload with default icons"
+      multiple={true}
+      value={iconFiles}
+      onChange={handleIconFilesChange}
+      hint="Default file icons are displayed"
+    />
   );
 };
 ```
@@ -292,47 +288,30 @@ const IconsDemo = () => {
 
 ```jsx
 import BasicFileInput from "@/src/components/sharedComponents/BasicFileInput";
+import { useState } from "react";
 
 const CustomIconsDemo = () => {
+  const [customFiles, setCustomFiles] = useState([]);
+
+  const handleCustomFilesChange = (files) => {
+    setCustomFiles(files);
+  };
+
+  const customIcon = (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
+    </svg>
+  );
+
   return (
     <BasicFileInput
-      label="Custom icons"
+      label="Upload with custom icons"
       multiple={true}
-      prependIcon={
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.89 22 5.99 22H18C19.1 22 20 21.1 20 20V8L14 2Z"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      }
-      appendIcon={
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      }
-      hint="Custom icons for better visual appeal"
+      value={customFiles}
+      onChange={handleCustomFilesChange}
+      prependIcon={customIcon}
+      appendIcon={customIcon}
+      hint="Custom icons are displayed"
     />
   );
 };
@@ -341,9 +320,3 @@ const CustomIconsDemo = () => {
 ### Interactive Demo
 
 <CustomIconsDemo />
-
-## Demo 10: Complete Demo
-
-### Interactive Demo
-
-<FileInputDemo />

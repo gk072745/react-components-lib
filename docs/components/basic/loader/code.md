@@ -2,13 +2,15 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
 - SCSS for styling
 - PropTypes for prop validation
 
-## Files
+## Component Files
 
-### Component File
+### React Component
 
 ```
 src/
@@ -17,8 +19,8 @@ src/
         └── Loader.jsx
 ```
 
-- Path: `src/components/sharedComponents/Loader.jsx`
-- Description: Loader overlay component (SVG spinner or custom image)
+- **Path**: `src/components/sharedComponents/Loader.jsx`
+- **Description**: Loader component implementation
 
 ```jsx
 import React, { useMemo, memo } from 'react';
@@ -28,9 +30,7 @@ const Loader = memo(
   ({
     size = 40,
     width = 4,
-    bgColor = 'rgba(255, 255, 255, 0.75)',
-    fillColor = '#000000',
-    emptyColor = '#e0e0e0',
+    variant = 'default',
     isLocalLoader = true,
     src = '',
     className = '',
@@ -43,12 +43,9 @@ const Loader = memo(
     // =============================================================================
     const containerStyle = useMemo(
       () => ({
-        backgroundColor: bgColor,
-        '--loader-fill-color': fillColor,
-        '--loader-empty-color': emptyColor,
         ...style,
       }),
-      [bgColor, fillColor, emptyColor, style]
+      [style]
     );
 
     const imageStyle = useMemo(
@@ -68,11 +65,11 @@ const Loader = memo(
     );
 
     const containerClass = useMemo(() => {
-      const classes = ['loader-wrapper'];
+      const classes = ['loader-wrapper', variant];
       if (isLocalLoader) classes.push('local-loader');
       if (className) classes.push(className);
       return classes.join(' ');
-    }, [isLocalLoader, className]);
+    }, [variant, isLocalLoader, className]);
 
     // =============================================================================
     // RENDER
@@ -82,35 +79,11 @@ const Loader = memo(
         {children || (
           <>
             {src ? (
-              <img
-                src={src}
-                alt="loader"
-                className="custom-loader-img"
-                style={imageStyle}
-              />
+              <img src={src} alt="loader" className="custom-loader-img" style={imageStyle} />
             ) : (
-              <svg
-                className="indeterminate-loader"
-                style={svgStyle}
-                viewBox="25 25 50 50"
-              >
-                <circle
-                  className="track"
-                  cx="50"
-                  cy="50"
-                  r="20"
-                  fill="none"
-                  strokeWidth={width}
-                />
-                <circle
-                  className="arc"
-                  cx="50"
-                  cy="50"
-                  r="20"
-                  fill="none"
-                  strokeWidth={width}
-                  strokeLinecap="round"
-                />
+              <svg className="indeterminate-loader" style={svgStyle} viewBox="25 25 50 50">
+                <circle className="track" cx="50" cy="50" r="20" fill="none" strokeWidth={width} />
+                <circle className="arc" cx="50" cy="50" r="20" fill="none" strokeWidth={width} strokeLinecap="round" />
               </svg>
             )}
           </>
@@ -126,9 +99,7 @@ const Loader = memo(
 Loader.propTypes = {
   size: PropTypes.number,
   width: PropTypes.number,
-  bgColor: PropTypes.string,
-  fillColor: PropTypes.string,
-  emptyColor: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
   isLocalLoader: PropTypes.bool,
   src: PropTypes.string,
   className: PropTypes.string,
@@ -139,9 +110,7 @@ Loader.propTypes = {
 Loader.defaultProps = {
   size: 40,
   width: 4,
-  bgColor: 'rgba(255, 255, 255, 0.75)',
-  fillColor: '#000000',
-  emptyColor: '#e0e0e0',
+  variant: 'default',
   isLocalLoader: true,
   src: '',
   className: '',
@@ -154,7 +123,7 @@ Loader.displayName = 'Loader';
 export default Loader;
 ```
 
-### Styles
+### SCSS Component
 
 ```
 src/
@@ -164,8 +133,10 @@ src/
             └── _loader.scss
 ```
 
-- Path: `src/assets/scss/components/_loader.scss`
-- Description: Loader overlay styles and animations
+- **Path**: `src/assets/scss/components/_loader.scss`
+- **Description**: Loader component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
@@ -176,57 +147,113 @@ src/
 *,
 *::after,
 *::before {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .loader-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    pointer-events: all;
-    user-select: none;
-    cursor: default;
-    --loader-fill-color: #000;
-    --loader-empty-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: all;
+  user-select: none;
+  cursor: default;
+  background-color: rgba(255, 255, 255, 0.75);
 
-    // Local loader variant (relative positioning)
-    &.local-loader {
-        position: relative;
-        width: 100%;
-        height: 100%;
+  // Local loader variant (relative positioning)
+  &.local-loader {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  // Focus styles for accessibility
+  &:focus-visible {
+    outline: 0.125rem solid #2196f3;
+    outline-offset: 0.125rem;
+  }
+
+  // SVG Loader styles
+  .indeterminate-loader {
+    animation: rotate 2s linear infinite;
+
+    .track {
+      stroke: #e0e0e0;
     }
 
-    // Focus styles for accessibility
-    &:focus-visible {
-        outline: 0.125rem solid #2196f3;
-        outline-offset: 0.125rem;
+    .arc {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      animation: dash 1.5s ease-in-out infinite;
     }
+  }
 
-    // SVG Loader styles
+  // Custom image loader
+  .custom-loader-img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+
+  // Default Variant
+  &.default {
     .indeterminate-loader {
-        animation: rotate 2s linear infinite;
-
-        .track {
-            stroke: var(--loader-empty-color);
-        }
-
-        .arc {
-            stroke: var(--loader-fill-color);
-            stroke-dasharray: 1, 200;
-            stroke-dashoffset: 0;
-            animation: dash 1.5s ease-in-out infinite;
-        }
+      .arc {
+        stroke: #000000;
+      }
     }
+  }
 
-    // Custom image loader
-    .custom-loader-img {
-        display: block;
-        max-width: 100%;
-        height: auto;
+  // Primary Variant
+  &.primary {
+    .indeterminate-loader {
+      .arc {
+        stroke: #007bff;
+      }
     }
+  }
+
+  // Success Variant
+  &.success {
+    .indeterminate-loader {
+      .arc {
+        stroke: #28a745;
+      }
+    }
+  }
+
+  // Warning Variant
+  &.warning {
+    .indeterminate-loader {
+      .arc {
+        stroke: #ffc107;
+      }
+    }
+  }
+
+  // Danger Variant
+  &.danger {
+    .indeterminate-loader {
+      .arc {
+        stroke: #dc3545;
+      }
+    }
+  }
+
+  // Info Variant
+  &.info {
+    .indeterminate-loader {
+      .arc {
+        stroke: #17a2b8;
+      }
+    }
+  }
 }
 
 // =============================================================================
@@ -234,91 +261,44 @@ src/
 // =============================================================================
 
 @keyframes rotate {
-    100% {
-        transform: rotate(360deg);
-    }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes dash {
-    0% {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-    }
-    50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -2.1875rem;
-    }
-    100% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -7.75rem;
-    }
-}
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
 
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -2.1875rem;
+  }
+
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -7.75rem;
+  }
+}
 
 // =============================================================================
-// THEME VARIANTS
+// ACCESSIBILITY SUPPORT
 // =============================================================================
-
-// Dark theme support
-@media (prefers-color-scheme: dark) {
-    .loader-wrapper {
-        --loader-fill-color: #ffffff;
-        --loader-empty-color: #404040;
-    }
-}
-
-// High contrast mode
-@media (prefers-contrast: high) {
-    .loader-wrapper {
-        --loader-fill-color: #000000;
-        --loader-empty-color: #ffffff;
-    }
-}
 
 // Reduced motion support
 @media (prefers-reduced-motion: reduce) {
-    .loader-wrapper {
-        .indeterminate-loader {
-            animation: none;
-            
-            .arc {
-                animation: none;
-                stroke-dasharray: 89, 200;
-                stroke-dashoffset: -2.1875rem;
-            }
-        }
+  .loader-wrapper {
+    .indeterminate-loader {
+      animation: none;
+
+      .arc {
+        animation: none;
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -2.1875rem;
+      }
     }
+  }
 }
-```
-
-### Abstracts
-```
-src/
-├── assets/
-    └── scss/
-        └── abstracts/
-            └── index.scss
-```
-
-- **Path**: `src/assets/scss/abstracts/index.scss`
-- **Description**: Global SCSS variables, mixins, and functions
-  > **Note:**  
-  > This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like loader variables) are available when importing abstracts.
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-
-// breakpoints
-@forward "breakpoints";
 ```

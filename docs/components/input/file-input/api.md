@@ -1,265 +1,291 @@
 # API
 
-## Component Signature
+## BasicFileInput Component
 
-```jsx
-<BasicFileInput
-  // Core Props
-  value={File | File[] | null}
-  onChange={function}
-  label={string}
-  multiple={boolean}
-  chip={boolean}
+The main file input component that provides file selection functionality with support for single/multiple files, drag-and-drop, validation, and custom display options.
 
-  // File Validation
-  accept={string}
-  maxFiles={number}
-  maxSize={number}
-  onValidate={function}
+### Props
 
-  // UI States
-  disabled={boolean}
-  readonly={boolean}
-  loading={boolean}
-  persistentDetails={boolean}
-  hideDetails={boolean}
+| Prop                | Type                     | Default | Required | Description                                                                   |
+| ------------------- | ------------------------ | ------- | -------- | ----------------------------------------------------------------------------- |
+| `label`             | `string`                 | `''`    | No       | Label text for the file input                                                 |
+| `maxFiles`          | `number`                 | -       | No       | Maximum number of files allowed (for multiple file selection)                 |
+| `maxSize`           | `number`                 | -       | No       | Maximum total file size in bytes                                              |
+| `multiple`          | `boolean`                | `false` | No       | Whether multiple files can be selected                                        |
+| `value`             | `File \| File[] \| null` | `null`  | No       | Current file(s) value                                                         |
+| `chip`              | `boolean`                | `false` | No       | Whether to display files as chips (for multiple files)                        |
+| `persistentDetails` | `boolean`                | `true`  | No       | Whether to always show file details (file count, total size)                  |
+| `accept`            | `string`                 | -       | No       | Comma-separated list of accepted file types (e.g., ".pdf,.doc" or "image/\*") |
+| `hideDetails`       | `boolean`                | `false` | No       | Whether to hide the details section                                           |
+| `hint`              | `string`                 | `''`    | No       | Hint text displayed below the input                                           |
+| `loading`           | `boolean`                | `false` | No       | Whether the input is in loading state                                         |
+| `disabled`          | `boolean`                | `false` | No       | Whether the input is disabled                                                 |
+| `readonly`          | `boolean`                | `false` | No       | Whether the input is readonly                                                 |
+| `className`         | `string`                 | `''`    | No       | Additional CSS classes                                                        |
+| `style`             | `object`                 | `{}`    | No       | Additional inline styles                                                      |
+| `prependIcon`       | `ReactNode`              | -       | No       | Custom prepend icon (replaces default file icon)                              |
+| `prependInnerIcon`  | `ReactNode`              | -       | No       | Custom prepend inner icon (replaces default document icon)                    |
+| `appendIcon`        | `ReactNode`              | -       | No       | Custom append icon (replaces default file icon)                               |
+| `appendInnerIcon`   | `ReactNode`              | -       | No       | Custom append inner icon (replaces default upload icon)                       |
 
-  // Icons & Buttons
-  prepend={boolean}
-  prependInner={boolean}
-  appendInner={boolean}
-  append={boolean}
+### Event Handlers
 
-  // Messages
-  hint={string}
+#### onChange
 
-  // Styling
-  className={string}
-  style={object}
+Callback function that is called when files are selected or removed.
 
-  // Event Handlers
-  onFocus={function}
-  onBlur={function}
-  onInput={function}
-  onChangeEvent={function}
-  onKeyDown={function}
-  onKeyUp={function}
-  onKeyPress={function}
-  onClick={function}
-  onDoubleClick={function}
-  onMouseDown={function}
-  onMouseUp={function}
-  onMouseEnter={function}
-  onMouseLeave={function}
-  onCopy={function}
-  onCut={function}
-  onPaste={function}
-  onCompositionStart={function}
-  onCompositionUpdate={function}
-  onCompositionEnd={function}
-  onDragEnter={function}
-  onDragOver={function}
-  onDragLeave={function}
-  onDrop={function}
-  onParentDragEnter={function}
-  onParentDragOver={function}
-  onParentDragLeave={function}
-  onParentDrop={function}
-  onPrependClick={function}
-  onPrependInnerClick={function}
-  onClearClick={function}
-  onAppendClick={function}
-  onAppendInnerClick={function}
+**Signature:**
 
-  // Custom Icons
-  prependIcon={ReactNode}
-  prependInnerIcon={ReactNode}
-  appendInnerIcon={ReactNode}
-  appendIcon={ReactNode}
-
-  // React 19
-  ref={function | object}
-/>
+```js
+onChange: (value) => void
 ```
 
-## Props
+**Parameters:**
 
-### Core Props
+- `value` (`File | File[] | null`): The selected file(s) or null if cleared
 
-| Prop       | Type                     | Default | Description                   |
-| ---------- | ------------------------ | ------- | ----------------------------- |
-| `value`    | `File \| File[] \| null` | `null`  | Current file(s) value         |
-| `onChange` | `function`               | -       | Callback when files change    |
-| `label`    | `string`                 | `''`    | Input label text              |
-| `multiple` | `boolean`                | `false` | Allow multiple file selection |
-| `chip`     | `boolean`                | `false` | Display files as chips        |
+#### onInput
 
-### File Validation Props
+Callback function that is called when files are selected (similar to onChange but for input events).
 
-| Prop         | Type       | Default | Description                           |
-| ------------ | ---------- | ------- | ------------------------------------- |
-| `accept`     | `string`   | -       | Accepted file types (MIME/extensions) |
-| `maxFiles`   | `number`   | -       | Maximum number of files allowed       |
-| `maxSize`    | `number`   | -       | Maximum total file size in bytes      |
-| `onValidate` | `function` | -       | Validation result callback            |
+**Signature:**
 
-### UI State Props
-
-| Prop                | Type      | Default | Description          |
-| ------------------- | --------- | ------- | -------------------- |
-| `disabled`          | `boolean` | `false` | Disable the input    |
-| `readonly`          | `boolean` | `false` | Make input readonly  |
-| `loading`           | `boolean` | `false` | Show loading spinner |
-| `persistentDetails` | `boolean` | `true`  | Always show details  |
-| `hideDetails`       | `boolean` | `false` | Hide details section |
-
-### Icon & Button Props
-
-| Prop           | Type      | Default | Description             |
-| -------------- | --------- | ------- | ----------------------- |
-| `prepend`      | `boolean` | `true`  | Show prepend icon       |
-| `prependInner` | `boolean` | `true`  | Show inner prepend icon |
-| `appendInner`  | `boolean` | `true`  | Show inner append icon  |
-| `append`       | `boolean` | `true`  | Show append icon        |
-
-### Message Props
-
-| Prop   | Type     | Default | Description |
-| ------ | -------- | ------- | ----------- |
-| `hint` | `string` | `''`    | Help text   |
-
-### Styling Props
-
-| Prop        | Type     | Default | Description            |
-| ----------- | -------- | ------- | ---------------------- |
-| `className` | `string` | `''`    | Additional CSS classes |
-| `style`     | `object` | `{}`    | Inline styles          |
-
-### Custom Icon Props
-
-| Prop               | Type        | Default               | Description               |
-| ------------------ | ----------- | --------------------- | ------------------------- |
-| `prependIcon`      | `ReactNode` | Default upload icon   | Custom prepend icon       |
-| `prependInnerIcon` | `ReactNode` | Default document icon | Custom prepend inner icon |
-| `appendInnerIcon`  | `ReactNode` | Default upload icon   | Custom append inner icon  |
-| `appendIcon`       | `ReactNode` | Default upload icon   | Custom append icon        |
-
-## File Validation
-
-### File Type Validation
-
-```jsx
-// Accept only images
-<BasicFileInput accept="image/*" />
-
-// Accept specific extensions
-<BasicFileInput accept=".pdf,.doc,.docx" />
-
-// Accept specific MIME types
-<BasicFileInput accept="application/pdf,image/jpeg" />
+```js
+onInput: (value) => void
 ```
 
-### File Count Validation
+**Parameters:**
 
-```jsx
-// Limit to 3 files
-<BasicFileInput multiple={true} maxFiles={3} />
+- `value` (`File | File[] | null`): The selected file(s) or null if cleared
+
+#### onFocus
+
+Callback function that is called when the input receives focus.
+
+**Signature:**
+
+```js
+onFocus: (event) => void
 ```
 
-### File Size Validation
+**Parameters:**
 
-```jsx
-// Limit total size to 5MB
-<BasicFileInput maxSize={5 * 1024 * 1024} />
+- `event` (`SyntheticEvent`): The React synthetic event object
+
+#### onBlur
+
+Callback function that is called when the input loses focus.
+
+**Signature:**
+
+```js
+onBlur: (event) => void
 ```
 
-## Event Handlers
+**Parameters:**
 
-### Input Events
+- `event` (`SyntheticEvent`): The React synthetic event object
 
-| Handler         | Type       | Description                         |
-| --------------- | ---------- | ----------------------------------- |
-| `onFocus`       | `function` | Input focus event                   |
-| `onBlur`        | `function` | Input blur event                    |
-| `onInput`       | `function` | Input change event                  |
-| `onChangeEvent` | `function` | Change event with full event object |
+#### onPaste
 
-### Keyboard Events
+Callback function that is called when files are pasted into the input.
 
-| Handler      | Type       | Description     |
-| ------------ | ---------- | --------------- |
-| `onKeyDown`  | `function` | Key down event  |
-| `onKeyUp`    | `function` | Key up event    |
-| `onKeyPress` | `function` | Key press event |
+**Signature:**
 
-### Mouse Events
-
-| Handler         | Type       | Description        |
-| --------------- | ---------- | ------------------ |
-| `onClick`       | `function` | Click event        |
-| `onDoubleClick` | `function` | Double click event |
-| `onMouseDown`   | `function` | Mouse down event   |
-| `onMouseUp`     | `function` | Mouse up event     |
-| `onMouseEnter`  | `function` | Mouse enter event  |
-| `onMouseLeave`  | `function` | Mouse leave event  |
-
-### Clipboard Events
-
-| Handler   | Type       | Description |
-| --------- | ---------- | ----------- |
-| `onCopy`  | `function` | Copy event  |
-| `onCut`   | `function` | Cut event   |
-| `onPaste` | `function` | Paste event |
-
-### Drag & Drop Events
-
-| Handler       | Type       | Description      |
-| ------------- | ---------- | ---------------- |
-| `onDragEnter` | `function` | Drag enter event |
-| `onDragOver`  | `function` | Drag over event  |
-| `onDragLeave` | `function` | Drag leave event |
-| `onDrop`      | `function` | Drop event       |
-
-### Icon Click Events
-
-| Handler               | Type       | Description              |
-| --------------------- | ---------- | ------------------------ |
-| `onPrependClick`      | `function` | Prepend icon click       |
-| `onPrependInnerClick` | `function` | Inner prepend icon click |
-| `onAppendClick`       | `function` | Append icon click        |
-| `onAppendInnerClick`  | `function` | Inner append icon click  |
-| `onClearClick`        | `function` | Clear button click       |
-
-## File Object Structure
-
-When files are selected, they are provided as standard File objects:
-
-```typescript
-interface File {
-  name: string; // File name
-  size: number; // File size in bytes
-  type: string; // MIME type
-  lastModified: number; // Last modified timestamp
-}
+```js
+onPaste: (event) => void
 ```
 
-## Styling Classes
+**Parameters:**
 
-The component uses the following CSS classes for styling:
+- `event` (`ClipboardEvent`): The clipboard event object
 
-- `.file-input-wrapper` - Main wrapper container
-- `.file-input-placeholder` - Placeholder area when no files selected
-- `.file-input-selected-files` - Container for selected files
-- `.file-chip` - Individual file chip styling
-- `.file-name` - File name within chip
-- `.remove-btn` - Remove button in file chip
-- `.is-dragging` - Applied during drag operations
+#### onDragEnter
 
-## Notes
+Callback function that is called when a drag operation enters the input area.
 
-- **File API Support**: Requires modern browsers with File API support
-- **Drag & Drop**: Full drag and drop functionality with visual feedback
-- **Accessibility**: Full keyboard navigation and screen reader support
-- **Validation**: Comprehensive file validation system
-- **Mobile Support**: Touch-friendly on mobile devices
-- **Performance**: Optimized for large file selections
+**Signature:**
+
+```js
+onDragEnter: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onDragOver
+
+Callback function that is called when a drag operation is over the input area.
+
+**Signature:**
+
+```js
+onDragOver: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onDragLeave
+
+Callback function that is called when a drag operation leaves the input area.
+
+**Signature:**
+
+```js
+onDragLeave: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onDrop
+
+Callback function that is called when files are dropped onto the input.
+
+**Signature:**
+
+```js
+onDrop: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onParentDragEnter
+
+Callback function that is called when a drag operation enters the parent container.
+
+**Signature:**
+
+```js
+onParentDragEnter: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onParentDragOver
+
+Callback function that is called when a drag operation is over the parent container.
+
+**Signature:**
+
+```js
+onParentDragOver: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onParentDragLeave
+
+Callback function that is called when a drag operation leaves the parent container.
+
+**Signature:**
+
+```js
+onParentDragLeave: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onParentDrop
+
+Callback function that is called when files are dropped onto the parent container.
+
+**Signature:**
+
+```js
+onParentDrop: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`DragEvent`): The drag event object
+
+#### onValidate
+
+Callback function that is called when validation occurs.
+
+**Signature:**
+
+```js
+onValidate: (isValid, errors) => void
+```
+
+**Parameters:**
+
+- `isValid` (`boolean`): Whether the input is valid
+- `errors` (`array`): Array of validation error messages
+
+### Additional Event Handlers
+
+The component also supports the following standard event handlers (all with signature `(event) => void`):
+
+- `onChangeEvent`: Native change event handler
+- `onKeyDown`: Key down event handler
+- `onKeyUp`: Key up event handler
+- `onKeyPress`: Key press event handler
+- `onClick`: Click event handler
+- `onDoubleClick`: Double click event handler
+- `onMouseDown`: Mouse down event handler
+- `onMouseUp`: Mouse up event handler
+- `onMouseEnter`: Mouse enter event handler
+- `onMouseLeave`: Mouse leave event handler
+- `onCopy`: Copy event handler
+- `onCut`: Cut event handler
+- `onCompositionStart`: Composition start event handler
+- `onCompositionUpdate`: Composition update event handler
+- `onCompositionEnd`: Composition end event handler
+- `onAppendClick`: Append icon click handler
+- `onAppendInnerClick`: Append inner icon click handler
+
+### Validation Rules
+
+The component automatically creates validation rules based on the following props:
+
+- **maxFiles**: Validates that the number of selected files does not exceed the maximum
+- **maxSize**: Validates that the total size of all files does not exceed the maximum (in bytes)
+- **accept**: Validates that all selected files match the accepted file types
+
+Validation messages are automatically generated and displayed in the input's details section.
+
+### File Display Modes
+
+#### Single File Mode (`multiple={false}`)
+
+- Displays the selected file name as text
+- If `chip={true}`, displays the file as a chip with a remove button
+
+#### Multiple File Mode (`multiple={true}`)
+
+- If `chip={false}`: Displays file names as comma-separated text
+- If `chip={true}`: Displays each file as a separate chip with individual remove buttons
+
+### File Size Display
+
+When files are selected, the component automatically displays:
+
+- Number of files (for multiple file mode)
+- Total file size in a human-readable format (B, kB, mB, gB, tB)
+
+This information is shown in the details section on the right side.
+
+### Accessibility
+
+The component uses the underlying BasicInput component which provides:
+
+- Proper label association
+- Keyboard navigation support
+- Screen reader compatibility
+- Focus management
+- ARIA attributes

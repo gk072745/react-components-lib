@@ -245,7 +245,74 @@ export const ColorVariantsDemo = () => {
   );
 };
 
-// Demo 8: Data Table Example
+// Demo 8: Callback Handlers
+export const CallbacksDemo = () => {
+  const [callbackPage, setCallbackPage] = useState(5);
+  const [callbackLog, setCallbackLog] = useState([]);
+
+  const handlePageChange = (page) => {
+    setCallbackPage(page);
+    setCallbackLog(prev => [...prev, `onPageChange: ${page}`]);
+  };
+
+  const handleFirst = (page) => {
+    setCallbackLog(prev => [...prev, `onFirst: ${page}`]);
+  };
+
+  const handlePrev = (page) => {
+    setCallbackLog(prev => [...prev, `onPrev: ${page}`]);
+  };
+
+  const handleNext = (page) => {
+    setCallbackLog(prev => [...prev, `onNext: ${page}`]);
+  };
+
+  const handleLast = (page) => {
+    setCallbackLog(prev => [...prev, `onLast: ${page}`]);
+  };
+
+  const clearLog = () => {
+    setCallbackLog([]);
+  };
+
+  return (
+    <div className="pagination-demo-container">
+      <div className="demo-section">
+        <h3 className="demo-title">Callback Handlers</h3>
+        <div className="demo-content">
+          <div className="demo-group">
+            <BasicPagination
+              currentPage={callbackPage}
+              totalPages={15}
+              onPageChange={handlePageChange}
+              onFirst={handleFirst}
+              onPrev={handlePrev}
+              onNext={handleNext}
+              onLast={handleLast}
+            />
+          </div>
+          <div className="demo-controls">
+            <button className="demo-button" onClick={clearLog}>
+              Clear Log
+            </button>
+          </div>
+          {callbackLog.length > 0 && (
+            <div className="demo-state">
+              <strong>Callback Log:</strong>
+              <ul style={{ margin: "0.5rem 0", paddingLeft: "1.5rem" }}>
+                {callbackLog.slice(-10).map((log, index) => (
+                  <li key={index} style={{ margin: "0.25rem 0" }}>{log}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// Demo 9: Data Table Example
 export const DataTableDemo = () => {
   const [tablePage, setTablePage] = useState(1);
   const itemsPerPage = 5;
@@ -346,6 +413,7 @@ const PaginationDemo = () => {
       <DisabledStateDemo />
       <RoundedButtonsDemo />
       <ColorVariantsDemo />
+      <CallbacksDemo />
       <DataTableDemo />
     </div>
   );

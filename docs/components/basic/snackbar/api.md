@@ -1,4 +1,4 @@
-# API Reference
+# API
 
 ## BasicSnackbar Component
 
@@ -24,6 +24,8 @@ The BasicSnackbar component:
 
 ## useSnackbar Hook
 
+The `useSnackbar` hook manages snackbar notifications with global state. It provides methods to show, configure, and remove notifications.
+
 ### Return Values
 
 | Property | Type | Description |
@@ -33,23 +35,27 @@ The BasicSnackbar component:
 | `warning` | `(message: string, options?: SnackbarOptions) => void` | Show warning notification |
 | `info` | `(message: string, options?: SnackbarOptions) => void` | Show info notification |
 | `showSnackbar` | `(config: SnackbarConfig) => void` | Show custom snackbar |
-| `clearAll` | `() => void` | Clear all active snackbars |
+| `removeNotification` | `() => void` | Remove current notification |
+| `clearAll` | `() => void` | Clear all active snackbars (alias for removeNotification) |
 | `setPosition` | `(position: Position) => void` | Set global position |
-| `setOffset` | `(x: number, y: number) => void` | Set global offset |
-| `setDefaultTimeout` | `(timeout: number) => void` | Set default timeout |
+| `setOffset` | `(x: number, y: number) => void` | Set global offset (in rem) |
+| `setDefaultTimeout` | `(timeout: number) => void` | Set default timeout (in ms) |
+| `notification` | `object \| null` | Current notification object |
+| `config` | `object` | Global configuration object |
+| `hasNotification` | `boolean` | Whether a notification is currently active |
+| `notificationPosition` | `string` | Current notification position |
+| `convertRemToPixels` | `(rem: number) => number` | Utility to convert rem to pixels |
 
 ### SnackbarOptions
 
 | Property | Type | Default | Description |
 |----------|------|---------|-------------|
 | `secondaryMessage` | `string \| null` | `null` | Additional details message |
-| `position` | `Position` | `undefined` | Override global position |
-| `timeout` | `number` | `undefined` | Override global timeout |
-| `isPersistent` | `boolean` | `false` | Whether to require manual dismissal |
+| `position` | `Position` | `undefined` | Override global position for this notification |
+| `timeout` | `number` | `undefined` | Override global timeout for this notification (in ms) |
+| `isPersistent` | `boolean` | `false` | Whether to require manual dismissal (no auto-dismiss) |
 | `showCloseButton` | `boolean` | `true` | Whether to show close button |
-| `icon` | `string \| null` | `null` | Custom icon |
-| `onClose` | `() => void` | `undefined` | Close callback |
-| `onTimeout` | `() => void` | `undefined` | Timeout callback |
+| `icon` | `string \| null` | `null` | Custom icon (HTML string) |
 
 ### SnackbarConfig
 
@@ -59,12 +65,10 @@ The BasicSnackbar component:
 | `primaryMessage` | `string` | ✅ | Main message text |
 | `secondaryMessage` | `string \| null` | ❌ | Additional details |
 | `position` | `Position` | ❌ | Position override |
-| `timeout` | `number` | ❌ | Timeout override |
+| `timeout` | `number` | ❌ | Timeout override (in ms) |
 | `isPersistent` | `boolean` | ❌ | Persistent mode |
 | `showCloseButton` | `boolean` | ❌ | Show close button |
-| `icon` | `string \| null` | ❌ | Custom icon |
-| `onClose` | `() => void` | ❌ | Close callback |
-| `onTimeout` | `() => void` | ❌ | Timeout callback |
+| `icon` | `string \| null` | ❌ | Custom icon (HTML string) |
 
 ### Position Type
 
@@ -78,180 +82,25 @@ type Position =
   | 'bottom-right';
 ```
 
-## Usage Examples
+### Notification Types
 
-### Basic Usage
+| Type | Description | Default Behavior |
+|------|-------------|------------------|
+| `success` | Success notification | Auto-dismisses after timeout |
+| `error` | Error notification | Persistent by default (requires manual dismissal) |
+| `warning` | Warning notification | Auto-dismisses after timeout |
+| `info` | Info notification | Auto-dismisses after timeout |
 
-```jsx
-import { useSnackbar } from '@/customHooks/useSnackbar';
-import BasicSnackbar from '@/components/sharedComponents/BasicSnackbar';
+### Default Configuration
 
-const MyComponent = () => {
-  const { success, error, warning, info } = useSnackbar();
+- **Position**: `'bottom'` (bottom center)
+- **Offset**: `{ x: 1, y: 1 }` (in rem units)
+- **Default Timeout**: `4000` (4 seconds)
 
-  const handleSuccess = () => {
-    success('Operation completed successfully!');
-  };
+### Accessibility
 
-  const handleError = () => {
-    error('Something went wrong', {
-      secondaryMessage: 'Please try again later'
-    });
-  };
-
-  return (
-    <div>
-      <button onClick={handleSuccess}>Success</button>
-      <button onClick={handleError}>Error</button>
-      <BasicSnackbar />
-    </div>
-  );
-};
-```
-
-### Advanced Configuration
-
-```jsx
-const { showSnackbar, setPosition, setOffset, setDefaultTimeout } = useSnackbar();
-
-// Set global configuration
-setPosition('top-right');
-setOffset(2, 1); // x: 2rem, y: 1rem
-setDefaultTimeout(6000);
-
-// Show custom snackbar
-showSnackbar({
-  type: 'info',
-  primaryMessage: 'Custom notification',
-  secondaryMessage: 'With custom settings',
-  timeout: 10000,
-  isPersistent: false,
-  showCloseButton: true,
-  icon: '🚀'
-});
-```
-
-### Position Override
-
-```jsx
-const { success } = useSnackbar();
-
-// Override position for specific notification
-success('Success message!', {
-  position: 'top-left',
-  secondaryMessage: 'This appears in top-left corner'
-});
-```
-
-### Persistent Notifications
-
-```jsx
-const { error, warning } = useSnackbar();
-
-// Critical error that requires attention
-error('Critical system error!', {
-  isPersistent: true,
-  secondaryMessage: 'Please contact support immediately.'
-});
-
-// Important notice
-warning('Important notice!', {
-  isPersistent: true,
-  secondaryMessage: 'Please read before proceeding.'
-});
-```
-
-### Custom Icons
-
-```jsx
-const { info } = useSnackbar();
-
-info('New feature available!', {
-  icon: '🎉',
-  secondaryMessage: 'Check out the latest updates.'
-});
-```
-
-### Callbacks
-
-```jsx
-const { success } = useSnackbar();
-
-success('Data saved!', {
-  onClose: () => console.log('Snackbar closed'),
-  onTimeout: () => console.log('Snackbar timed out')
-});
-```
-
-## Styling
-
-### CSS Custom Properties
-
-```css
-:root {
-  --snackbar-success-bg: #28a745;
-  --snackbar-success-color: #ffffff;
-  --snackbar-error-bg: #dc3545;
-  --snackbar-error-color: #ffffff;
-  --snackbar-warning-bg: #ffc107;
-  --snackbar-warning-color: #212529;
-  --snackbar-info-bg: #17a2b8;
-  --snackbar-info-color: #ffffff;
-  --snackbar-border-radius: 6px;
-  --snackbar-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  --snackbar-z-index: 1000;
-}
-```
-
-### SCSS Variables
-
-```scss
-$snackbar-success-bg: #28a745;
-$snackbar-success-color: #ffffff;
-$snackbar-error-bg: #dc3545;
-$snackbar-error-color: #ffffff;
-$snackbar-warning-bg: #ffc107;
-$snackbar-warning-color: #212529;
-$snackbar-info-bg: #17a2b8;
-$snackbar-info-color: #ffffff;
-$snackbar-border-radius: 6px;
-$snackbar-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-$snackbar-z-index: 1000;
-```
-
-## Accessibility
-
-### ARIA Attributes
-
-- `role="alert"` - For screen readers
-- `aria-live="polite"` - For non-urgent messages
-- `aria-live="assertive"` - For urgent messages
-- `aria-label` - For close button
-- `aria-describedby` - For secondary messages
-
-### Keyboard Support
-
-- `Escape` - Close snackbar
-- `Tab` - Navigate to close button
-- `Enter/Space` - Activate close button
-
-### Screen Reader Support
-
-- Automatic announcement of new messages
-- Proper focus management
-- Descriptive labels for all interactive elements
-
-## Browser Support
-
-- Chrome 60+
-- Firefox 60+
-- Safari 12+
-- Edge 79+
-
-## Performance
-
-- Lightweight implementation
-- Efficient state management
-- Minimal re-renders
-- Optimized animations
-- Memory leak prevention
+The component provides:
+- Proper ARIA labels for close button
+- Screen reader support
+- Keyboard navigation support
+- Focus management

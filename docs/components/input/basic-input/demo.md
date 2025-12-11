@@ -1,19 +1,19 @@
 import {
-BasicInputDemo,
-InputTypesDemo,
-InputStatesDemo,
-ValidationDemo,
-IconsDemo,
-LoadingDemo,
-CustomIconsDemo,
-AsyncValidationDemo,
-InputFeaturesDemo,
-CustomIconsWithLoadingDemo
+  BasicInputDemo,
+  InputTypesDemo,
+  InputStatesDemo,
+  ValidationDemo,
+  IconsDemo,
+  LoadingDemo,
+  CustomIconsDemo,
+  AsyncValidationDemo,
+  InputFeaturesDemo,
+  CustomIconsWithLoadingDemo
 } from "@site/src/demoPages/InputDemo.jsx";
 
 # Demo
 
-This page demonstrates the BasicInput component with various configurations and examples.
+This page demonstrates the Basic Input component with various configurations and examples.
 
 ## Demo 1: Basic Input
 
@@ -27,7 +27,6 @@ const BasicInputDemo = () => {
   const [basicValue, setBasicValue] = useState("");
 
   const handleBasicChange = (newValue) => {
-    console.log("Basic input changed:", newValue);
     setBasicValue(newValue);
   };
 
@@ -58,9 +57,11 @@ const InputTypesDemo = () => {
   const [textValue, setTextValue] = useState("");
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
+  const [numberValue, setNumberValue] = useState("");
+  const [urlValue, setUrlValue] = useState("");
 
   return (
-    <div className="input-grid">
+    <div>
       <BasicInput
         value={textValue}
         onChange={setTextValue}
@@ -82,6 +83,20 @@ const InputTypesDemo = () => {
         type="password"
         placeholder="Enter password"
         appendInner={true}
+      />
+      <BasicInput
+        value={numberValue}
+        onChange={setNumberValue}
+        label="Number Input"
+        type="number"
+        placeholder="Enter number"
+      />
+      <BasicInput
+        value={urlValue}
+        onChange={setUrlValue}
+        label="URL Input"
+        type="url"
+        placeholder="https://example.com"
       />
     </div>
   );
@@ -106,7 +121,7 @@ const InputStatesDemo = () => {
   const [readonlyValue] = useState("This is readonly");
 
   return (
-    <div className="input-grid">
+    <div>
       <BasicInput
         value={normalValue}
         onChange={setNormalValue}
@@ -132,7 +147,7 @@ const InputStatesDemo = () => {
 
 <InputStatesDemo />
 
-## Demo 4: Input Validation
+## Demo 4: Validation
 
 ### Code Example
 
@@ -154,7 +169,7 @@ const ValidationDemo = () => {
   ];
 
   return (
-    <div className="input-grid">
+    <div>
       <BasicInput
         value={emailValue}
         onChange={setEmailValue}
@@ -194,7 +209,7 @@ const IconsDemo = () => {
   const [bothValue, setBothValue] = useState("");
 
   return (
-    <div className="input-grid">
+    <div>
       <BasicInput
         value={prependValue}
         onChange={setPrependValue}
@@ -244,43 +259,25 @@ const LoadingDemo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordLoading, setIsPasswordLoading] = useState(false);
 
-  const toggleLoading = () => {
-    setIsLoading(!isLoading);
-  };
-
-  const togglePasswordLoading = () => {
-    setIsPasswordLoading(!isPasswordLoading);
-  };
-
   return (
     <div>
-      <div className="input-grid">
-        <BasicInput
-          value={loadingValue}
-          onChange={setLoadingValue}
-          label="Loading Input"
-          placeholder="Type while loading"
-          loading={isLoading}
-          appendInner={true}
-        />
-        <BasicInput
-          value={passwordLoadingValue}
-          onChange={setPasswordLoadingValue}
-          label="Password with Loading"
-          type="password"
-          placeholder="Enter password"
-          loading={isPasswordLoading}
-          appendInner={true}
-        />
-      </div>
-      <div className="demo-controls">
-        <button onClick={toggleLoading} className="demo-button">
-          {isLoading ? "Stop" : "Start"} Loading
-        </button>
-        <button onClick={togglePasswordLoading} className="demo-button">
-          {isPasswordLoading ? "Stop" : "Start"} Password Loading
-        </button>
-      </div>
+      <BasicInput
+        value={loadingValue}
+        onChange={setLoadingValue}
+        label="Loading Input"
+        placeholder="Type while loading"
+        loading={isLoading}
+        appendInner={true}
+      />
+      <BasicInput
+        value={passwordLoadingValue}
+        onChange={setPasswordLoadingValue}
+        label="Password with Loading"
+        type="password"
+        placeholder="Enter password"
+        loading={isPasswordLoading}
+        appendInner={true}
+      />
     </div>
   );
 };
@@ -303,45 +300,27 @@ const CustomIconsDemo = () => {
   const [customAppendValue, setCustomAppendValue] = useState("");
   const [customInnerValue, setCustomInnerValue] = useState("");
 
+  const customPrependIcon = (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 2L2 7L12 12L22 7L12 2Z"
+        stroke="#4F46E5"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+
   return (
-    <div className="input-grid">
+    <div>
       <BasicInput
         value={customPrependValue}
         onChange={setCustomPrependValue}
         label="Custom Prepend Icon"
         placeholder="With custom prepend icon"
         prepend={true}
-        prependIcon={
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 2L2 7L12 12L22 7L12 2Z"
-              stroke="#4F46E5"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M2 17L12 22L22 17"
-              stroke="#4F46E5"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M2 12L12 17L22 12"
-              stroke="#4F46E5"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        }
+        prependIcon={customPrependIcon}
       />
       <BasicInput
         value={customAppendValue}
@@ -349,37 +328,7 @@ const CustomIconsDemo = () => {
         label="Custom Append Icon"
         placeholder="With custom append icon"
         append={true}
-        appendIcon={
-          <svg
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"
-              stroke="#EF4444"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M7 10L12 15L17 10"
-              stroke="#EF4444"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-            <path
-              d="M12 15V3"
-              stroke="#EF4444"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        }
+        appendIcon={customPrependIcon}
       />
       <BasicInput
         value={customInnerValue}
@@ -387,25 +336,7 @@ const CustomIconsDemo = () => {
         label="Custom Inner Icon"
         placeholder="With custom inner icon"
         appendInner={true}
-        appendInnerIcon={
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z"
-              fill="#8B5CF6"
-            />
-            <path d="M21 9V7L15 4L12 2L9 4L3 7V9L12 13L21 9Z" fill="#8B5CF6" />
-            <path
-              d="M12 13L9 11L3 8V10L9 13L12 15L15 13L21 10V8L15 11L12 13Z"
-              fill="#8B5CF6"
-            />
-          </svg>
-        }
+        appendInnerIcon={customPrependIcon}
       />
     </div>
   );
@@ -446,36 +377,16 @@ const AsyncValidationDemo = () => {
   };
 
   return (
-    <div>
-      <BasicInput
-        value={asyncEmail}
-        onChange={setAsyncEmail}
-        label="Async Email Validation"
-        placeholder="Enter email for async validation"
-        type="email"
-        asyncValidation={asyncEmailValidation}
-        loading={isValidating}
-        appendInner={true}
-      />
-      <div className="demo-state">
-        <strong>React 19 Features:</strong>
-        <ul>
-          <li>
-            ✅ <strong>Async Validation:</strong> Server-side validation with
-            loading state
-          </li>
-          <li>
-            ✅ <strong>Modern Ref Handling:</strong> No forwardRef needed
-          </li>
-          <li>
-            ✅ <strong>Better Performance:</strong> Optimized re-renders
-          </li>
-          <li>
-            ✅ <strong>Enhanced UX:</strong> Real-time validation feedback
-          </li>
-        </ul>
-      </div>
-    </div>
+    <BasicInput
+      value={asyncEmail}
+      onChange={setAsyncEmail}
+      label="Async Email Validation"
+      placeholder="Enter email for async validation"
+      type="email"
+      asyncValidation={asyncEmailValidation}
+      loading={isValidating}
+      appendInner={true}
+    />
   );
 };
 ```
@@ -498,7 +409,7 @@ const InputFeaturesDemo = () => {
   const [persistentValue, setPersistentValue] = useState("");
 
   return (
-    <div className="input-grid">
+    <div>
       <BasicInput
         value={hintValue}
         onChange={setHintValue}
@@ -545,116 +456,38 @@ const CustomIconsWithLoadingDemo = () => {
   const [isCustomAppendLoading, setIsCustomAppendLoading] = useState(false);
   const [isCustomInnerLoading, setIsCustomInnerLoading] = useState(false);
 
-  const toggleCustomAppendLoading = () => {
-    setIsCustomAppendLoading(!isCustomAppendLoading);
-  };
-
-  const toggleCustomInnerLoading = () => {
-    setIsCustomInnerLoading(!isCustomInnerLoading);
-  };
+  const customIcon = (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path
+        d="M12 2L2 7L12 12L22 7L12 2Z"
+        stroke="#8B5CF6"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
 
   return (
     <div>
-      <div className="input-grid">
-        <BasicInput
-          value={customAppendValue}
-          onChange={setCustomAppendValue}
-          label="Custom Append with Loader"
-          placeholder="Custom append icon + loading state"
-          append={true}
-          loading={isCustomAppendLoading}
-          appendIcon={
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 2L2 7L12 12L22 7L12 2Z"
-                stroke="#8B5CF6"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 17L12 22L22 17"
-                stroke="#8B5CF6"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M2 12L12 17L22 12"
-                stroke="#8B5CF6"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          }
-        />
-        <BasicInput
-          value={customInnerValue}
-          onChange={setCustomInnerValue}
-          label="Custom Inner with Loader"
-          placeholder="Custom inner icon + loading state"
-          appendInner={true}
-          loading={isCustomInnerLoading}
-          appendInnerIcon={
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2Z"
-                fill="#F59E0B"
-              />
-              <path
-                d="M21 9V7L15 4L12 2L9 4L3 7V9L12 13L21 9Z"
-                fill="#F59E0B"
-              />
-              <path
-                d="M12 13L9 11L3 8V10L9 13L12 15L15 13L21 10V8L15 11L12 13Z"
-                fill="#F59E0B"
-              />
-            </svg>
-          }
-        />
-      </div>
-      <div className="demo-controls">
-        <button onClick={toggleCustomAppendLoading} className="demo-button">
-          {isCustomAppendLoading ? "Stop" : "Start"} Custom Append Loading
-        </button>
-        <button onClick={toggleCustomInnerLoading} className="demo-button">
-          {isCustomInnerLoading ? "Stop" : "Start"} Custom Inner Loading
-        </button>
-      </div>
-      <div className="demo-state">
-        <strong>Custom Icons + Loading Features:</strong>
-        <ul>
-          <li>
-            ✅ <strong>Custom Append with Loader:</strong> Custom icon when not
-            loading, loader when loading
-          </li>
-          <li>
-            ✅ <strong>Custom Inner with Loader:</strong> Custom icon when not
-            loading, loader + custom icon when loading
-          </li>
-          <li>
-            ✅ <strong>Flexible Combinations:</strong> Mix custom icons with
-            loading states
-          </li>
-          <li>
-            ✅ <strong>Visual Feedback:</strong> Clear indication of loading vs
-            normal states
-          </li>
-        </ul>
-      </div>
+      <BasicInput
+        value={customAppendValue}
+        onChange={setCustomAppendValue}
+        label="Custom Append with Loader"
+        placeholder="Custom append icon + loading state"
+        append={true}
+        loading={isCustomAppendLoading}
+        appendIcon={customIcon}
+      />
+      <BasicInput
+        value={customInnerValue}
+        onChange={setCustomInnerValue}
+        label="Custom Inner with Loader"
+        placeholder="Custom inner icon + loading state"
+        appendInner={true}
+        loading={isCustomInnerLoading}
+        appendInnerIcon={customIcon}
+      />
     </div>
   );
 };

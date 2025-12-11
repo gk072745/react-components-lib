@@ -1,17 +1,26 @@
 # Code
 
 ## Dependencies
+
 This component requires:
 
 - React 18+
-- SCSS for styling
 - PropTypes for prop validation
+- SCSS for styling
 
-## Full Component Code Section
+## Component Files
 
 ### React Component
 
-**File:** `./sharedComponents/BasicCheckbox.jsx`
+```
+src/
+├── components/
+    └── sharedComponents/
+        └── BasicCheckbox.jsx
+```
+
+- **Path**: `src/components/sharedComponents/BasicCheckbox.jsx`
+- **Description**: Main checkbox component implementation
 
 ```jsx
 import React, { useMemo, useCallback, memo } from 'react';
@@ -20,15 +29,13 @@ import PropTypes from 'prop-types';
 const BasicCheckbox = memo(
   ({
     size = 'md',
+    variant = 'default',
     disabled = false,
     readonly = false,
     label = '',
     value = '',
     selected = [],
     valueComparator = (a, b) => Array.isArray(a) && a.includes(b),
-    innerTickColor = '#ffffff',
-    backgroundColor = '#000000',
-    labelColor = '#000000',
     allItems = [],
     valueKey = '',
     onChange,
@@ -40,7 +47,6 @@ const BasicCheckbox = memo(
     // COMPUTED VALUES
     // =============================================================================
     const internalValue = useMemo(() => {
-      console.log('selected', selected);
       return Array.isArray(selected) ? selected : [];
     }, [selected]);
 
@@ -50,7 +56,7 @@ const BasicCheckbox = memo(
       if (value === 'selectAll') {
         // Check if all items from allItems are present in internalValue
         if (internalValue?.length !== allItems?.length) return false;
-        return allItems.every(item => {
+        return allItems.every((item) => {
           const itemValue = valueKey ? item[valueKey] : item;
           return internalValue.includes(itemValue);
         });
@@ -63,7 +69,7 @@ const BasicCheckbox = memo(
     // EVENT HANDLERS
     // =============================================================================
     const handleClick = useCallback(
-      event => {
+      (event) => {
         // Skip if disabled or readonly
         if (disabled || readonly) return;
 
@@ -76,7 +82,7 @@ const BasicCheckbox = memo(
           // Otherwise, empty the array
           if (currentValues.length < allItems.length) {
             if (valueKey) {
-              newValue = allItems.map(item => item[valueKey]);
+              newValue = allItems.map((item) => item[valueKey]);
             } else {
               newValue = [...allItems];
             }
@@ -86,7 +92,7 @@ const BasicCheckbox = memo(
         } else {
           // Normal checkbox behavior
           if (isSelected) {
-            newValue = currentValues.filter(v => v !== value);
+            newValue = currentValues.filter((v) => v !== value);
           } else {
             newValue = [...currentValues, value];
           }
@@ -102,33 +108,11 @@ const BasicCheckbox = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ['checkbox-container', size];
+      const classes = ['checkbox-container', size, variant];
       if (disabled) classes.push('disabled');
       if (readonly) classes.push('readonly');
       return classes.join(' ');
-    }, [size, disabled, readonly]);
-
-    const checkboxStyle = useMemo(
-      () => ({
-        borderColor: backgroundColor,
-        '--background-checked-color': backgroundColor,
-      }),
-      [backgroundColor]
-    );
-
-    const innerTickStyle = useMemo(
-      () => ({
-        borderColor: innerTickColor,
-      }),
-      [innerTickColor]
-    );
-
-    const labelStyle = useMemo(
-      () => ({
-        color: labelColor,
-      }),
-      [labelColor]
-    );
+    }, [size, variant, disabled, readonly]);
 
     // =============================================================================
     // RENDER FUNCTIONS
@@ -139,11 +123,11 @@ const BasicCheckbox = memo(
       }
 
       return (
-        <div className="checkbox" style={checkboxStyle}>
-          <div className="inner-tick" style={innerTickStyle}></div>
+        <div className="checkbox">
+          <div className="inner-tick"></div>
         </div>
       );
-    }, [IconSlot, isChecked, checkboxStyle, innerTickStyle]);
+    }, [IconSlot, isChecked]);
 
     const renderLabel = useMemo(() => {
       if (LabelSlot) {
@@ -157,7 +141,7 @@ const BasicCheckbox = memo(
     // RENDER
     // =============================================================================
     return (
-      <label className={containerClass} style={labelStyle}>
+      <label className={containerClass}>
         <input
           type="checkbox"
           value={value}
@@ -179,15 +163,13 @@ const BasicCheckbox = memo(
 // =============================================================================
 BasicCheckbox.propTypes = {
   size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
+  variant: PropTypes.oneOf(['default', 'info']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   label: PropTypes.string,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]),
   selected: PropTypes.array,
   valueComparator: PropTypes.func,
-  innerTickColor: PropTypes.string,
-  backgroundColor: PropTypes.string,
-  labelColor: PropTypes.string,
   allItems: PropTypes.array,
   valueKey: PropTypes.string,
   onChange: PropTypes.func,
@@ -203,7 +185,18 @@ export default BasicCheckbox;
 
 ### SCSS Component
 
-**File:** `./assets/scss/components/_basic-checkbox.scss`
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _basic-checkbox.scss
+```
+
+- **Path**: `src/assets/scss/components/_basic-checkbox.scss`
+- **Description**: Checkbox component styles
+
+**Note:** This component uses SCSS variables from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
@@ -214,164 +207,237 @@ export default BasicCheckbox;
 @use '../abstracts' as *;
 
 .checkbox-container {
+  // =============================================================================
+  // BASIC CONTAINER PROPERTIES
+  // =============================================================================
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  & {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+    color: #000000;
+    position: relative;
+  }
+
+  // =============================================================================
+  // HIDDEN INPUT STYLES
+  // =============================================================================
+  // Hide the actual checkbox input but keep it accessible
+  input {
+    display: none;
 
     // =============================================================================
-    // BASIC CONTAINER PROPERTIES
+    // CHECKED STATE STYLES
     // =============================================================================
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
+    // When checkbox is checked, style the custom checkbox
+    &:checked + .checkbox {
+      .inner-tick {
+        visibility: visible;
+        opacity: 1;
+      }
+    }
+  }
+
+  // =============================================================================
+  // DISABLED STATE STYLES
+  // =============================================================================
+  // When checkbox is disabled, reduce opacity and prevent interactions
+  &.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  // =============================================================================
+  // READONLY STATE STYLES
+  // =============================================================================
+  // When checkbox is readonly, prevent interactions but maintain visibility
+  &.readonly {
+    pointer-events: none;
+  }
+
+  // =============================================================================
+  // CUSTOM CHECKBOX STYLES
+  // =============================================================================
+  // The visual checkbox element that replaces the default input
+  .checkbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.0625rem solid;
+    border-radius: 0.125rem;
+    background-color: transparent;
+    transition: all $transition-base;
+
+    // =============================================================================
+    // INNER TICK STYLES
+    // =============================================================================
+    // The checkmark/tick that appears when checkbox is selected
+    .inner-tick {
+      border-bottom-right-radius: 0.0625rem;
+      width: 33%;
+      height: 80%;
+      border-bottom: 0.125rem solid;
+      border-right: 0.125rem solid;
+      transform: rotate(45deg) translate(-10%, -10%);
+      visibility: hidden;
+      opacity: 0;
+      transition: all $transition-base;
     }
 
-    &{
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        cursor: pointer;
-        user-select: none;
-        color: #000000;
-        position: relative;
+    // =============================================================================
+    // ACTIVE STATE
+    // =============================================================================
+    // Visual feedback when clicking
+    &:active {
+      opacity: 0.7;
     }
+  }
 
-    // =============================================================================
-    // HIDDEN INPUT STYLES
-    // =============================================================================
-    // Hide the actual checkbox input but keep it accessible
-    input {
-        display: none;
+  // =============================================================================
+  // SIZE VARIANTS
+  // =============================================================================
+  // Different sizes for different use cases
 
-        // =============================================================================
-        // CHECKED STATE STYLES
-        // =============================================================================
-        // When checkbox is checked, style the custom checkbox
-        &:checked+.checkbox {
-            background-color: var(--background-checked-color, #000000) !important;
+  // Extra Small Size
+  &.xs {
+    font-size: 0.625rem;
 
-            .inner-tick {
-                visibility: visible;
-                opacity: 1;
-            }
-        }
-    }
-
-    // =============================================================================
-    // DISABLED STATE STYLES
-    // =============================================================================
-    // When checkbox is disabled, reduce opacity and prevent interactions
-    &.disabled {
-        pointer-events: none;
-        opacity: 0.5;
-    }
-
-    // =============================================================================
-    // READONLY STATE STYLES
-    // =============================================================================
-    // When checkbox is readonly, prevent interactions but maintain visibility
-    &.readonly {
-        pointer-events: none;
-    }
-
-    // =============================================================================
-    // CUSTOM CHECKBOX STYLES
-    // =============================================================================
-    // The visual checkbox element that replaces the default input
     .checkbox {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 0.0625rem solid;
-        border-radius: 0.125rem;
-        background-color: transparent;
-        transition: all $transition-base;
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+  }
 
-        // =============================================================================
-        // INNER TICK STYLES
-        // =============================================================================
-        // The checkmark/tick that appears when checkbox is selected
-        .inner-tick {
-            border-bottom-right-radius: 0.0625rem;
-            width: 33%;
-            height: 80%;
-            border-bottom: 0.125rem solid;
-            border-right: 0.125rem solid;
-            transform: rotate(45deg);
-            visibility: hidden;
-            opacity: 0;
-            transition: all $transition-base;
-        }
+  // Small Size
+  &.sm {
+    font-size: 0.75rem;
 
-        // =============================================================================
-        // HOVER EFFECTS
-        // =============================================================================
-        // Subtle background change on hover for better UX
-        &:hover {
-            background-color: var(--background-checked-color, #000000) !important;
-        }
+    .checkbox {
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+  }
 
-        // =============================================================================
-        // ACTIVE STATE
-        // =============================================================================
-        // Visual feedback when clicking
-        &:active {
-            opacity: 0.7;
-        }
+  // Medium Size (Default)
+  &.md {
+    font-size: 0.875rem;
+
+    .checkbox {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  // Large Size
+  &.lg {
+    font-size: 1rem;
+
+    .checkbox {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  // Extra Large Size
+  &.xl {
+    font-size: 1.125rem;
+
+    .checkbox {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+  // Different color variants for different use cases
+
+  // Default Variant
+  &.default {
+    color: #000000;
+
+    .checkbox {
+      border-color: #000000;
+
+      &:hover {
+        background-color: #000000;
+      }
     }
 
-    // =============================================================================
-    // SIZE VARIANTS
-    // =============================================================================
-    // Different sizes for different use cases
+    input:checked + .checkbox {
+      background-color: #000000;
+      border-color: #000000;
 
-    // Extra Small Size
-    &.xs {
-        font-size: 0.625rem;
+      .inner-tick {
+        border-color: #ffffff;
+      }
+    }
+  }
 
-        .checkbox {
-            width: 0.75rem;
-            height: 0.75rem;
-        }
+  // Info Variant
+  &.info {
+    color: #0c63e4;
+
+    .checkbox {
+      border-color: #2196f3;
+
+      &:hover {
+        background-color: #2196f3;
+      }
     }
 
-    // Small Size
-    &.sm {
-        font-size: 0.75rem;
+    input:checked + .checkbox {
+      background-color: #2196f3;
+      border-color: #2196f3;
 
-        .checkbox {
-            width: 0.875rem;
-            height: 0.875rem;
-        }
+      .inner-tick {
+        border-color: #ffffff;
+      }
     }
-
-    // Medium Size (Default)
-    &.md {
-        font-size: 0.875rem;
-
-        .checkbox {
-            width: 1rem;
-            height: 1rem;
-        }
-    }
-
-    // Large Size
-    &.lg {
-        font-size: 1rem;
-
-        .checkbox {
-            width: 1.125rem;
-            height: 1.125rem;
-        }
-    }
-
-    // Extra Large Size
-    &.xl {
-        font-size: 1.125rem;
-
-        .checkbox {
-            width: 1.25rem;
-            height: 1.25rem;
-        }
-    }
+  }
 }
 ```
+
+### SCSS Abstracts
+
+```
+src/
+├── assets/
+    └── scss/
+        └── abstracts/
+            └── index.scss
+```
+
+- **Path**: `src/assets/scss/abstracts/index.scss`
+- **Description**: Global SCSS variables, mixins, and functions
+
+**Note:** The checkbox component uses variables from the abstracts directory. Specifically, it uses the `$transition-base` variable for transitions. These are imported via the abstracts index file.
+
+```scss
+// =============================================================================
+// ABSTRACTS INDEX - Forwards all abstract modules
+// =============================================================================
+
+// variables
+@forward 'variables';
+
+// functions
+@forward 'functions';
+
+// mixins
+@forward 'mixins';
+
+// breakpoints
+@forward 'breakpoints';
+```
+
+**Note:** The checkbox component uses variables, functions, mixins, and breakpoints from the abstracts directory. These are imported via the abstracts index file.

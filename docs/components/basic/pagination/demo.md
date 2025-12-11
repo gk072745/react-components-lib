@@ -1,12 +1,13 @@
 import {
-  BasicPaginationDemo,
-  SizeVariantsDemo,
-  LimitedVisibleDemo,
-  ConfigurationDemo,
-  DisabledStateDemo,
-  RoundedButtonsDemo,
-  ColorVariantsDemo,
-  DataTableDemo
+BasicPaginationDemo,
+SizeVariantsDemo,
+LimitedVisibleDemo,
+ConfigurationDemo,
+DisabledStateDemo,
+RoundedButtonsDemo,
+ColorVariantsDemo,
+CallbacksDemo,
+DataTableDemo
 } from "@site/src/demoPages/PaginationDemo.jsx";
 
 # Demo
@@ -18,18 +19,14 @@ This page demonstrates the Pagination component with various configurations and 
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const BasicPaginationDemo = () => {
   const [basicPage, setBasicPage] = useState(7);
 
   return (
     <div className="demo-group">
-      <BasicPagination
-        currentPage={basicPage}
-        totalPages={15}
-        onPageChange={setBasicPage}
-      />
+      <BasicPagination currentPage={basicPage} totalPages={15} onPageChange={setBasicPage} />
     </div>
   );
 };
@@ -44,7 +41,7 @@ const BasicPaginationDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const SizeVariantsDemo = () => {
   const [sizePage, setSizePage] = useState(3);
@@ -52,27 +49,13 @@ const SizeVariantsDemo = () => {
   return (
     <div className="demo-group">
       <h4>Small</h4>
-      <BasicPagination
-        currentPage={sizePage}
-        totalPages={10}
-        size="small"
-        onPageChange={setSizePage}
-      />
-      
+      <BasicPagination currentPage={sizePage} totalPages={10} size="small" onPageChange={setSizePage} />
+
       <h4>Default</h4>
-      <BasicPagination
-        currentPage={sizePage}
-        totalPages={10}
-        onPageChange={setSizePage}
-      />
-      
+      <BasicPagination currentPage={sizePage} totalPages={10} onPageChange={setSizePage} />
+
       <h4>Large</h4>
-      <BasicPagination
-        currentPage={sizePage}
-        totalPages={10}
-        size="large"
-        onPageChange={setSizePage}
-      />
+      <BasicPagination currentPage={sizePage} totalPages={10} size="large" onPageChange={setSizePage} />
     </div>
   );
 };
@@ -87,7 +70,7 @@ const SizeVariantsDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const LimitedVisibleDemo = () => {
   const [limitedPage, setLimitedPage] = useState(25);
@@ -95,12 +78,7 @@ const LimitedVisibleDemo = () => {
   return (
     <div className="demo-group">
       <h4>5 Visible Pages (Total: 50)</h4>
-      <BasicPagination
-        currentPage={limitedPage}
-        totalPages={50}
-        totalVisible={5}
-        onPageChange={setLimitedPage}
-      />
+      <BasicPagination currentPage={limitedPage} totalPages={50} totalVisible={5} onPageChange={setLimitedPage} />
     </div>
   );
 };
@@ -115,7 +93,7 @@ const LimitedVisibleDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const ConfigurationDemo = () => {
   const [configPage, setConfigPage] = useState(6);
@@ -123,21 +101,11 @@ const ConfigurationDemo = () => {
   return (
     <div className="demo-group">
       <h4>No First/Last Buttons</h4>
-      <BasicPagination
-        currentPage={configPage}
-        totalPages={12}
-        showFirstLast={false}
-        onPageChange={setConfigPage}
-      />
-      
+      <BasicPagination currentPage={configPage} totalPages={12} showFirstLast={false} onPageChange={setConfigPage} />
+
       <h4>No Prev/Next Buttons</h4>
-      <BasicPagination
-        currentPage={configPage}
-        totalPages={12}
-        showPrevNext={false}
-        onPageChange={setConfigPage}
-      />
-      
+      <BasicPagination currentPage={configPage} totalPages={12} showPrevNext={false} onPageChange={setConfigPage} />
+
       <h4>Only Page Numbers</h4>
       <BasicPagination
         currentPage={configPage}
@@ -160,7 +128,7 @@ const ConfigurationDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const DisabledStateDemo = () => {
   const [disabledPage, setDisabledPage] = useState(3);
@@ -174,14 +142,10 @@ const DisabledStateDemo = () => {
         disabled={isDisabled}
         onPageChange={setDisabledPage}
       />
-      
+
       <div className="demo-controls">
         <label className="checkbox-label">
-          <input
-            type="checkbox"
-            checked={isDisabled}
-            onChange={(e) => setIsDisabled(e.target.checked)}
-          />
+          <input type="checkbox" checked={isDisabled} onChange={(e) => setIsDisabled(e.target.checked)} />
           Disabled
         </label>
       </div>
@@ -199,19 +163,14 @@ const DisabledStateDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const RoundedButtonsDemo = () => {
   const [roundedPage, setRoundedPage] = useState(5);
 
   return (
     <div className="demo-group">
-      <BasicPagination
-        currentPage={roundedPage}
-        totalPages={15}
-        rounded={true}
-        onPageChange={setRoundedPage}
-      />
+      <BasicPagination currentPage={roundedPage} totalPages={15} rounded={true} onPageChange={setRoundedPage} />
     </div>
   );
 };
@@ -226,7 +185,7 @@ const RoundedButtonsDemo = () => {
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const ColorVariantsDemo = () => {
   const [primaryPage, setPrimaryPage] = useState(3);
@@ -235,20 +194,10 @@ const ColorVariantsDemo = () => {
   return (
     <div className="demo-group">
       <h4>Primary Color</h4>
-      <BasicPagination
-        currentPage={primaryPage}
-        totalPages={10}
-        color="primary"
-        onPageChange={setPrimaryPage}
-      />
-      
+      <BasicPagination currentPage={primaryPage} totalPages={10} color="primary" onPageChange={setPrimaryPage} />
+
       <h4>Secondary Color</h4>
-      <BasicPagination
-        currentPage={secondaryPage}
-        totalPages={10}
-        color="secondary"
-        onPageChange={setSecondaryPage}
-      />
+      <BasicPagination currentPage={secondaryPage} totalPages={10} color="secondary" onPageChange={setSecondaryPage} />
     </div>
   );
 };
@@ -258,12 +207,75 @@ const ColorVariantsDemo = () => {
 
 <ColorVariantsDemo />
 
-## Demo 8: Data Table Example
+## Demo 8: Callback Handlers
 
 ### Code Example
 
 ```jsx
-import BasicPagination from "@/src/components/sharedComponents/BasicPagination";
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
+import { useState } from 'react';
+
+const CallbacksDemo = () => {
+  const [callbackPage, setCallbackPage] = useState(5);
+  const [callbackLog, setCallbackLog] = useState([]);
+
+  const handlePageChange = (page) => {
+    setCallbackPage(page);
+    setCallbackLog((prev) => [...prev, `onPageChange: ${page}`]);
+  };
+
+  const handleFirst = (page) => {
+    setCallbackLog((prev) => [...prev, `onFirst: ${page}`]);
+  };
+
+  const handlePrev = (page) => {
+    setCallbackLog((prev) => [...prev, `onPrev: ${page}`]);
+  };
+
+  const handleNext = (page) => {
+    setCallbackLog((prev) => [...prev, `onNext: ${page}`]);
+  };
+
+  const handleLast = (page) => {
+    setCallbackLog((prev) => [...prev, `onLast: ${page}`]);
+  };
+
+  return (
+    <div>
+      <BasicPagination
+        currentPage={callbackPage}
+        totalPages={15}
+        onPageChange={handlePageChange}
+        onFirst={handleFirst}
+        onPrev={handlePrev}
+        onNext={handleNext}
+        onLast={handleLast}
+      />
+      {callbackLog.length > 0 && (
+        <div>
+          <strong>Callback Log:</strong>
+          <ul>
+            {callbackLog.slice(-10).map((log, index) => (
+              <li key={index}>{log}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+```
+
+### Interactive Demo
+
+<CallbacksDemo />
+
+## Demo 9: Data Table Example
+
+### Code Example
+
+```jsx
+import BasicPagination from '@/src/components/sharedComponents/BasicPagination';
 
 const DataTableDemo = () => {
   const [tablePage, setTablePage] = useState(1);
@@ -294,13 +306,9 @@ const DataTableDemo = () => {
           </tbody>
         </table>
       </div>
-      
+
       <div className="table-pagination">
-        <BasicPagination
-          currentPage={tablePage}
-          totalPages={totalTablePages}
-          onPageChange={setTablePage}
-        />
+        <BasicPagination currentPage={tablePage} totalPages={totalTablePages} onPageChange={setTablePage} />
         <p className="table-info">
           Showing {startItem}-{endItem} of {totalItems} items
         </p>

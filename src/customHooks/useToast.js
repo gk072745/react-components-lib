@@ -81,34 +81,30 @@ export function useToast() {
     };
 
     state = { ...state, notifications: [...state.notifications, notification] };
-    
+
     // Apply max notifications limit per position (default to 5 if not set)
     const maxNotifications = state.defaultConfig.maxNotifications || 5;
-    const positionNotifications = state.notifications.filter(n => n.position === position);
-    
+    const positionNotifications = state.notifications.filter((n) => n.position === position);
+
     if (positionNotifications.length > maxNotifications) {
       // Sort by creation time and remove oldest
       const sortedByTime = positionNotifications.sort((a, b) => a.createdAt - b.createdAt);
       const toRemove = sortedByTime.slice(0, positionNotifications.length - maxNotifications);
-      
-      state = { 
-        ...state, 
-        notifications: state.notifications.filter(n => !toRemove.some(remove => remove.id === n.id))
+
+      state = {
+        ...state,
+        notifications: state.notifications.filter((n) => !toRemove.some((remove) => remove.id === n.id)),
       };
     }
-    
+
     emit();
 
     if (!isPersistent && timeout > 0) {
       setTimeout(() => {
         // Mark notification for removal - the component will handle animation
-        state = { 
-          ...state, 
-          notifications: state.notifications.map(n => 
-            n.id === notification.id 
-              ? { ...n, shouldRemove: true }
-              : n
-          )
+        state = {
+          ...state,
+          notifications: state.notifications.map((n) => (n.id === notification.id ? { ...n, shouldRemove: true } : n)),
         };
         emit();
       }, timeout);
@@ -126,10 +122,22 @@ export function useToast() {
     emit();
   }, []);
 
-  const success = useCallback((primaryMessage, options = {}) => showToast({ type: 'success', primaryMessage, ...options }), [showToast]);
-  const error = useCallback((primaryMessage, options = {}) => showToast({ type: 'error', primaryMessage, isPersistent: true, ...options }), [showToast]);
-  const warning = useCallback((primaryMessage, options = {}) => showToast({ type: 'warning', primaryMessage, ...options }), [showToast]);
-  const info = useCallback((primaryMessage, options = {}) => showToast({ type: 'info', primaryMessage, ...options }), [showToast]);
+  const success = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'success', primaryMessage, ...options }),
+    [showToast]
+  );
+  const error = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'error', primaryMessage, isPersistent: true, ...options }),
+    [showToast]
+  );
+  const warning = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'warning', primaryMessage, ...options }),
+    [showToast]
+  );
+  const info = useCallback(
+    (primaryMessage, options = {}) => showToast({ type: 'info', primaryMessage, ...options }),
+    [showToast]
+  );
 
   // These methods now only affect the default config for NEW toasts
   const setPosition = useCallback((position) => {
@@ -149,26 +157,39 @@ export function useToast() {
     emit();
   }, []);
 
-  const value = useMemo(() => ({
-    notifications: snapshot.notifications,
-    defaultConfig: snapshot.defaultConfig,
-    hasNotifications: snapshot.notifications.length > 0,
-    notificationCount: snapshot.notifications.length,
-    showToast,
-    removeNotification,
-    clearAll,
-    success,
-    error,
-    warning,
-    info,
-    setPosition,
-    setOffset,
-    setDefaultTimeout,
-    setMaxNotifications,
-  }), [snapshot, showToast, removeNotification, clearAll, success, error, warning, info, setPosition, setOffset, setDefaultTimeout, setMaxNotifications]);
+  const value = useMemo(
+    () => ({
+      notifications: snapshot.notifications,
+      defaultConfig: snapshot.defaultConfig,
+      hasNotifications: snapshot.notifications.length > 0,
+      notificationCount: snapshot.notifications.length,
+      showToast,
+      removeNotification,
+      clearAll,
+      success,
+      error,
+      warning,
+      info,
+      setPosition,
+      setOffset,
+      setDefaultTimeout,
+      setMaxNotifications,
+    }),
+    [
+      snapshot,
+      showToast,
+      removeNotification,
+      clearAll,
+      success,
+      error,
+      warning,
+      info,
+      setPosition,
+      setOffset,
+      setDefaultTimeout,
+      setMaxNotifications,
+    ]
+  );
 
   return value;
 }
-
-
-

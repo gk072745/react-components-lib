@@ -2,14 +2,16 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
 - React Router DOM 6+
 - PropTypes 15.8+
 - SCSS for styling
 
-## Files
+## Component Files
 
-### Component File
+### React Component
 
 ```
 src/
@@ -22,21 +24,12 @@ src/
 - **Description**: Main breadcrumb component implementation
 
 ```jsx
-import React, { useMemo, useCallback, memo } from "react";
-import { useNavigate } from "react-router-dom";
-import PropTypes from "prop-types";
-import "@site/src/assets/scss/components/_basic-breadcrumb.scss";
+import React, { useMemo, useCallback, memo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 const BasicBreadCrumb = memo(
-  ({
-    items = [],
-    separator = "/",
-    gap = "0.5rem",
-    className = "",
-    style = {},
-    onItemClick,
-    ...props
-  }) => {
+  ({ items = [], separator = '/', gap = '0.5rem', className = '', style = {}, onItemClick, ...props }) => {
     const navigate = useNavigate();
 
     // =============================================================================
@@ -80,7 +73,7 @@ const BasicBreadCrumb = memo(
     // =============================================================================
     const renderSeparator = useMemo(() => {
       // If separator is a function, call it with context
-      if (typeof separator === "function") {
+      if (typeof separator === 'function') {
         return separator();
       }
 
@@ -90,7 +83,7 @@ const BasicBreadCrumb = memo(
       }
 
       // If separator is an object with render method
-      if (separator && typeof separator === "object" && separator.render) {
+      if (separator && typeof separator === 'object' && separator.render) {
         return separator.render();
       }
 
@@ -106,16 +99,14 @@ const BasicBreadCrumb = memo(
         return (
           <div key={index} className="breadcrumb-item" style={itemStyle}>
             <span
-              className={`label ${item.disabled ? "disabled" : ""}`}
-              onClick={
-                isClickable ? (event) => handleClick(item, event) : undefined
-              }
-              role={isClickable ? "button" : undefined}
+              className={`label ${item.disabled ? 'disabled' : ''}`}
+              onClick={isClickable ? (event) => handleClick(item, event) : undefined}
+              role={isClickable ? 'button' : undefined}
               tabIndex={isClickable ? 0 : undefined}
               onKeyDown={
                 isClickable
                   ? (event) => {
-                      if (event.key === "Enter" || event.key === " ") {
+                      if (event.key === 'Enter' || event.key === ' ') {
                         event.preventDefault();
                         handleClick(item, event);
                       }
@@ -136,21 +127,16 @@ const BasicBreadCrumb = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["breadcrumb-container"];
+      const classes = ['breadcrumb-container'];
       if (className) classes.push(className);
-      return classes.join(" ");
+      return classes.join(' ');
     }, [className]);
 
     // =============================================================================
     // RENDER
     // =============================================================================
     return (
-      <nav
-        className={containerClass}
-        style={containerStyle}
-        aria-label="Breadcrumb navigation"
-        {...props}
-      >
+      <nav className={containerClass} style={containerStyle} aria-label="Breadcrumb navigation" {...props}>
         {items.map(renderBreadcrumbItem)}
       </nav>
     );
@@ -184,18 +170,18 @@ BasicBreadCrumb.propTypes = {
 
 BasicBreadCrumb.defaultProps = {
   items: [],
-  separator: "/",
-  gap: "0.5rem",
-  className: "",
+  separator: '/',
+  gap: '0.5rem',
+  className: '',
   style: {},
 };
 
-BasicBreadCrumb.displayName = "BasicBreadCrumb";
+BasicBreadCrumb.displayName = 'BasicBreadCrumb';
 
 export default BasicBreadCrumb;
 ```
 
-### Styles
+### SCSS Component
 
 ```
 src/
@@ -208,11 +194,13 @@ src/
 - **Path**: `src/assets/scss/components/_basic-breadcrumb.scss`
 - **Description**: Breadcrumb component styles
 
+**Note:** This component uses SCSS variables from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
+
 ```scss
 // =============================================================================
 // BASIC BREADCRUMB COMPONENT STYLES
 // =============================================================================
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 .breadcrumb-container {
   display: flex;
@@ -315,40 +303,6 @@ src/
     line-height: 1;
   }
 }
-
-// =============================================================================
-// RESPONSIVE DESIGN
-// =============================================================================
-
-@media (max-width: 768px) {
-  .breadcrumb-container {
-    .breadcrumb-item {
-      .label {
-        font-size: 0.8rem;
-        padding: 0.2rem 0.4rem;
-      }
-    }
-
-    .breadcrumb-separator {
-      margin: 0 0.2rem;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .breadcrumb-container {
-    .breadcrumb-item {
-      .label {
-        font-size: 0.75rem;
-        padding: 0.15rem 0.3rem;
-      }
-    }
-
-    .breadcrumb-separator {
-      margin: 0 0.15rem;
-    }
-  }
-}
 ```
 
 ### SCSS Abstracts
@@ -363,8 +317,8 @@ src/
 
 - **Path**: `src/assets/scss/abstracts/index.scss`
 - **Description**: Global SCSS variables, mixins, and functions
-  > **Note:**  
-  > This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like breadcrumb variables) are available when importing abstracts.
+
+**Note:** The breadcrumb component uses variables, functions, mixins, and breakpoints from the abstracts directory. These are imported via the abstracts index file.
 
 ```scss
 // =============================================================================
@@ -372,14 +326,14 @@ src/
 // =============================================================================
 
 // variables
-@forward "variables";
+@forward 'variables';
 
 // functions
-@forward "functions";
+@forward 'functions';
 
 // mixins
-@forward "mixins";
+@forward 'mixins';
 
 // breakpoints
-@forward "breakpoints";
+@forward 'breakpoints';
 ```

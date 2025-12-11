@@ -2,45 +2,19 @@
 
 A simple full-screen loader overlay component for indicating long-running actions. It displays a centered loader image on top of the app content.
 
-## Features
+## Overview
 
-- **Full-screen overlay**: Covers the viewport while loading
-- **Center aligned**: Loader graphic centered with flexbox
-- **Easy control**: Show by mounting, hide by unmounting
-- **Accessible**: Prevents accidental interactions underneath
-- **Lightweight**: Minimal, framework-friendly
+The CircularProgressBar component provides:
 
-## Use Cases
+- Full-screen overlay that covers the entire viewport
+- Centered loader graphic using flexbox
+- Simple mount/unmount control for visibility
+- Prevents user interactions while loading
+- Lightweight and framework-friendly implementation
+- Requires AppProvider context for image assets
 
-- **Async tasks**: Show during API requests or background jobs
-- **Navigation waits**: Indicate loading on route changes
-- **Form submissions**: Block the UI while processing
+[API Reference →](./api)
 
-## Key Behavior
+[View Code →](./code)
 
-- Render `<CircularProgressBar />` to show the overlay
-- Unmount the component to hide it
-
-## Basic Usage
-
-```jsx
-import React, { useState } from "react";
-import CircularProgressBar from "../components/sharedComponents/CircularProgressBar";
-
-const Example = () => {
-  const [loading, setLoading] = useState(false);
-
-  async function submit() {
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setLoading(false);
-  }
-
-  return (
-    <div>
-      <button onClick={submit}>Submit</button>
-      {loading && <CircularProgressBar />}
-    </div>
-  );
-};
-```
+[View Demos →](./demo)

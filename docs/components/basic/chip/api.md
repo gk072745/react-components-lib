@@ -1,323 +1,148 @@
 # API
 
-## Props
+## BasicChip Component
 
-| Prop           | Type                    | Default     | Description                                                     |
-| -------------- | ----------------------- | ----------- | --------------------------------------------------------------- |
-| `chip`         | `object \| string`      | -           | Chip data (object or string)                                    |
-| `textKey`      | `string`                | `'text'`    | Key to extract text from chip object                            |
-| `valueKey`     | `string`                | `'value'`   | Key to extract value from chip object                           |
-| `closable`     | `boolean`               | `false`     | Whether the chip can be closed/removed                          |
-| `onDeleteChip` | `function`              | -           | Callback when chip is deleted                                   |
-| `children`     | `ReactNode \| function` | -           | Custom content or function to render chip content               |
-| `prepend`      | `ReactNode \| function` | -           | Content to render before chip text                              |
-| `append`       | `ReactNode \| function` | -           | Content to render after chip text                               |
-| `close`        | `ReactNode \| function` | -           | Custom close button component                                   |
-| `variant`      | `string`                | `'default'` | Chip variant (default, primary, success, warning, danger, info) |
-| `variantType`  | `string`                | `'solid'`   | Variant type (solid, outlined, filled)                          |
-| `disabled`     | `boolean`               | `false`     | Whether the chip is disabled                                    |
-| `className`    | `string`                | `''`        | Additional CSS classes                                          |
-| `style`        | `object`                | `{}`        | Additional inline styles                                        |
-| `onClick`      | `function`              | -           | Click handler for the chip                                      |
+The main chip component that provides customizable chip functionality with support for multiple variants, custom content, and closable functionality.
 
-## Events
+### Props
 
-| Event          | Parameters           | Description                |
-| -------------- | -------------------- | -------------------------- |
-| `onDeleteChip` | `(chipValue, event)` | Fired when chip is deleted |
-| `onClick`      | `(event)`            | Fired when chip is clicked |
+| Prop           | Type                                                                     | Default     | Required | Description                                                               |
+| -------------- | ------------------------------------------------------------------------ | ----------- | -------- | ------------------------------------------------------------------------- |
+| `chip`         | `object \| string`                                                       | -           | Yes      | Chip data (object or string)                                              |
+| `textKey`      | `string`                                                                 | `'text'`    | No       | Key to extract text from chip object (when chip is an object)             |
+| `valueKey`     | `string`                                                                 | `'value'`   | No       | Key to extract value from chip object (when chip is an object)            |
+| `closable`     | `boolean`                                                                | `false`     | No       | Whether the chip can be closed/removed (shows default close button)       |
+| `onDeleteChip` | `function`                                                               | -           | No       | Callback function fired when chip is deleted                              |
+| `children`     | `ReactNode \| function`                                                  | -           | No       | Custom content or function to render chip content (replaces default text) |
+| `prepend`      | `ReactNode \| function`                                                  | -           | No       | Content to render before chip text                                        |
+| `append`       | `ReactNode \| function`                                                  | -           | No       | Content to render after chip text                                         |
+| `close`        | `ReactNode \| function`                                                  | -           | No       | Custom close button component (replaces default close button)             |
+| `variant`      | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'default'` | No       | Chip color variant                                                        |
+| `variantType`  | `'solid' \| 'outlined' \| 'filled'`                                      | `'solid'`   | No       | Variant styling type                                                      |
+| `disabled`     | `boolean`                                                                | `false`     | No       | Whether the chip is disabled (prevents interaction)                       |
+| `className`    | `string`                                                                 | `''`        | No       | Additional CSS classes                                                    |
+| `style`        | `object`                                                                 | `{}`        | No       | Additional inline styles                                                  |
+| `onClick`      | `function`                                                               | -           | No       | Click handler for the chip                                                |
 
-### Event Parameters
+### Event Handlers
 
-- **`chipValue`** (`any`): The value of the deleted chip
-- **`event`** (`Event`): The original click/delete event
+#### onDeleteChip
 
-## Slots (Custom Components)
+Callback function that is called when the chip is deleted (close button clicked).
 
-| Slot       | Props                                       | Description                            |
-| ---------- | ------------------------------------------- | -------------------------------------- |
-| `children` | `{ chip, isDisabled }`                      | Custom content for the chip            |
-| `prepend`  | `{ chip, isDisabled }`                      | Content to render before the chip text |
-| `append`   | `{ chip, isDisabled }`                      | Content to render after the chip text  |
-| `close`    | `{ chip, chipValue, isDisabled, onDelete }` | Custom close button component          |
+**Signature:**
 
-### Slot Props
+```js
+onDeleteChip: (chipValue, event) => void
+```
 
-- **`chip`** (`object \| string`): The chip data
-- **`chipValue`** (`any`): The extracted value from the chip
-- **`isDisabled`** (`boolean`): Whether the chip is disabled
-- **`onDelete`** (`function`): Function to trigger chip deletion
+**Parameters:**
 
-## Variants
+- `chipValue` (`any`): The extracted value from the chip (using `valueKey` if chip is object, or the chip itself if string)
+- `event` (`SyntheticEvent`): The React synthetic event object
 
-### Available Variants
+#### onClick
 
-- **`default`**: Default chip styling
-- **`primary`**: Primary color variant
-- **`success`**: Success/green variant
-- **`warning`**: Warning/orange variant
-- **`danger`**: Danger/red variant
-- **`info`**: Info/blue variant
+Callback function that is called when the chip is clicked.
+
+**Signature:**
+
+```js
+onClick: (event) => void
+```
+
+**Parameters:**
+
+- `event` (`SyntheticEvent`): The React synthetic event object
+
+### Slot Functions
+
+#### prepend
+
+Content to render before the chip text. Can be a React node or a function.
+
+**Signature (when function):**
+
+```js
+prepend: ({ chip, isDisabled }) => ReactNode;
+```
+
+**Parameters:**
+
+- `chip` (`object | string`): The chip data
+- `isDisabled` (`boolean`): Whether the chip is disabled
+
+#### append
+
+Content to render after the chip text. Can be a React node or a function.
+
+**Signature (when function):**
+
+```js
+append: ({ chip, isDisabled }) => ReactNode;
+```
+
+**Parameters:**
+
+- `chip` (`object | string`): The chip data
+- `isDisabled` (`boolean`): Whether the chip is disabled
+
+#### children
+
+Custom content for the chip. Can be a React node or a function. When provided, replaces the default text display.
+
+**Signature (when function):**
+
+```js
+children: ({ chip, isDisabled }) => ReactNode;
+```
+
+**Parameters:**
+
+- `chip` (`object | string`): The chip data
+- `isDisabled` (`boolean`): Whether the chip is disabled
+
+#### close
+
+Custom close button component. Can be a React node or a function. When provided, replaces the default close button.
+
+**Signature (when function):**
+
+```js
+close: ({ chip, chipValue, isDisabled, onDelete }) => ReactNode;
+```
+
+**Parameters:**
+
+- `chip` (`object | string`): The chip data
+- `chipValue` (`any`): The extracted value from the chip
+- `isDisabled` (`boolean`): Whether the chip is disabled
+- `onDelete` (`function`): Function to trigger chip deletion (call this when close button is clicked)
+
+### Variants
+
+The chip supports six color variants:
+
+- `default`: Gray/neutral styling
+- `primary`: Blue styling
+- `success`: Green styling
+- `warning`: Yellow/orange styling
+- `danger`: Red styling
+- `info`: Cyan/teal styling
 
 ### Variant Types
 
-- **`solid`**: Solid background color
-- **`outlined`**: Outlined border style
-- **`filled`**: Filled background with border
+The chip supports three variant types that change the visual style:
 
-## Methods
+- `solid`: Solid background color with matching border (default)
+- `outlined`: Transparent background with colored border
+- `filled`: Light background color with darker border
 
-The component doesn't expose any methods via refs.
+### Accessibility Attributes
 
-## Example Usage
+The component automatically applies the following accessibility attributes:
 
-### Basic Usage
-
-```jsx
-import React from "react";
-import { BasicChip } from "@your-org/react-ui-components";
-
-function MyComponent() {
-  return <BasicChip chip="Simple Chip" />;
-}
-```
-
-### With Object Data
-
-```jsx
-const chipData = { text: "User Chip", value: "user123" };
-
-<BasicChip chip={chipData} textKey="text" valueKey="value" />;
-```
-
-### Closable Chip
-
-```jsx
-import React, { useState } from "react";
-import { BasicChip } from "@your-org/react-ui-components";
-
-function ClosableChipExample() {
-  const [chips, setChips] = useState(["Chip 1", "Chip 2", "Chip 3"]);
-
-  const handleDelete = (chipValue) => {
-    setChips(chips.filter((chip) => chip !== chipValue));
-  };
-
-  return (
-    <div>
-      {chips.map((chip, index) => (
-        <BasicChip
-          key={index}
-          chip={chip}
-          closable={true}
-          onDeleteChip={handleDelete}
-        />
-      ))}
-    </div>
-  );
-}
-```
-
-### Different Variants
-
-```jsx
-<BasicChip chip="Default" variant="default" />
-<BasicChip chip="Primary" variant="primary" />
-<BasicChip chip="Success" variant="success" />
-<BasicChip chip="Warning" variant="warning" />
-<BasicChip chip="Danger" variant="danger" />
-<BasicChip chip="Info" variant="info" />
-```
-
-### Variant Types
-
-```jsx
-<BasicChip chip="Solid" variant="primary" variantType="solid" />
-<BasicChip chip="Outlined" variant="primary" variantType="outlined" />
-<BasicChip chip="Filled" variant="primary" variantType="filled" />
-```
-
-### With Custom Content
-
-```jsx
-const CustomContent = ({ chip, isDisabled }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-    <span>🚀</span>
-    <span>{chip}</span>
-    <span>✨</span>
-  </div>
-);
-
-<BasicChip chip="Custom Content" children={CustomContent} />;
-```
-
-### With Prepend and Append
-
-```jsx
-const PrependIcon = ({ chip, isDisabled }) => (
-  <span style={{ color: isDisabled ? "#ccc" : "#007bff" }}>🔗</span>
-);
-
-const AppendBadge = ({ chip, isDisabled }) => (
-  <span
-    style={{
-      fontSize: "10px",
-      backgroundColor: isDisabled ? "#ccc" : "#28a745",
-      color: "white",
-      padding: "2px 6px",
-      borderRadius: "10px",
-    }}
-  >
-    NEW
-  </span>
-);
-
-<BasicChip chip="Link Chip" prepend={PrependIcon} append={AppendBadge} />;
-```
-
-### Custom Close Button
-
-```jsx
-const CustomClose = ({ chip, chipValue, isDisabled, onDelete }) => (
-  <button
-    onClick={onDelete}
-    disabled={isDisabled}
-    style={{
-      background: "none",
-      border: "none",
-      color: isDisabled ? "#ccc" : "#dc3545",
-      cursor: isDisabled ? "not-allowed" : "pointer",
-      fontSize: "16px",
-    }}
-  >
-    ✕
-  </button>
-);
-
-<BasicChip
-  chip="Custom Close"
-  closable={true}
-  close={CustomClose}
-  onDeleteChip={(value) => console.log("Deleted:", value)}
-/>;
-```
-
-### Disabled State
-
-```jsx
-<BasicChip chip="Disabled Chip" disabled={true} />
-<BasicChip chip="Disabled Closable" closable={true} disabled={true} />
-```
-
-### Click Handler
-
-```jsx
-<BasicChip
-  chip="Clickable Chip"
-  onClick={(event) => {
-    console.log("Chip clicked!");
-    // Handle click event
-  }}
-/>
-```
-
-### Complex Object Data
-
-```jsx
-const complexChip = {
-  text: "John Doe",
-  value: "user123",
-  avatar: "https://example.com/avatar.jpg",
-  role: "admin",
-};
-
-const ComplexChipContent = ({ chip, isDisabled }) => (
-  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-    <img
-      src={chip.avatar}
-      alt={chip.text}
-      style={{
-        width: "20px",
-        height: "20px",
-        borderRadius: "50%",
-        opacity: isDisabled ? 0.5 : 1,
-      }}
-    />
-    <span>{chip.text}</span>
-    <span style={{ fontSize: "10px", color: "#666" }}>({chip.role})</span>
-  </div>
-);
-
-<BasicChip
-  chip={complexChip}
-  textKey="text"
-  valueKey="value"
-  children={ComplexChipContent}
-  closable={true}
-  variant="primary"
-/>;
-```
-
-### Multiple Chips with State Management
-
-```jsx
-import React, { useState } from "react";
-import { BasicChip } from "@your-org/react-ui-components";
-
-function ChipManager() {
-  const [selectedChips, setSelectedChips] = useState([]);
-
-  const availableChips = [
-    { text: "React", value: "react" },
-    { text: "Vue", value: "vue" },
-    { text: "Angular", value: "angular" },
-    { text: "Svelte", value: "svelte" },
-  ];
-
-  const handleAddChip = (chip) => {
-    if (!selectedChips.find((c) => c.value === chip.value)) {
-      setSelectedChips([...selectedChips, chip]);
-    }
-  };
-
-  const handleRemoveChip = (chipValue) => {
-    setSelectedChips(selectedChips.filter((c) => c.value !== chipValue));
-  };
-
-  return (
-    <div>
-      <h4>Available Technologies:</h4>
-      <div style={{ marginBottom: "1rem" }}>
-        {availableChips.map((chip) => (
-          <BasicChip
-            key={chip.value}
-            chip={chip}
-            textKey="text"
-            valueKey="value"
-            variant="outlined"
-            variantType="outlined"
-            onClick={() => handleAddChip(chip)}
-            style={{ margin: "0.25rem", cursor: "pointer" }}
-          />
-        ))}
-      </div>
-
-      <h4>Selected Technologies:</h4>
-      <div>
-        {selectedChips.map((chip) => (
-          <BasicChip
-            key={chip.value}
-            chip={chip}
-            textKey="text"
-            valueKey="value"
-            variant="primary"
-            closable={true}
-            onDeleteChip={handleRemoveChip}
-            style={{ margin: "0.25rem" }}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}
-```
+- `role="button"`: Indicates the chip is a button
+- `tabIndex`: `0` when enabled, `-1` when disabled
+- `aria-disabled`: `true` when disabled, `false` when enabled
+- Close button has `aria-label="Remove chip"` for screen readers

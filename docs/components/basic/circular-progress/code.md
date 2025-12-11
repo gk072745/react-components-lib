@@ -2,30 +2,31 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
 - SCSS for styling
+- AppProvider context for image assets
+- useAppContext custom hook
 
-## Files
+## Component Files
 
-### Component File
+### React Component
 
 ```
 src/
 ├── components/
-│   └── sharedComponents/
-│       └── CircularProgressBar.jsx
-└── assets/
-    └── scss/
-        └── components/
-            └── _circular-progress-bar.scss
+    └── sharedComponents/
+        └── CircularProgressBar.jsx
 ```
 
 - **Path**: `src/components/sharedComponents/CircularProgressBar.jsx`
 - **Description**: Full-screen loading overlay component
 
 ```jsx
-import React from "react";
-import { useAppContext } from "../../customHooks/useAppContext.js";
+import React from 'react';
+import { useAppContext } from '../../customHooks/useAppContext.js';
+import '../../assets/scss/components/_circular-progress-bar.scss';
 
 const CircularProgressBar = () => {
   const { appImages } = useAppContext();
@@ -35,11 +36,8 @@ const CircularProgressBar = () => {
   };
 
   return (
-    <div
-      className="loading-animation initial-loader translucent-background"
-      onMouseUp={handleMouseUp}
-    >
-      <img src={appImages["loader.gif"]} alt="Loading..." />
+    <div className="loading-animation initial-loader translucent-background" onMouseUp={handleMouseUp}>
+      <img src={appImages['loader.gif']} alt="Loading..." />
     </div>
   );
 };
@@ -47,13 +45,23 @@ const CircularProgressBar = () => {
 export default CircularProgressBar;
 ```
 
-### Styles
+### SCSS Component
+
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _circular-progress-bar.scss
+```
 
 - **Path**: `src/assets/scss/components/_circular-progress-bar.scss`
-- **Description**: Loader overlay styles
+- **Description**: Circular progress bar component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 .loading-animation {
   z-index: 20;
@@ -74,29 +82,4 @@ export default CircularProgressBar;
     pointer-events: none;
   }
 }
-```
-
-### SCSS Abstracts
-
-- **Path**: `src/assets/scss/abstracts/index.scss`
-- **Description**: Global SCSS variables, mixins, and functions
-
-> Note: The loader SCSS imports `../abstracts` and relies on the shared abstracts entry. No component-specific variables or mixins are required for this loader.
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-
-// breakpoints
-@forward "breakpoints";
 ```

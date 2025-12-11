@@ -1,18 +1,10 @@
-import React, { useMemo, useCallback, memo } from "react";
-import Link from "@docusaurus/Link";
-import PropTypes from "prop-types";
-import "@site/src/assets/scss/components/_basic-breadcrumb.scss";
+import React, { useMemo, useCallback, memo } from 'react';
+import Link from '@docusaurus/Link';
+import PropTypes from 'prop-types';
+import '@site/src/assets/scss/components/_basic-breadcrumb.scss';
 
 const BasicBreadCrumb = memo(
-  ({
-    items = [],
-    separator = "/",
-    gap = "0.5rem",
-    className = "",
-    style = {},
-    onItemClick,
-    ...props
-  }) => {
+  ({ items = [], separator = '/', gap = '0.5rem', className = '', style = {}, onItemClick, ...props }) => {
     // Remove useHistory hook - we'll use Link components instead
 
     // =============================================================================
@@ -54,7 +46,7 @@ const BasicBreadCrumb = memo(
     // =============================================================================
     const renderSeparator = useMemo(() => {
       // If separator is a function, call it with context
-      if (typeof separator === "function") {
+      if (typeof separator === 'function') {
         return separator();
       }
 
@@ -64,7 +56,7 @@ const BasicBreadCrumb = memo(
       }
 
       // If separator is an object with render method
-      if (separator && typeof separator === "object" && separator.render) {
+      if (separator && typeof separator === 'object' && separator.render) {
         return separator.render();
       }
 
@@ -80,16 +72,11 @@ const BasicBreadCrumb = memo(
         return (
           <div key={index} className="breadcrumb-item" style={itemStyle}>
             {isClickable ? (
-              <Link
-                to={item.to}
-                className={`label ${item.disabled ? "disabled" : ""}`}
-              >
+              <Link to={item.to} className={`label ${item.disabled ? 'disabled' : ''}`}>
                 {item.label}
               </Link>
             ) : (
-              <span className={`label ${item.disabled ? "disabled" : ""}`}>
-                {item.label}
-              </span>
+              <span className={`label ${item.disabled ? 'disabled' : ''}`}>{item.label}</span>
             )}
             {!isLast && renderSeparator}
           </div>
@@ -102,21 +89,16 @@ const BasicBreadCrumb = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["breadcrumb-container"];
+      const classes = ['breadcrumb-container'];
       if (className) classes.push(className);
-      return classes.join(" ");
+      return classes.join(' ');
     }, [className]);
 
     // =============================================================================
     // RENDER
     // =============================================================================
     return (
-      <nav
-        className={containerClass}
-        style={containerStyle}
-        aria-label="Breadcrumb navigation"
-        {...props}
-      >
+      <nav className={containerClass} style={containerStyle} aria-label="Breadcrumb navigation" {...props}>
         {items.map(renderBreadcrumbItem)}
       </nav>
     );
@@ -150,12 +132,12 @@ BasicBreadCrumb.propTypes = {
 
 BasicBreadCrumb.defaultProps = {
   items: [],
-  separator: "/",
-  gap: "0.5rem",
-  className: "",
+  separator: '/',
+  gap: '0.5rem',
+  className: '',
   style: {},
 };
 
-BasicBreadCrumb.displayName = "BasicBreadCrumb";
+BasicBreadCrumb.displayName = 'BasicBreadCrumb';
 
 export default BasicBreadCrumb;

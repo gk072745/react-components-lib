@@ -1,44 +1,19 @@
 import {
-  ColorVariantsExample,
-  BasicControlledExample,
-  ThumbLabelsExample,
-  AlwaysVisibleLabelsExample,
-  SizesExample,
-  DisabledReadonlyExample,
-  CustomStepValuesExample,
-  CustomRangesExample
+  BasicSliderDemo,
+  VariantColorsDemo,
+  SizesDemo,
+  ThumbLabelsDemo,
+  StepControlDemo,
+  CustomRangesDemo,
+  StatesDemo,
+  WithLabelsDemo
 } from "@site/src/demoPages/SliderDemo.jsx";
 
 # Demo
 
-This page alternates code examples with their interactive demos for the Slider.
+This page demonstrates the Slider component with various configurations and examples.
 
-## Color Variants
-
-### Code Example
-
-```jsx
-import BasicSlider from "../components/sharedComponents/BasicSlider";
-
-export default function ColorVariantsExample() {
-  return (
-    <div>
-      <BasicSlider value={50} label="Default Color" min={0} max={100} step={1} color="default" size="md" />
-      <BasicSlider value={60} label="Primary Color" min={0} max={100} step={1} color="primary" size="md" />
-      <BasicSlider value={70} label="Success Color" min={0} max={100} step={1} color="success" size="md" />
-      <BasicSlider value={80} label="Warning Color" min={0} max={100} step={1} color="warning" size="md" />
-      <BasicSlider value={90} label="Danger Color" min={0} max={100} step={1} color="danger" size="md" />
-      <BasicSlider value={40} label="Info Color" min={0} max={100} step={1} color="info" size="md" />
-    </div>
-  );
-}
-```
-
-### Interactive Demo
-
-<ColorVariantsExample />
-
-## Basic Slider
+## Demo 1: Basic Slider
 
 ### Code Example
 
@@ -46,22 +21,34 @@ export default function ColorVariantsExample() {
 import React, { useState } from "react";
 import BasicSlider from "../components/sharedComponents/BasicSlider";
 
-export default function BasicControlledExample() {
-  const [value, setValue] = useState(50);
+const BasicSliderExample = () => {
+  const [sliderValue, setSliderValue] = useState(50);
+
+  const handleSliderChange = (newValue) => {
+    console.log("Basic slider changed:", newValue);
+    setSliderValue(newValue);
+  };
+
   return (
-    <div>
-      <BasicSlider value={value} onChange={setValue} label="Volume Control" min={0} max={100} step={1} color="primary" size="md" />
-      <p>Current Value: {value}</p>
-    </div>
+    <BasicSlider
+      value={sliderValue}
+      onChange={handleSliderChange}
+      label="Volume Control"
+      min={0}
+      max={100}
+      step={1}
+      variant="primary"
+      size="md"
+    />
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<BasicControlledExample />
+<BasicSliderDemo />
 
-## Slider with Thumb Labels
+## Demo 2: Variant Colors
 
 ### Code Example
 
@@ -69,22 +56,86 @@ export default function BasicControlledExample() {
 import React, { useState } from "react";
 import BasicSlider from "../components/sharedComponents/BasicSlider";
 
-export default function ThumbLabelsExample() {
-  const [val, setVal] = useState(75);
+const VariantColorsExample = () => {
+  const [defaultValue, setDefaultValue] = useState(50);
+  const [primaryValue, setPrimaryValue] = useState(60);
+  const [successValue, setSuccessValue] = useState(70);
+  const [warningValue, setWarningValue] = useState(80);
+  const [dangerValue, setDangerValue] = useState(90);
+  const [infoValue, setInfoValue] = useState(40);
+
   return (
     <div>
-      <BasicSlider value={val} onChange={setVal} label="Temperature Control" min={-50} max={150} step={5} color="success" thumbLabel={true} size="lg" />
-      <p>Current Temperature: {val}°C</p>
+      <BasicSlider
+        value={defaultValue}
+        onChange={setDefaultValue}
+        label="Default"
+        min={0}
+        max={100}
+        step={1}
+        variant="default"
+        size="md"
+      />
+      <BasicSlider
+        value={primaryValue}
+        onChange={setPrimaryValue}
+        label="Primary"
+        min={0}
+        max={100}
+        step={1}
+        variant="primary"
+        size="md"
+      />
+      <BasicSlider
+        value={successValue}
+        onChange={setSuccessValue}
+        label="Success"
+        min={0}
+        max={100}
+        step={1}
+        variant="success"
+        size="md"
+      />
+      <BasicSlider
+        value={warningValue}
+        onChange={setWarningValue}
+        label="Warning"
+        min={0}
+        max={100}
+        step={1}
+        variant="warning"
+        size="md"
+      />
+      <BasicSlider
+        value={dangerValue}
+        onChange={setDangerValue}
+        label="Danger"
+        min={0}
+        max={100}
+        step={1}
+        variant="danger"
+        size="md"
+      />
+      <BasicSlider
+        value={infoValue}
+        onChange={setInfoValue}
+        label="Info"
+        min={0}
+        max={100}
+        step={1}
+        variant="info"
+        size="md"
+      />
     </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<ThumbLabelsExample />
+<VariantColorsDemo />
 
-## Slider with Always Visible Labels
+## Demo 3: Size Variants
 
 ### Code Example
 
@@ -92,67 +143,75 @@ export default function ThumbLabelsExample() {
 import React, { useState } from "react";
 import BasicSlider from "../components/sharedComponents/BasicSlider";
 
-export default function AlwaysVisibleLabelsExample() {
-  const [val, setVal] = useState(25);
+const SizesExample = () => {
+  const [xsValue, setXsValue] = useState(25);
+  const [smValue, setSmValue] = useState(30);
+  const [mdValue, setMdValue] = useState(35);
+  const [lgValue, setLgValue] = useState(40);
+  const [xlValue, setXlValue] = useState(45);
+
   return (
     <div>
-      <BasicSlider value={val} onChange={setVal} label="Percentage Control" min={0} max={100} step={0.1} color="danger" thumbLabel="always" size="md" />
-      <p>Current Percentage: {val.toFixed(1)}%</p>
+      <BasicSlider
+        value={xsValue}
+        onChange={setXsValue}
+        label="Extra Small (xs)"
+        min={0}
+        max={100}
+        step={1}
+        variant="info"
+        size="xs"
+      />
+      <BasicSlider
+        value={smValue}
+        onChange={setSmValue}
+        label="Small (sm)"
+        min={0}
+        max={100}
+        step={1}
+        variant="warning"
+        size="sm"
+      />
+      <BasicSlider
+        value={mdValue}
+        onChange={setMdValue}
+        label="Medium (md)"
+        min={0}
+        max={100}
+        step={1}
+        variant="success"
+        size="md"
+      />
+      <BasicSlider
+        value={lgValue}
+        onChange={setLgValue}
+        label="Large (lg)"
+        min={0}
+        max={100}
+        step={1}
+        variant="danger"
+        size="lg"
+      />
+      <BasicSlider
+        value={xlValue}
+        onChange={setXlValue}
+        label="Extra Large (xl)"
+        min={0}
+        max={100}
+        step={1}
+        variant="primary"
+        size="xl"
+      />
     </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<AlwaysVisibleLabelsExample />
+<SizesDemo />
 
-## Different Sizes
-
-### Code Example
-
-```jsx
-import BasicSlider from "../components/sharedComponents/BasicSlider";
-
-export default function SizesExample() {
-  return (
-    <div>
-      <BasicSlider value={25} label="Extra Small" min={0} max={100} step={1} color="info" size="xs" />
-      <BasicSlider value={30} label="Small" min={0} max={100} step={1} color="warning" size="sm" />
-      <BasicSlider value={35} label="Medium" min={0} max={100} step={1} color="success" size="md" />
-      <BasicSlider value={40} label="Large" min={0} max={100} step={1} color="danger" size="lg" />
-      <BasicSlider value={45} label="Extra Large" min={0} max={100} step={1} color="primary" size="xl" />
-    </div>
-  );
-}
-```
-
-### Interactive Demo
-
-<SizesExample />
-
-## Disabled and Readonly
-
-### Code Example
-
-```jsx
-import BasicSlider from "../components/sharedComponents/BasicSlider";
-
-export default function DisabledReadonlyExample() {
-  return (
-    <div>
-      <BasicSlider value={50} label="Disabled Slider" min={0} max={100} step={1} color="primary" disabled={true} size="md" />
-      <BasicSlider value={60} label="Readonly Slider" min={0} max={100} step={1} color="success" readonly={true} size="md" />
-    </div>
-  );
-}
-```
-
-### Interactive Demo
-
-<DisabledReadonlyExample />
-
-## Custom Step Values
+## Demo 4: Thumb Labels
 
 ### Code Example
 
@@ -160,40 +219,194 @@ export default function DisabledReadonlyExample() {
 import React, { useState } from "react";
 import BasicSlider from "../components/sharedComponents/BasicSlider";
 
-export default function CustomStepValuesExample() {
-  const [val, setVal] = useState(60);
+const ThumbLabelsExample = () => {
+  const [thumbLabelValue, setThumbLabelValue] = useState(75);
+  const [alwaysLabelValue, setAlwaysLabelValue] = useState(25);
+
   return (
     <div>
-      <BasicSlider value={val} onChange={setVal} label="Decimal Control" min={0} max={10} step={0.25} color="info" thumbLabel={true} size="md" />
-      <p>Current Value: {val.toFixed(2)}</p>
+      <BasicSlider
+        value={thumbLabelValue}
+        onChange={setThumbLabelValue}
+        label="Show on Drag/Focus"
+        min={-50}
+        max={150}
+        step={5}
+        variant="success"
+        thumbLabel={true}
+        size="lg"
+      />
+      <BasicSlider
+        value={alwaysLabelValue}
+        onChange={setAlwaysLabelValue}
+        label="Always Visible"
+        min={0}
+        max={100}
+        step={0.1}
+        variant="danger"
+        thumbLabel="always"
+        size="md"
+      />
     </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<CustomStepValuesExample />
+<ThumbLabelsDemo />
 
-## Custom Ranges
+## Demo 5: Step Control
 
 ### Code Example
 
 ```jsx
+import React, { useState } from "react";
 import BasicSlider from "../components/sharedComponents/BasicSlider";
 
-export default function CustomRangesExample() {
+const StepControlExample = () => {
+  const [decimalValue, setDecimalValue] = useState(60);
+
   return (
-    <div>
-      <BasicSlider value={5} label="Small Range (0-10)" min={0} max={10} step={1} color="primary" size="md" />
-      <BasicSlider value={500} label="Large Range (0-1000)" min={0} max={1000} step={10} color="success" size="md" />
-      <BasicSlider value={-25} label="Negative Range (-100 to 100)" min={-100} max={100} step={5} color="warning" size="md" />
-    </div>
+    <BasicSlider
+      value={decimalValue}
+      onChange={setDecimalValue}
+      label="Decimal Control (step: 0.25)"
+      min={0}
+      max={10}
+      step={0.25}
+      variant="info"
+      thumbLabel={true}
+      size="md"
+    />
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<CustomRangesExample />
+<StepControlDemo />
 
+## Demo 6: Custom Ranges
+
+### Code Example
+
+```jsx
+import React, { useState } from "react";
+import BasicSlider from "../components/sharedComponents/BasicSlider";
+
+const CustomRangesExample = () => {
+  const [smallRangeValue, setSmallRangeValue] = useState(5);
+  const [largeRangeValue, setLargeRangeValue] = useState(500);
+  const [negativeRangeValue, setNegativeRangeValue] = useState(-25);
+
+  return (
+    <div>
+      <BasicSlider
+        value={smallRangeValue}
+        onChange={setSmallRangeValue}
+        label="Small Range (0-10)"
+        min={0}
+        max={10}
+        step={1}
+        variant="primary"
+        size="md"
+      />
+      <BasicSlider
+        value={largeRangeValue}
+        onChange={setLargeRangeValue}
+        label="Large Range (0-1000)"
+        min={0}
+        max={1000}
+        step={10}
+        variant="success"
+        size="md"
+      />
+      <BasicSlider
+        value={negativeRangeValue}
+        onChange={setNegativeRangeValue}
+        label="Negative Range (-100 to 100)"
+        min={-100}
+        max={100}
+        step={5}
+        variant="warning"
+        size="md"
+      />
+    </div>
+  );
+};
+```
+
+### Interactive Demo
+
+<CustomRangesDemo />
+
+## Demo 7: States
+
+### Code Example
+
+```jsx
+import React from "react";
+import BasicSlider from "../components/sharedComponents/BasicSlider";
+
+const StatesExample = () => {
+  return (
+    <div>
+      <BasicSlider
+        value={50}
+        label="Disabled Slider"
+        min={0}
+        max={100}
+        step={1}
+        variant="primary"
+        disabled={true}
+        size="md"
+      />
+      <BasicSlider
+        value={60}
+        label="Readonly Slider"
+        min={0}
+        max={100}
+        step={1}
+        variant="success"
+        readonly={true}
+        size="md"
+      />
+    </div>
+  );
+};
+```
+
+### Interactive Demo
+
+<StatesDemo />
+
+## Demo 8: With Labels
+
+### Code Example
+
+```jsx
+import React, { useState } from "react";
+import BasicSlider from "../components/sharedComponents/BasicSlider";
+
+const WithLabelsExample = () => {
+  const [labeledValue, setLabeledValue] = useState(50);
+
+  return (
+    <BasicSlider
+      value={labeledValue}
+      onChange={setLabeledValue}
+      label="Volume"
+      min={0}
+      max={100}
+      step={1}
+      variant="primary"
+      size="md"
+    />
+  );
+};
+```
+
+### Interactive Demo
+
+<WithLabelsDemo />

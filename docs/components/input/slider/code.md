@@ -2,23 +2,25 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
-- SCSS for styling
 - PropTypes for prop validation
+- SCSS for styling
 
-## Files
+## Component Files
 
-### Component File
+### React Component
 
 ```
 src/
 ├── components/
-│   └── sharedComponents/
-│       └── BasicSlider.jsx
+    └── sharedComponents/
+        └── BasicSlider.jsx
 ```
 
-- Path: `src/components/sharedComponents/BasicSlider.jsx`
-- Description: Single-value slider with drag, touch, and keyboard support
+- **Path**: `src/components/sharedComponents/BasicSlider.jsx`
+- **Description**: Main slider component implementation
 
 ```jsx
 import React, { useMemo, useCallback, memo, useRef, useState, useEffect } from 'react';
@@ -27,12 +29,10 @@ import PropTypes from 'prop-types';
 const BasicSlider = memo(
   ({
     size = 'md',
+    variant = 'default',
     disabled = false,
     readonly = false,
     step = 0.1,
-    color = 'default',
-    thumbColor = 'black',
-    trackColor = 'grey',
     label = '',
     min = 0,
     max = 100,
@@ -87,27 +87,27 @@ const BasicSlider = memo(
       setIsDragging(false);
     }, []);
 
-    const updateValueFromPosition = useCallback((clientX) => {
-      if (!trackRef.current) return;
-      const rect = trackRef.current.getBoundingClientRect();
-      let percent = (clientX - rect.left) / rect.width;
-      percent = Math.max(0, Math.min(1, percent));
-      let rawValue = min + percent * (max - min);
-      const steppedValue = roundToStep(Math.round(rawValue / step) * step, step);
-      
-      if (steppedValue !== currentValue) {
-        setCurrentValue(steppedValue);
-        onChange?.(steppedValue);
-      }
-    }, [min, max, step, roundToStep, currentValue, onChange]);
+    const updateValueFromPosition = useCallback(
+      (clientX) => {
+        if (!trackRef.current) return;
+        const rect = trackRef.current.getBoundingClientRect();
+        let percent = (clientX - rect.left) / rect.width;
+        percent = Math.max(0, Math.min(1, percent));
+        let rawValue = min + percent * (max - min);
+        const steppedValue = roundToStep(Math.round(rawValue / step) * step, step);
 
-    const handleMouseMove = useCallback(
-      e => updateValueFromPosition(e.clientX),
-      [updateValueFromPosition]
+        if (steppedValue !== currentValue) {
+          setCurrentValue(steppedValue);
+          onChange?.(steppedValue);
+        }
+      },
+      [min, max, step, roundToStep, currentValue, onChange]
     );
 
+    const handleMouseMove = useCallback((e) => updateValueFromPosition(e.clientX), [updateValueFromPosition]);
+
     const handleTouchMove = useCallback(
-      e => updateValueFromPosition(e.touches[0].clientX),
+      (e) => updateValueFromPosition(e.touches[0].clientX),
       [updateValueFromPosition]
     );
 
@@ -147,7 +147,7 @@ const BasicSlider = memo(
     );
 
     const handleTrackClick = useCallback(
-      e => {
+      (e) => {
         if (disabled || readonly) return;
         const clientX = e.type === 'mousedown' ? e.clientX : e.touches[0].clientX;
         updateValueFromPosition(clientX);
@@ -156,7 +156,7 @@ const BasicSlider = memo(
     );
 
     const onKeydown = useCallback(
-      e => {
+      (e) => {
         if (disabled || readonly) return;
 
         let newValue = currentValue;
@@ -184,59 +184,26 @@ const BasicSlider = memo(
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ['basic-slider-input-wrapper', size];
-      
-      // Add color class for new system
-      if (color && color !== 'default') {
-        classes.push(`color-${color}`);
-      }
-      
+      const classes = ['basic-slider-input-wrapper', size, variant];
       if (disabled) classes.push('disabled');
       if (readonly) classes.push('readonly');
       if (label) classes.push('has-label');
       if (className) classes.push(className);
       return classes.join(' ');
-    }, [size, color, disabled, readonly, label, className]);
-
-    // Legacy style support for backward compatibility
-    const trackStyle = useMemo(
-      () => {
-        const style = {};
-        // Only apply legacy styles if using old color system
-        if (color === 'black' || color === 'default') {
-          style['--track-color'] = trackColor;
-        }
-        return style;
-      },
-      [trackColor, color]
-    );
+    }, [size, variant, disabled, readonly, label, className]);
 
     const filledStyle = useMemo(
-      () => {
-        const style = {
-          width: fillPercent + '%',
-        };
-        // Only apply legacy styles if using old color system
-        if (color === 'black' || color === 'default') {
-          style.backgroundColor = color === 'black' ? color : thumbColor;
-        }
-        return style;
-      },
-      [fillPercent, color, thumbColor]
+      () => ({
+        width: fillPercent + '%',
+      }),
+      [fillPercent]
     );
 
     const thumbStyle = useMemo(
-      () => {
-        const style = {
-          left: fillPercent + '%',
-        };
-        // Only apply legacy styles if using old color system
-        if (color === 'black' || color === 'default') {
-          style.backgroundColor = thumbColor;
-        }
-        return style;
-      },
-      [fillPercent, thumbColor, color]
+      () => ({
+        left: fillPercent + '%',
+      }),
+      [fillPercent]
     );
 
     const labelStyle = useMemo(
@@ -287,14 +254,13 @@ const BasicSlider = memo(
           aria-valuenow={currentValue}
           aria-disabled={disabled}
           aria-readonly={readonly}
-          style={trackStyle}
         >
           <div className="slider-filled" style={filledStyle} />
           <div
             className={`slider-thumb ${isDragging ? 'dragging' : ''}`}
             style={thumbStyle}
-            onMouseDown={e => startDrag(e)}
-            onTouchStart={e => startDrag(e)}
+            onMouseDown={(e) => startDrag(e)}
+            onTouchStart={(e) => startDrag(e)}
           />
           {renderThumbLabel}
         </div>
@@ -311,9 +277,7 @@ BasicSlider.propTypes = {
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   step: PropTypes.number,
-  color: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
-  thumbColor: PropTypes.string,
-  trackColor: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
   label: PropTypes.string,
   min: PropTypes.number,
   max: PropTypes.number,
@@ -331,18 +295,20 @@ BasicSlider.displayName = 'BasicSlider';
 export default BasicSlider;
 ```
 
-### Styles
+### SCSS Component
 
 ```
 src/
 ├── assets/
-│   └── scss/
-│       └── components/
-│           └── _basic-slider.scss
+    └── scss/
+        └── components/
+            └── _basic-slider.scss
 ```
 
-- Path: `src/assets/scss/components/_basic-slider.scss`
-- Description: Slider track, thumb, sizes, and color variants
+- **Path**: `src/assets/scss/components/_basic-slider.scss`
+- **Description**: Slider component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
@@ -351,476 +317,558 @@ src/
 @use '../abstracts' as *;
 
 .basic-slider-input-wrapper {
-    width: 100%;
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    align-items: center;
-    transition: all 0.2s ease;
+  width: 100%;
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  align-items: center;
 
-    *,
-    *::before,
-    *::after {
-        box-sizing: border-box;
-    }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
-    &.has-label {
-        gap: 1rem;
-    }
+  &.has-label {
+    gap: 1rem;
+  }
 
-    // Generate all sizes, colors, and states using mixins
-    @include generate-slider-sizes;
-    @include generate-slider-colors;
-    @include generate-slider-states;
+  // Focus styles for accessibility
+  &:focus-visible {
+    outline: 0.125rem solid #2196f3;
+    outline-offset: 0.125rem;
+  }
 
-    // Focus styles for accessibility
+  // =============================================================================
+  // LABEL
+  // =============================================================================
+
+  .slider-label {
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #495057;
+  }
+
+  // =============================================================================
+  // TRACK
+  // =============================================================================
+
+  .slider-track {
+    position: relative;
+    border-radius: 0.25rem;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+
     &:focus-visible {
-        outline: 0.125rem solid #2196f3;
-        outline-offset: 0.125rem;
+      box-shadow: 0 0 0 0.25rem rgba(0, 0, 0, 0.1);
     }
 
     // =============================================================================
-    // LABEL
+    // FILLED AREA
     // =============================================================================
+
+    .slider-filled {
+      position: absolute;
+      height: 100%;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    // =============================================================================
+    // THUMB
+    // =============================================================================
+
+    .slider-thumb {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 2;
+      cursor: grab;
+
+      &:active {
+        cursor: grabbing;
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+
+    // =============================================================================
+    // THUMB LABEL
+    // =============================================================================
+
+    .thumb-label {
+      position: absolute;
+      transform: translateX(-50%);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      white-space: nowrap;
+      bottom: 0;
+      margin-bottom: 1rem;
+      z-index: 4;
+      pointer-events: none;
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: calc(50% - 0.25rem);
+        top: 100%;
+        width: 0.5rem;
+        height: 0.5rem;
+        transform: rotate(45deg) translate(-50%, -50%);
+      }
+    }
+  }
+
+  // =============================================================================
+  // DISABLED AND READONLY STATES
+  // =============================================================================
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.readonly {
+    pointer-events: none;
+  }
+
+  // =============================================================================
+  // SIZE VARIANTS
+  // =============================================================================
+
+  &.xs {
+    .slider-track {
+      height: 0.25rem;
+
+      .slider-thumb {
+        width: 0.75rem;
+        height: 0.75rem;
+      }
+    }
 
     .slider-label {
-        font-weight: 500;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      font-size: 0.875rem;
+    }
+  }
+
+  &.sm {
+    .slider-track {
+      height: 0.3125rem;
+
+      .slider-thumb {
+        width: 0.875rem;
+        height: 0.875rem;
+      }
     }
 
-    // =============================================================================
-    // TRACK
-    // =============================================================================
+    .slider-label {
+      font-size: 0.9375rem;
+    }
+  }
 
+  &.md {
     .slider-track {
-        position: relative;
-        border-radius: $slider-track-border-radius;
-        user-select: none;
-        outline: none;
+      height: 0.375rem;
 
-        // =============================================================================
-        // FILLED AREA
-        // =============================================================================
+      .slider-thumb {
+        width: 1rem;
+        height: 1rem;
+      }
+    }
+
+    .slider-label {
+      font-size: 1rem;
+    }
+  }
+
+  &.lg {
+    .slider-track {
+      height: 0.5rem;
+
+      .slider-thumb {
+        width: 1.25rem;
+        height: 1.25rem;
+      }
+    }
+
+    .slider-label {
+      font-size: 1.125rem;
+    }
+  }
+
+  &.xl {
+    .slider-track {
+      height: 0.625rem;
+
+      .slider-thumb {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+    }
+
+    .slider-label {
+      font-size: 1.25rem;
+    }
+  }
+
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+
+  // Default Variant
+  &.default {
+    .slider-track {
+      background-color: #ced4da;
+
+      .slider-filled {
+        background-color: #007bff;
+      }
+
+      .slider-thumb {
+        background-color: #007bff;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.2);
+      }
+
+      .thumb-label {
+        background: #343a40;
+        color: #ffffff;
+
+        &::before {
+          background: #343a40;
+        }
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        background-color: #adb5bd;
 
         .slider-filled {
-            position: absolute;
-            height: 100%;
-            border-radius: $slider-track-border-radius 0 0 $slider-track-border-radius;
+          background-color: #0069d9;
         }
-
-        // =============================================================================
-        // THUMB
-        // =============================================================================
 
         .slider-thumb {
-            position: absolute;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            border-radius: 50%;
-            z-index: 2;
-            transition: all 0.2s ease-in-out;
-
-            &:active {
-                transform: translate(-50%, -50%) scale($slider-thumb-scale-active);
-            }
+          background-color: #0069d9;
         }
+      }
 
-        // =============================================================================
-        // THUMB LABEL
-        // =============================================================================
-
-        .thumb-label {
-            position: absolute;
-            transform: translateX(-50%);
-            font-size: 0.75rem;
-            padding: $slider-thumb-label-padding;
-            border-radius: $slider-thumb-label-border-radius;
-            white-space: nowrap;
-            bottom: 0;
-            margin-bottom: $slider-thumb-label-margin-bottom;
-            z-index: 4;
-            pointer-events: none;
-
-            &::before {
-                content: "";
-                position: absolute;
-                left: calc(50% - #{$slider-thumb-label-arrow-size / 2});
-                top: 100%;
-                width: $slider-thumb-label-arrow-size;
-                height: $slider-thumb-label-arrow-size;
-                transform: rotate(45deg) translate(-50%, -50%);
-            }
-        }
-    }
-
-    // Default color (when no color class is applied)
-    &:not([class*='color-']) {
-        @include slider-color('default');
-    }
-}
-```
-
-### Abstracts
-
-```
-src/
-├── assets/
-│   └── scss/
-│       └── abstracts/
-│           └── index.scss
-```
-
-- **Path**: `src/assets/scss/abstracts/index.scss`
-- **Description**: Global SCSS variables, mixins, and functions
-  > **Note:**  This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like slider variables and mixins) are available when importing abstracts.
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward 'variables';
-@forward 'variables/slider-variables';
-
-// functions
-@forward 'functions';
-
-// mixins
-@forward 'mixins';
-@forward 'mixins/slider-mixins';
-
-// breakpoints
-@forward 'breakpoints';
-```
-
-### variables
-```
-src/
-├── assets/
-│   └── scss/
-│       └── variables/
-│           └── slider-variables.scss
-```
-
-- **Path**: `src/assets/scss/variables/slider-variables.scss`
-- **Description**: Slider variables
-
-```scss
-// =============================================================================
-// SLIDER COMPONENT VARIABLES - COMPLETE SYSTEM
-// =============================================================================
-@use '../variables' as *;
-
-// Slider size variables
-$slider-sizes: (
-    'xs': ('track-height': 0.25rem,
-        'thumb-size': 0.75rem,
-        'label-font-size': 0.875rem),
-    'sm': ('track-height': 0.3125rem,
-        'thumb-size': 0.875rem,
-        'label-font-size': 0.9375rem),
-    'md': ('track-height': 0.375rem,
-        'thumb-size': 1rem,
-        'label-font-size': 1rem),
-    'lg': ('track-height': 0.5rem,
-        'thumb-size': 1.25rem,
-        'label-font-size': 1.125rem),
-    'xl': ('track-height': 0.625rem,
-        'thumb-size': 1.5rem,
-        'label-font-size': 1.25rem)
-);
-
-// Slider color variables
-$slider-colors: (
-    'default': ('track': $gray-400,
-        'thumb': $primary-color,
-        'filled': $primary-color,
-        'label': $gray-700,
-        'thumb-label-bg': $gray-800,
-        'thumb-label-color': $white,
-        'focus-shadow': rgba($primary-color, 0.25),
-        'thumb-shadow': rgba(0, 0, 0, 0.2),
-        'hover-track': $gray-500,
-        'hover-thumb': darken($primary-color, 10%),
-        'hover-filled': darken($primary-color, 10%),
-        'disabled-track': $gray-300,
-        'disabled-thumb': $gray-400,
-        'disabled-filled': $gray-400,
-        'disabled-label': $gray-500),
-    'primary': ('track': $gray-400,
-        'thumb': $primary-color,
-        'filled': $primary-color,
-        'label': $gray-700,
-        'thumb-label-bg': $primary-color,
-        'thumb-label-color': $white,
-        'focus-shadow': rgba($primary-color, 0.25),
-        'thumb-shadow': rgba($primary-color, 0.3),
-        'hover-track': $gray-500,
-        'hover-thumb': darken($primary-color, 10%),
-        'hover-filled': darken($primary-color, 10%),
-        'disabled-track': lighten($primary-color, 40%),
-        'disabled-thumb': lighten($primary-color, 30%),
-        'disabled-filled': lighten($primary-color, 30%),
-        'disabled-label': lighten($primary-color, 20%)),
-    'success': ('track': $gray-400,
-        'thumb': $success-color,
-        'filled': $success-color,
-        'label': $gray-700,
-        'thumb-label-bg': $success-color,
-        'thumb-label-color': $white,
-        'focus-shadow': rgba($success-color, 0.25),
-        'thumb-shadow': rgba($success-color, 0.3),
-        'hover-track': $gray-500,
-        'hover-thumb': darken($success-color, 10%),
-        'hover-filled': darken($success-color, 10%),
-        'disabled-track': lighten($success-color, 40%),
-        'disabled-thumb': lighten($success-color, 30%),
-        'disabled-filled': lighten($success-color, 30%),
-        'disabled-label': lighten($success-color, 20%)),
-    'warning': ('track': $gray-400,
-        'thumb': $warning-color,
-        'filled': $warning-color,
-        'label': $gray-700,
-        'thumb-label-bg': $warning-color,
-        'thumb-label-color': $white,
-        'focus-shadow': rgba($warning-color, 0.25),
-        'thumb-shadow': rgba($warning-color, 0.3),
-        'hover-track': $gray-500,
-        'hover-thumb': darken($warning-color, 10%),
-        'hover-filled': darken($warning-color, 10%),
-        'disabled-track': lighten($warning-color, 40%),
-        'disabled-thumb': lighten($warning-color, 30%),
-        'disabled-filled': lighten($warning-color, 30%),
-        'disabled-label': lighten($warning-color, 20%)),
-    'danger': ('track': $gray-400,
-        'thumb': $danger-color,
-        'filled': $danger-color,
-        'label': $gray-700,
-        'thumb-label-bg': $danger-color,
-        'thumb-label-color': $white,
-        'focus-shadow': rgba($danger-color, 0.25),
-        'thumb-shadow': rgba($danger-color, 0.3),
-        'hover-track': $gray-500,
-        'hover-thumb': darken($danger-color, 10%),
-        'hover-filled': darken($danger-color, 10%),
-        'disabled-track': lighten($danger-color, 40%),
-        'disabled-thumb': lighten($danger-color, 30%),
-        'disabled-filled': lighten($danger-color, 30%),
-        'disabled-label': lighten($danger-color, 20%)),
-    'info': ('track': $gray-400,
-        'thumb': $info-color,
-        'filled': $info-color,
-        'label': $gray-700,
-        'thumb-label-bg': $info-color,
-        'thumb-label-color': $white,
-        'focus-shadow': rgba($info-color, 0.25),
-        'thumb-shadow': rgba($info-color, 0.3),
-        'hover-track': $gray-500,
-        'hover-thumb': darken($info-color, 10%),
-        'hover-filled': darken($info-color, 10%),
-        'disabled-track': lighten($info-color, 40%),
-        'disabled-thumb': lighten($info-color, 30%),
-        'disabled-filled': lighten($info-color, 30%),
-        'disabled-label': lighten($info-color, 20%))
-);
-
-// Slider state variables
-$slider-states: (
-    'enabled': ('opacity': 1,
-        'cursor': pointer,
-        'pointer-events': auto
-    ),
-    'disabled': ('opacity': 0.5,
-        'cursor': default,
-        'pointer-events': none
-    ),
-    'readonly': ('opacity': 1,
-        'cursor': default,
-        'pointer-events': none
-    )
-);
-
-// Spacing
-$slider-thumb-label-margin-bottom: 1rem !default;
-$slider-thumb-label-padding: 0.25rem 0.5rem !default;
-$slider-thumb-label-arrow-size: 0.5rem !default;
-
-// Border radius
-$slider-track-border-radius: 0.25rem !default;
-$slider-thumb-label-border-radius: 0.25rem !default;
-
-// Focus
-$slider-focus-outline-width: 0.25rem !default;
-
-// Thumb interactions
-$slider-thumb-scale-active: 1.1 !default;
-```
-
-### mixins
-```
-src/
-├── assets/
-│   └── scss/
-│       └── mixins/
-│           └── slider-mixins.scss
-```
-
-- **Path**: `src/assets/scss/mixins/slider-mixins.scss`
-- **Description**: Slider mixins
-
-```scss
-// =============================================================================
-// SLIDER COMPONENT MIXINS
-// =============================================================================
-@use '../variables' as *;
-@use '../functions' as *;
-@use '../mixins' as *;
-
-@use '../variables/slider-variables' as *;
-@use "sass:map";
-
-// =============================================================================
-// SIZE MIXINS
-// =============================================================================
-
-@mixin slider-size($size) {
-    $size-config: map.get($slider-sizes, $size);
-
-    @if $size-config {
-        .slider-track {
-            height: map.get($size-config, 'track-height');
-
-            .slider-thumb {
-                width: map.get($size-config, 'thumb-size');
-                height: map.get($size-config, 'thumb-size');
-            }
-        }
-
-        .slider-label {
-            font-size: map.get($size-config, 'label-font-size');
-        }
-    }
-}
-
-// =============================================================================
-// COLOR MIXINS
-// =============================================================================
-
-@mixin slider-color($color) {
-    $color-config: map.get($slider-colors, $color);
-
-    @if $color-config {
-        .slider-track {
-            background-color: map.get($color-config, 'track');
-
-            .slider-filled {
-                background-color: map.get($color-config, 'filled');
-            }
-
-            .slider-thumb {
-                background-color: map.get($color-config, 'thumb');
-                box-shadow: 0 .125rem .25rem map.get($color-config, 'thumb-shadow');
-            }
-
-            .thumb-label {
-                background: map.get($color-config, 'thumb-label-bg');
-                color: map.get($color-config, 'thumb-label-color');
-
-                &::before {
-                    background: map.get($color-config, 'thumb-label-bg');
-                }
-            }
-
-            // Hover effects only when not disabled or readonly
-            &:hover:not(.disabled):not(.readonly) {
-                background-color: map.get($color-config, 'hover-track');
-
-                .slider-filled {
-                    background-color: map.get($color-config, 'hover-filled');
-                }
-
-                .slider-thumb {
-                    background-color: map.get($color-config, 'hover-thumb');
-                }
-            }
-
-            &:focus-visible {
-                box-shadow: 0 0 0 $slider-focus-outline-width map.get($color-config, 'focus-shadow');
-            }
-        }
-
-        .slider-label {
-            color: map.get($color-config, 'label');
-        }
-
-        &.disabled {
-            .slider-track {
-                background-color: map.get($color-config, 'disabled-track');
-
-                .slider-filled {
-                    background-color: map.get($color-config, 'disabled-filled');
-                }
-
-                .slider-thumb {
-                    background-color: map.get($color-config, 'disabled-thumb');
-                }
-            }
-
-            .slider-label {
-                color: map.get($color-config, 'disabled-label');
-            }
-        }
-    }
-}
-
-// =============================================================================
-// STATE MIXINS
-// =============================================================================
-
-@mixin slider-state($state) {
-    $state-config: map.get($slider-states, $state);
-
-    @if $state-config {
-        opacity: map.get($state-config, 'opacity');
-        cursor: map.get($state-config, 'cursor');
-        pointer-events: map.get($state-config, 'pointer-events');
-    }
-}
-
-// =============================================================================
-// GENERATOR MIXINS
-// =============================================================================
-
-@mixin generate-slider-sizes {
-    @each $size, $config in $slider-sizes {
-        &.#{$size} {
-            @include slider-size($size);
-        }
-    }
-}
-
-@mixin generate-slider-colors {
-    @each $color, $config in $slider-colors {
-        &.color-#{$color} {
-            @include slider-color($color);
-        }
-    }
-}
-
-@mixin generate-slider-states {
-    // Default enabled state (applies when no disabled or readonly classes are present)
-    &:not(.disabled):not(.readonly) {
-        @include slider-state('enabled');
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+      }
     }
 
     &.disabled {
-        @include slider-state('disabled');
+      .slider-track {
+        background-color: #dee2e6;
+
+        .slider-filled {
+          background-color: #ced4da;
+        }
+
+        .slider-thumb {
+          background-color: #ced4da;
+        }
+      }
+
+      .slider-label {
+        color: #adb5bd;
+      }
+    }
+  }
+
+  // Primary Variant
+  &.primary {
+    .slider-track {
+      background-color: #ced4da;
+
+      .slider-filled {
+        background-color: #007bff;
+      }
+
+      .slider-thumb {
+        background-color: #007bff;
+        box-shadow: 0 0.125rem 0.25rem rgba(0, 123, 255, 0.3);
+      }
+
+      .thumb-label {
+        background: #007bff;
+        color: #ffffff;
+
+        &::before {
+          background: #007bff;
+        }
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        background-color: #adb5bd;
+
+        .slider-filled {
+          background-color: #0069d9;
+        }
+
+        .slider-thumb {
+          background-color: #0069d9;
+        }
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+      }
     }
 
-    &.readonly {
-        @include slider-state('readonly');
+    &.disabled {
+      .slider-track {
+        background-color: #b3d9ff;
+
+        .slider-filled {
+          background-color: #80bdff;
+        }
+
+        .slider-thumb {
+          background-color: #80bdff;
+        }
+      }
+
+      .slider-label {
+        color: #66b3ff;
+      }
     }
+  }
+
+  // Success Variant
+  &.success {
+    .slider-track {
+      background-color: #ced4da;
+
+      .slider-filled {
+        background-color: #28a745;
+      }
+
+      .slider-thumb {
+        background-color: #28a745;
+        box-shadow: 0 0.125rem 0.25rem rgba(40, 167, 69, 0.3);
+      }
+
+      .thumb-label {
+        background: #28a745;
+        color: #ffffff;
+
+        &::before {
+          background: #28a745;
+        }
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        background-color: #adb5bd;
+
+        .slider-filled {
+          background-color: #218838;
+        }
+
+        .slider-thumb {
+          background-color: #218838;
+        }
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
+      }
+    }
+
+    &.disabled {
+      .slider-track {
+        background-color: #b3e0c1;
+
+        .slider-filled {
+          background-color: #94d3a2;
+        }
+
+        .slider-thumb {
+          background-color: #94d3a2;
+        }
+      }
+
+      .slider-label {
+        color: #75ca8f;
+      }
+    }
+  }
+
+  // Warning Variant
+  &.warning {
+    .slider-track {
+      background-color: #ced4da;
+
+      .slider-filled {
+        background-color: #ffc107;
+      }
+
+      .slider-thumb {
+        background-color: #ffc107;
+        box-shadow: 0 0.125rem 0.25rem rgba(255, 193, 7, 0.3);
+      }
+
+      .thumb-label {
+        background: #ffc107;
+        color: #ffffff;
+
+        &::before {
+          background: #ffc107;
+        }
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        background-color: #adb5bd;
+
+        .slider-filled {
+          background-color: #e0a800;
+        }
+
+        .slider-thumb {
+          background-color: #e0a800;
+        }
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.25);
+      }
+    }
+
+    &.disabled {
+      .slider-track {
+        background-color: #ffe69c;
+
+        .slider-filled {
+          background-color: #ffe082;
+        }
+
+        .slider-thumb {
+          background-color: #ffe082;
+        }
+      }
+
+      .slider-label {
+        color: #ffd966;
+      }
+    }
+  }
+
+  // Danger Variant
+  &.danger {
+    .slider-track {
+      background-color: #ced4da;
+
+      .slider-filled {
+        background-color: #dc3545;
+      }
+
+      .slider-thumb {
+        background-color: #dc3545;
+        box-shadow: 0 0.125rem 0.25rem rgba(220, 53, 69, 0.3);
+      }
+
+      .thumb-label {
+        background: #dc3545;
+        color: #ffffff;
+
+        &::before {
+          background: #dc3545;
+        }
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        background-color: #adb5bd;
+
+        .slider-filled {
+          background-color: #c82333;
+        }
+
+        .slider-thumb {
+          background-color: #c82333;
+        }
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+      }
+    }
+
+    &.disabled {
+      .slider-track {
+        background-color: #f1aeb5;
+
+        .slider-filled {
+          background-color: #ee9ca4;
+        }
+
+        .slider-thumb {
+          background-color: #ee9ca4;
+        }
+      }
+
+      .slider-label {
+        color: #eb828d;
+      }
+    }
+  }
+
+  // Info Variant
+  &.info {
+    .slider-track {
+      background-color: #ced4da;
+
+      .slider-filled {
+        background-color: #17a2b8;
+      }
+
+      .slider-thumb {
+        background-color: #17a2b8;
+        box-shadow: 0 0.125rem 0.25rem rgba(23, 162, 184, 0.3);
+      }
+
+      .thumb-label {
+        background: #17a2b8;
+        color: #ffffff;
+
+        &::before {
+          background: #17a2b8;
+        }
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        background-color: #adb5bd;
+
+        .slider-filled {
+          background-color: #138496;
+        }
+
+        .slider-thumb {
+          background-color: #138496;
+        }
+      }
+
+      &:focus-visible {
+        box-shadow: 0 0 0 0.25rem rgba(23, 162, 184, 0.25);
+      }
+    }
+
+    &.disabled {
+      .slider-track {
+        background-color: #9eeaf9;
+
+        .slider-filled {
+          background-color: #86e5f6;
+        }
+
+        .slider-thumb {
+          background-color: #86e5f6;
+        }
+      }
+
+      .slider-label {
+        color: #6dd8f0;
+      }
+    }
+  }
 }
 ```

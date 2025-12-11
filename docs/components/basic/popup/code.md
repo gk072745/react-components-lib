@@ -5,50 +5,53 @@
 This component requires:
 
 - React 18+
-- SCSS for styling
 - PropTypes for prop validation
+- SCSS for styling
 
 ## Component Files
 
 ### React Component
 
-**File:** `./sharedComponents/BasicPopup.jsx`
+```
+src/
+├── components/
+    └── sharedComponents/
+        └── BasicPopup.jsx
+```
+
+- **Path**: `src/components/sharedComponents/BasicPopup.jsx`
+- **Description**: Main popup component implementation
 
 ```jsx
-import { memo, useCallback, useMemo } from "react";
-import PropTypes from "prop-types";
+import { memo, useCallback, useMemo } from 'react';
+import PropTypes from 'prop-types';
+import '../../assets/scss/components/_basic-popup.scss';
 
-const BasicPopup = memo(
-  ({ children, height = 27.75, width = 27.75, onPopupOutsideClick }) => {
-    const containerStyle = useMemo(
-      () => ({
-        height: `${height}rem`,
-        width: `${width}rem`,
-      }),
-      [height, width]
-    );
+const BasicPopup = memo(({ children, height = 27.75, width = 27.75, onPopupOutsideClick }) => {
+  const containerStyle = useMemo(
+    () => ({
+      height: `${height}rem`,
+      width: `${width}rem`,
+    }),
+    [height, width]
+  );
 
-    const handleOutsideClick = useCallback(() => {
-      onPopupOutsideClick?.();
-    }, [onPopupOutsideClick]);
+  const handleOutsideClick = useCallback(() => {
+    onPopupOutsideClick?.();
+  }, [onPopupOutsideClick]);
 
-    const handleContainerClick = useCallback((e) => {
-      e.stopPropagation();
-    }, []);
+  const handleContainerClick = useCallback((e) => {
+    e.stopPropagation();
+  }, []);
 
-    return (
-      <div className="popup-component-wrapper" onClick={handleOutsideClick}>
-        <div
-          className="popup-component-container"
-          style={containerStyle}
-          onClick={handleContainerClick}
-        >
-          {children}
-        </div>
+  return (
+    <div className="popup-component-wrapper" onClick={handleOutsideClick}>
+      <div className="popup-component-container" style={containerStyle} onClick={handleContainerClick}>
+        {children}
       </div>
-    );
-  }
-);
+    </div>
+  );
+});
 
 BasicPopup.propTypes = {
   children: PropTypes.node,
@@ -62,13 +65,24 @@ export default BasicPopup;
 
 ### SCSS Component
 
-**File:** `./assets/scss/components/_basic-popup.scss`
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _basic-popup.scss
+```
+
+- **Path**: `src/assets/scss/components/_basic-popup.scss`
+- **Description**: Popup component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. Specifically, it uses the `z()` function for z-index management. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 .popup-component-wrapper {
-  z-index: z("modal-backdrop");
+  z-index: z('modal-backdrop');
   position: fixed;
   top: 0;
   left: 0;
@@ -87,35 +101,3 @@ export default BasicPopup;
   }
 }
 ```
-
-### SCSS Abstracts Index
-
-**File:** `./assets/scss/abstracts/index.scss`
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-
-// breakpoints
-@forward "breakpoints";
-```
-
-**Purpose:** This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables are available when importing abstracts.
-
-**Key Features:**
-
-- **Variables**: Forwards base variables and all component-specific variables
-- **Functions**: Forwards utility functions
-- **Mixins**: Forwards base mixins and component-specific mixins
-- **Breakpoints**: Forwards responsive breakpoints
-- **Modular Structure**: Organized imports for maintainability

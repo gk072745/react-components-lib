@@ -2,36 +2,44 @@
 
 ## Dependencies
 
+This component requires:
+
 - React 18+
-- SCSS for styling
 - PropTypes for prop validation
+- SCSS for styling
 
-## Files
+## Component Files
 
-### Component File
+### React Component
+
+```
+src/
+├── components/
+    └── sharedComponents/
+        └── BasicRadio.jsx
+```
 
 - **Path**: `src/components/sharedComponents/BasicRadio.jsx`
 - **Description**: Main radio component implementation
 
 ```jsx
-import React, { useMemo, useCallback, memo } from "react";
-import PropTypes from "prop-types";
+import React, { useMemo, useCallback, memo } from 'react';
+import PropTypes from 'prop-types';
 
 const BasicRadio = memo(
   ({
-    size = "sm",
+    size = 'sm',
+    variant = 'default',
     disabled = false,
     readonly = false,
     toggle = false,
-    label = "",
+    label = '',
     value,
     multiple = false,
     modelValue,
     selected,
     valueComparator,
-    color = "green",
-    labelColor = "#000",
-    className = "",
+    className = '',
     style = {},
     onChange,
     onUpdateModelValue,
@@ -46,11 +54,11 @@ const BasicRadio = memo(
       if (multiple) {
         val = modelValue?.length ? modelValue : selected;
       }
-      return multiple ? (Array.isArray(val) ? val : []) : val || "";
+      return multiple ? (Array.isArray(val) ? val : []) : val || '';
     }, [modelValue, selected, multiple]);
 
     const isChecked = useMemo(() => {
-      if (internalValue === "" && value === "") return false;
+      if (internalValue === '' && value === '') return false;
       return valueComparator
         ? valueComparator(internalValue, value, multiple)
         : multiple
@@ -73,9 +81,7 @@ const BasicRadio = memo(
         // Handle multiple selection mode
         if (multiple) {
           const isSelected = isChecked;
-          const currentValues = Array.isArray(internalValue)
-            ? internalValue
-            : [];
+          const currentValues = Array.isArray(internalValue) ? internalValue : [];
 
           let newValue;
           if (isSelected) {
@@ -96,62 +102,37 @@ const BasicRadio = memo(
         // Handle single selection mode
         else {
           const isSelected = isChecked;
-          const newValue = toggle && isSelected ? "" : value;
+          const newValue = toggle && isSelected ? '' : value;
           if (onUpdateModelValue) onUpdateModelValue(newValue);
           if (onChange) onChange(newValue, value, event);
         }
       },
-      [
-        disabled,
-        readonly,
-        multiple,
-        isChecked,
-        internalValue,
-        toggle,
-        value,
-        onUpdateModelValue,
-        onChange,
-      ]
+      [disabled, readonly, multiple, isChecked, internalValue, toggle, value, onUpdateModelValue, onChange]
     );
 
     // =============================================================================
     // COMPUTED STYLES
     // =============================================================================
     const containerClass = useMemo(() => {
-      const classes = ["radio-container", size];
-      if (disabled) classes.push("disabled");
-      if (readonly) classes.push("readonly");
+      const classes = ['radio-container', size, variant];
+      if (disabled) classes.push('disabled');
+      if (readonly) classes.push('readonly');
       if (className) classes.push(className);
-      return classes.join(" ");
-    }, [size, disabled, readonly, className]);
+      return classes.join(' ');
+    }, [size, variant, disabled, readonly, className]);
 
     const containerStyle = useMemo(
       () => ({
-        color: labelColor,
         ...style,
       }),
-      [labelColor, style]
-    );
-
-    const radioStyle = useMemo(
-      () => ({
-        borderColor: color,
-      }),
-      [color]
-    );
-
-    const innerCircleStyle = useMemo(
-      () => ({
-        backgroundColor: color,
-      }),
-      [color]
+      [style]
     );
 
     // =============================================================================
     // RENDER FUNCTIONS
     // =============================================================================
     const renderIcon = useMemo(() => {
-      if (children && typeof children === "function") {
+      if (children && typeof children === 'function') {
         return children({ isChecked, disabled, readonly });
       }
       if (children) {
@@ -159,11 +140,11 @@ const BasicRadio = memo(
       }
 
       return (
-        <div className="radio" style={radioStyle}>
-          <div className="inner-circle" style={innerCircleStyle}></div>
+        <div className="radio">
+          <div className="inner-circle"></div>
         </div>
       );
-    }, [children, isChecked, disabled, readonly, radioStyle, innerCircleStyle]);
+    }, [children, isChecked, disabled, readonly]);
 
     const renderLabel = useMemo(() => {
       if (label) {
@@ -191,7 +172,7 @@ const BasicRadio = memo(
           checked={isChecked}
           disabled={disabled}
           readOnly={readonly}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           onChange={(e) => {
             // Prevent the native radio input from triggering additional events
             e.preventDefault();
@@ -209,32 +190,17 @@ const BasicRadio = memo(
 // PROP TYPES
 // =============================================================================
 BasicRadio.propTypes = {
-  size: PropTypes.oneOf(["xs", "sm", "md", "lg", "xl"]),
+  size: PropTypes.oneOf(['xs', 'sm', 'md', 'lg', 'xl']),
   disabled: PropTypes.bool,
   readonly: PropTypes.bool,
   toggle: PropTypes.bool,
   label: PropTypes.string,
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-  ]).isRequired,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool]).isRequired,
   multiple: PropTypes.bool,
-  modelValue: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-    PropTypes.array,
-  ]),
-  selected: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.bool,
-    PropTypes.array,
-  ]),
+  modelValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]),
+  selected: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.bool, PropTypes.array]),
   valueComparator: PropTypes.func,
-  color: PropTypes.string,
-  labelColor: PropTypes.string,
+  variant: PropTypes.oneOf(['default', 'primary', 'success', 'warning', 'danger', 'info']),
   className: PropTypes.string,
   style: PropTypes.object,
   onChange: PropTypes.func,
@@ -242,21 +208,31 @@ BasicRadio.propTypes = {
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 };
 
-BasicRadio.displayName = "BasicRadio";
+BasicRadio.displayName = 'BasicRadio';
 
 export default BasicRadio;
 ```
 
-### Styles
+### SCSS Component
+
+```
+src/
+├── assets/
+    └── scss/
+        └── components/
+            └── _basic-radio.scss
+```
 
 - **Path**: `src/assets/scss/components/_basic-radio.scss`
 - **Description**: Radio component styles
+
+**Note:** This component uses SCSS variables and functions from the abstracts directory. The component imports abstracts via `@use '../abstracts' as *;`
 
 ```scss
 // =============================================================================
 // BASIC RADIO COMPONENT STYLES
 // =============================================================================
-@use "../abstracts" as *;
+@use '../abstracts' as *;
 
 .radio-container {
   display: flex;
@@ -266,17 +242,13 @@ export default BasicRadio;
   color: #000;
   position: relative;
   transition: all 0.2s ease;
+  cursor: pointer;
 
   *,
   *::before,
   *::after {
     box-sizing: border-box;
   }
-
-  // Generate all sizes, colors, and states using mixins
-  @include generate-radio-sizes;
-  @include generate-radio-colors;
-  @include generate-radio-states;
 
   // Focus styles for accessibility
   &:focus-visible {
@@ -299,11 +271,11 @@ export default BasicRadio;
     display: inline-block;
     border: 0.0625rem solid;
     border-radius: 50%;
-    background-color: $white;
+    background-color: #ffffff;
     transition: all 0.2s ease-in-out;
 
     .inner-circle {
-      content: "";
+      content: '';
       position: absolute;
       top: 50%;
       left: 50%;
@@ -315,6 +287,18 @@ export default BasicRadio;
     }
   }
 
+  // Label
+  .radio-label {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  // =============================================================================
+  // INTERACTIVE STATES
+  // =============================================================================
   &:not(.disabled):not(.readonly) {
     .radio {
       // Hover effects only when not disabled or readonly
@@ -329,281 +313,254 @@ export default BasicRadio;
     }
   }
 
-  // Label
-  .radio-label {
-    flex: 1;
-    min-width: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  // =============================================================================
+  // DISABLED AND READONLY STATES
+  // =============================================================================
+  &.disabled {
+    opacity: 0.5;
+    cursor: default;
+    pointer-events: none;
   }
 
-  // Default color (when no color class is applied)
-  &:not([class*="color-"]) {
-    @include radio-color("default");
+  &.readonly {
+    cursor: default;
+    pointer-events: none;
   }
-}
-```
 
-### SCSS Abstracts
-
-- **Path**: `src/assets/scss/abstracts/index.scss`
-- **Description**: Global SCSS variables, mixins, and functions
-  > **Note:**  
-  > This file forwards all abstract modules including variables, functions, mixins, and breakpoints. It ensures that all component-specific variables (like radio variables) are available when importing abstracts.
-
-```scss
-// =============================================================================
-// ABSTRACTS INDEX - Forwards all abstract modules
-// =============================================================================
-
-// variables
-@forward "variables";
-@forward "variables/radio-variables";
-
-// functions
-@forward "functions";
-
-// mixins
-@forward "mixins";
-@forward "mixins/radio-mixins";
-
-// breakpoints
-@forward "breakpoints";
-```
-
-### Radio SCSS Variables
-
-- **Path**: `src/assets/scss/abstracts/variables/_radio-variables.scss`
-- **Description**: Radio component variables
-
-> **Note:**  
-> All base color, spacing, and typography variables should be defined in `variables.scss` for consistency and theme support.  
-> In this file, import those variables and use them to define radio-specific variables. This ensures that the radio component inherits the global theme and can be easily updated by changing the main variables file.
-
-```scss
-// =============================================================================
-// RADIO VARIABLES - COMPLETE SYSTEM
-// =============================================================================
-@use "../variables" as *;
-@use "sass:color";
-
-// Radio size variables
-$radio-sizes: (
-  "xs": (
-    "font-size": 0.625rem,
-    "radio-width": 0.75rem,
-    "radio-height": 0.75rem,
-    "gap": 0.375rem,
-  ),
-  "sm": (
-    "font-size": 0.75rem,
-    "radio-width": 0.875rem,
-    "radio-height": 0.875rem,
-    "gap": 0.5rem,
-  ),
-  "md": (
-    "font-size": 0.875rem,
-    "radio-width": 1rem,
-    "radio-height": 1rem,
-    "gap": 0.5rem,
-  ),
-  "lg": (
-    "font-size": 1rem,
-    "radio-width": 1.125rem,
-    "radio-height": 1.125rem,
-    "gap": 0.625rem,
-  ),
-  "xl": (
-    "font-size": 1.125rem,
-    "radio-width": 1.25rem,
-    "radio-height": 1.25rem,
-    "gap": 0.75rem,
-  ),
-);
-
-// Radio color variables
-$radio-colors: (
-  "default": (
-    "border": $gray-400,
-    "background": $white,
-    "inner-circle": $primary-color,
-    "hover-border": $gray-500,
-    "hover-inner": $primary-color,
-    "disabled-border": $gray-300,
-    "disabled-inner": $gray-400,
-  ),
-  "primary": (
-    "border": $primary-color,
-    "background": $white,
-    "inner-circle": $primary-color,
-    "hover-border": color.scale($primary-color, $lightness: -10%),
-    "hover-inner": color.scale($primary-color, $lightness: -10%),
-    "disabled-border": color.scale($primary-color, $lightness: 30%),
-    "disabled-inner": color.scale($primary-color, $lightness: 20%),
-  ),
-  "success": (
-    "border": $success-color,
-    "background": $white,
-    "inner-circle": $success-color,
-    "hover-border": color.scale($success-color, $lightness: -10%),
-    "hover-inner": color.scale($success-color, $lightness: -10%),
-    "disabled-border": color.scale($success-color, $lightness: 30%),
-    "disabled-inner": color.scale($success-color, $lightness: 20%),
-  ),
-  "warning": (
-    "border": $warning-color,
-    "background": $white,
-    "inner-circle": $warning-color,
-    "hover-border": color.scale($warning-color, $lightness: -10%),
-    "hover-inner": color.scale($warning-color, $lightness: -10%),
-    "disabled-border": color.scale($warning-color, $lightness: 30%),
-    "disabled-inner": color.scale($warning-color, $lightness: 20%),
-  ),
-  "danger": (
-    "border": $danger-color,
-    "background": $white,
-    "inner-circle": $danger-color,
-    "hover-border": color.scale($danger-color, $lightness: -10%),
-    "hover-inner": color.scale($danger-color, $lightness: -10%),
-    "disabled-border": color.scale($danger-color, $lightness: 30%),
-    "disabled-inner": color.scale($danger-color, $lightness: 20%),
-  ),
-  "info": (
-    "border": $info-color,
-    "background": $white,
-    "inner-circle": $info-color,
-    "hover-border": color.scale($info-color, $lightness: -10%),
-    "hover-inner": color.scale($info-color, $lightness: -10%),
-    "disabled-border": color.scale($info-color, $lightness: 30%),
-    "disabled-inner": color.scale($info-color, $lightness: 20%),
-  ),
-);
-
-// Radio state variables
-$radio-states: (
-  "enabled": (
-    "opacity": 1,
-    "cursor": pointer,
-    "pointer-events": auto,
-  ),
-  "disabled": (
-    "opacity": 0.5,
-    "cursor": default,
-    "pointer-events": none,
-  ),
-  "readonly": (
-    "opacity": 1,
-    "cursor": default,
-    "pointer-events": none,
-  ),
-);
-```
-
-### Radio SCSS Mixins
-
-- **Path**: `src/assets/scss/abstracts/mixins/_radio-mixins.scss`
-- **Description**: Radio component mixins
-
-> **Note:**  
-> All base mixins should be defined in `mixins.scss` for consistency and theme support.  
-> In this file, import those mixins and use them to define radio-specific mixins. This ensures that the radio component inherits the global theme and can be easily updated by changing the main mixins file.
-
-```scss
-// =============================================================================
-// RADIO MIXINS
-// =============================================================================
-@use "../variables" as *;
-@use "../functions" as *;
-@use "../mixins" as *;
-
-@use "../variables/radio-variables" as *;
-@use "sass:map";
-
-@mixin radio-size($size) {
-  $size-config: map.get($radio-sizes, $size);
-
-  @if $size-config {
-    font-size: map.get($size-config, "font-size");
-    gap: map.get($size-config, "gap");
+  // =============================================================================
+  // SIZE VARIANTS
+  // =============================================================================
+  &.xs {
+    font-size: 0.625rem;
+    gap: 0.375rem;
 
     .radio {
-      width: map.get($size-config, "radio-width");
-      height: map.get($size-config, "radio-height");
+      width: 0.75rem;
+      height: 0.75rem;
     }
   }
-}
 
-@mixin radio-color($color) {
-  $color-config: map.get($radio-colors, $color);
+  &.sm {
+    font-size: 0.75rem;
+    gap: 0.5rem;
 
-  @if $color-config {
     .radio {
-      border-color: map.get($color-config, "border");
-      background-color: map.get($color-config, "background");
+      width: 0.875rem;
+      height: 0.875rem;
+    }
+  }
+
+  &.md {
+    font-size: 0.875rem;
+    gap: 0.5rem;
+
+    .radio {
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &.lg {
+    font-size: 1rem;
+    gap: 0.625rem;
+
+    .radio {
+      width: 1.125rem;
+      height: 1.125rem;
+    }
+  }
+
+  &.xl {
+    font-size: 1.125rem;
+    gap: 0.75rem;
+
+    .radio {
+      width: 1.25rem;
+      height: 1.25rem;
+    }
+  }
+
+  // =============================================================================
+  // VARIANT STYLES
+  // =============================================================================
+  // Default Variant
+  &.default {
+    color: #000000;
+
+    .radio {
+      border-color: #ced4da;
+      background-color: #ffffff;
 
       .inner-circle {
-        background-color: map.get($color-config, "inner-circle");
+        background-color: #007bff;
       }
 
-      // Hover effects only when not disabled or readonly
       &:hover:not(.disabled):not(.readonly) {
-        border-color: map.get($color-config, "hover-border");
+        border-color: #adb5bd;
 
         .inner-circle {
-          background-color: map.get($color-config, "hover-inner");
+          background-color: #007bff;
         }
       }
     }
 
     &.disabled .radio {
-      border-color: map.get($color-config, "disabled-border");
+      border-color: #dee2e6;
 
       .inner-circle {
-        background-color: map.get($color-config, "disabled-inner");
+        background-color: #ced4da;
       }
     }
   }
-}
 
-@mixin radio-state($state) {
-  $state-config: map.get($radio-states, $state);
+  // Primary Variant
+  &.primary {
+    color: #007bff;
 
-  @if $state-config {
-    opacity: map.get($state-config, "opacity");
-    cursor: map.get($state-config, "cursor");
-    pointer-events: map.get($state-config, "pointer-events");
-  }
-}
+    .radio {
+      border-color: #007bff;
+      background-color: #ffffff;
 
-@mixin generate-radio-sizes {
-  @each $size, $config in $radio-sizes {
-    &.#{$size} {
-      @include radio-size($size);
+      .inner-circle {
+        background-color: #007bff;
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        border-color: #0069d9;
+
+        .inner-circle {
+          background-color: #0069d9;
+        }
+      }
+    }
+
+    &.disabled .radio {
+      border-color: #80bdff;
+
+      .inner-circle {
+        background-color: #b3d9ff;
+      }
     }
   }
-}
 
-@mixin generate-radio-colors {
-  @each $color, $config in $radio-colors {
-    &.color-#{$color} {
-      @include radio-color($color);
+  // Success Variant
+  &.success {
+    color: #28a745;
+
+    .radio {
+      border-color: #28a745;
+      background-color: #ffffff;
+
+      .inner-circle {
+        background-color: #28a745;
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        border-color: #218838;
+
+        .inner-circle {
+          background-color: #218838;
+        }
+      }
+    }
+
+    &.disabled .radio {
+      border-color: #94d3a2;
+
+      .inner-circle {
+        background-color: #b3e0c1;
+      }
     }
   }
-}
 
-@mixin generate-radio-states {
-  // Default enabled state (applies when no disabled or readonly classes are present)
-  &:not(.disabled):not(.readonly) {
-    @include radio-state("enabled");
+  // Warning Variant
+  &.warning {
+    color: #ffc107;
+
+    .radio {
+      border-color: #ffc107;
+      background-color: #ffffff;
+
+      .inner-circle {
+        background-color: #ffc107;
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        border-color: #e0a800;
+
+        .inner-circle {
+          background-color: #e0a800;
+        }
+      }
+    }
+
+    &.disabled .radio {
+      border-color: #ffe082;
+
+      .inner-circle {
+        background-color: #ffe69c;
+      }
+    }
   }
 
-  &.disabled {
-    @include radio-state("disabled");
+  // Danger Variant
+  &.danger {
+    color: #dc3545;
+
+    .radio {
+      border-color: #dc3545;
+      background-color: #ffffff;
+
+      .inner-circle {
+        background-color: #dc3545;
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        border-color: #c82333;
+
+        .inner-circle {
+          background-color: #c82333;
+        }
+      }
+    }
+
+    &.disabled .radio {
+      border-color: #ee9ca4;
+
+      .inner-circle {
+        background-color: #f1aeb5;
+      }
+    }
   }
 
-  &.readonly {
-    @include radio-state("readonly");
+  // Info Variant
+  &.info {
+    color: #17a2b8;
+
+    .radio {
+      border-color: #17a2b8;
+      background-color: #ffffff;
+
+      .inner-circle {
+        background-color: #17a2b8;
+      }
+
+      &:hover:not(.disabled):not(.readonly) {
+        border-color: #138496;
+
+        .inner-circle {
+          background-color: #138496;
+        }
+      }
+    }
+
+    &.disabled .radio {
+      border-color: #86e5f6;
+
+      .inner-circle {
+        background-color: #9eeaf9;
+      }
+    }
   }
 }
 ```

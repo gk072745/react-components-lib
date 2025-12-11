@@ -2,49 +2,107 @@
 
 ## Props
 
-| Prop            | Type      | Default                       | Description                                      |
-| --------------- | --------- | ----------------------------- | ------------------------------------------------ |
-| `size`          | `number`  | `40`                          | Loader diameter in pixels                        |
-| `width`         | `number`  | `4`                           | Stroke width of the SVG spinner                  |
-| `bgColor`       | `string`  | `rgba(255, 255, 255, 0.75)`   | Overlay background color                         |
-| `fillColor`     | `string`  | `#000000`                     | Spinner active stroke color                      |
-| `emptyColor`    | `string`  | `#e0e0e0`                     | Spinner track stroke color                       |
-| `isLocalLoader` | `boolean` | `true`                        | Relative (true) or fixed full-screen (false)     |
-| `src`           | `string`  | `''`                          | Optional custom image source                      |
-| `className`     | `string`  | `''`                          | Additional CSS classes                           |
-| `style`         | `object`  | `{}`                          | Inline styles for container                       |
-| `children`      | `node`    | `null`                        | Custom loader content (overrides default SVG/img) |
+| Prop            | Type                                                                  | Default     | Required | Description                                    |
+| --------------- | --------------------------------------------------------------------- | ----------- | -------- | ---------------------------------------------- |
+| `size`          | `number`                                                              | `40`        | No       | Loader diameter in pixels                      |
+| `width`         | `number`                                                              | `4`         | No       | Stroke width of the SVG spinner                |
+| `variant`       | `'default' \| 'primary' \| 'success' \| 'warning' \| 'danger' \| 'info'` | `'default'` | No       | Color variant of the loader                    |
+| `isLocalLoader` | `boolean`                                                             | `true`      | No       | Relative (true) or fixed full-screen (false)   |
+| `src`           | `string`                                                              | `''`        | No       | Optional custom image source                    |
+| `className`     | `string`                                                              | `''`        | No       | Additional CSS classes                         |
+| `style`         | `object`                                                              | `{}`        | No       | Inline styles for container                    |
+| `children`      | `node`                                                                | `null`      | No       | Custom loader content (overrides default SVG/img) |
 
-## Notes
+## Component Structure
 
-- When `src` is provided, the image is shown instead of the SVG spinner.
-- When `isLocalLoader` is `false`, the loader is positioned fixed and covers the viewport.
-- Respects prefers-reduced-motion by disabling spinner animations.
+The component consists of:
+
+- **Wrapper**: Container element with positioning and background
+- **SVG Loader**: Default animated circular spinner (when `src` is not provided)
+- **Image Loader**: Custom image loader (when `src` is provided)
+- **Custom Children**: Completely custom content (when `children` is provided)
+
+## Variant Types
+
+| Variant   | Description                    |
+| --------- | ------------------------------ |
+| `default` | Default black color (default)  |
+| `primary` | Primary blue color             |
+| `success` | Green color for success states |
+| `warning` | Yellow color for warnings      |
+| `danger`  | Red color for errors            |
+| `info`    | Cyan color for information      |
+
+## Positioning Modes
+
+| Mode              | Description                                    |
+| ----------------- | ---------------------------------------------- |
+| `isLocalLoader={true}`  | Relative positioning within parent container   |
+| `isLocalLoader={false}` | Fixed positioning covering entire viewport     |
 
 ## Usage Examples
 
-### Local Loader (default)
+### Basic Local Loader
 
 ```jsx
-<div style={{ position: 'relative', height: 150 }}>
+import Loader from "../components/sharedComponents/Loader";
+
+<div style={{ position: "relative", height: 150 }}>
   <Loader />
 </div>
+```
+
+### With Variant
+
+```jsx
+<Loader variant="success" size={50} />
 ```
 
 ### Full-screen Overlay
 
 ```jsx
-<Loader isLocalLoader={false} bgColor="rgba(0,0,0,0.7)" fillColor="#fff" />
+<Loader isLocalLoader={false} variant="primary" size={60} />
 ```
 
 ### Custom Image Loader
 
 ```jsx
-<Loader src="/src/assets/loader.gif" size={60} />
+<Loader
+  src="/path/to/loader.gif"
+  size={60}
+  isLocalLoader={true}
+/>
 ```
 
-### Custom Colors and Width
+### Custom Size and Width
 
 ```jsx
-<Loader size={50} width={6} fillColor="#007bff" emptyColor="#e3f2fd" />
+<Loader size={50} width={6} variant="primary" />
 ```
+
+### Custom Children
+
+```jsx
+<Loader isLocalLoader={true}>
+  <div>Custom loading content</div>
+</Loader>
+```
+
+## Styling
+
+The component uses:
+
+- **Background**: Semi-transparent white overlay (`rgba(255, 255, 255, 0.75)`) for full-screen mode
+- **Positioning**: Fixed for full-screen, relative for local
+- **Z-index**: 9999 for full-screen overlay
+- **Animations**: Rotating and dashing animations for SVG spinner
+- **Colors**: Variant-specific colors for the spinner arc
+
+## Accessibility
+
+The component includes several accessibility features:
+
+- **Reduced Motion**: Respects `prefers-reduced-motion` by disabling animations
+- **Focus Styles**: Visible focus outline for keyboard navigation
+- **User Select**: Prevents text selection during loading
+- **Pointer Events**: Captures all pointer events in full-screen mode

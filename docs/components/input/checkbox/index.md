@@ -1,37 +1,23 @@
 # Checkbox
 
-A customizable checkbox component with support for multiple selection and select all functionality.
+A customizable checkbox component with support for multiple selection, select all functionality, custom sizes, variants, and slot-based customization.
 
 ## Overview
 
-The Checkbox component provides:
+The BasicCheckbox component provides:
 
-- Traditional checkbox functionality
-- Support for multiple selection
-- Select all functionality
-- Customizable size and appearance
-- Accessible design with proper ARIA attributes
-
-## When to Use
-
-Use the Checkbox component when you need to:
-
-- Allow users to select multiple options from a list
-- Create custom checkbox designs
-- Implement checkbox groups
-- Provide a consistent selection experience
-- Add select all functionality to a group of options
-
-## Key Features
-
-- **Multiple Sizes**: Choose from xs, sm, md, lg, and xl sizes
-- **Multiple Selection**: Support for selecting multiple options
-- **Select All**: Built-in support for selecting/deselecting all options
-- **Customizable Colors**: Set custom colors for the checkbox background, tick mark, and label
-- **Disabled & Readonly States**: Support for disabled and readonly modes
-- **Custom Icons**: Use slots to completely customize the checkbox appearance
-- **Value Comparison**: Customizable value comparison function for complex data structures
+- Traditional checkbox functionality with custom styling
+- Support for multiple selection with array-based state management
+- Select all functionality for checkbox groups
+- Multiple size variants (xs, sm, md, lg, xl)
+- Multiple color variants (default, info)
+- Disabled and readonly states
+- Custom icon and label slots
+- Flexible value comparison for complex data structures
+- Accessible design with proper form semantics
 
 [API Reference →](./api)
 
 [View Code →](./code)
+
+[View Demos →](./demo)
