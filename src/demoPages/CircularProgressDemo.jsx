@@ -3,6 +3,7 @@ import CircularProgressBar from "../components/sharedComponents/CircularProgress
 import "./circularProgressDemo.scss";
 import { AppProvider } from "@site/src/context/AppProvider.jsx";
 
+// Demo 1: Basic Toggle
 export const BasicLoaderDemo = () => {
   const [open, setOpen] = useState(false);
 
@@ -18,7 +19,7 @@ export const BasicLoaderDemo = () => {
         <div className="demo-section">
           <h3 className="demo-title">Basic Toggle</h3>
           <div className="demo-content">
-            <div className="control-row">
+            <div className="row">
               <button onClick={() => setOpen(true)}>Show Loader</button>
               <button onClick={() => setOpen(false)}>Hide Loader</button>
             </div>
@@ -30,6 +31,7 @@ export const BasicLoaderDemo = () => {
   );
 };
 
+// Demo 2: Auto-hide After Task
 export const AutoHideLoaderDemo = () => {
   const [loading, setLoading] = useState(false);
 
@@ -51,7 +53,7 @@ export const AutoHideLoaderDemo = () => {
         <div className="demo-section">
           <h3 className="demo-title">Auto-hide After Task</h3>
           <div className="demo-content">
-            <div className="control-row">
+            <div className="row">
               <button onClick={runTask}>Run Task</button>
             </div>
             {loading && <CircularProgressBar />}
@@ -62,6 +64,7 @@ export const AutoHideLoaderDemo = () => {
   );
 };
 
+// Demo 3: Blocking UI During Action
 export const BlockingActionDemo = () => {
   const [loading, setLoading] = useState(false);
 
@@ -86,7 +89,7 @@ export const BlockingActionDemo = () => {
         <div className="demo-section">
           <h3 className="demo-title">Blocking UI During Action</h3>
           <div className="demo-content">
-            <div className="control-row">
+            <div className="row">
               <button onClick={submit} disabled={loading}>
                 {loading ? "Submitting..." : "Submit"}
               </button>
@@ -99,7 +102,8 @@ export const BlockingActionDemo = () => {
   );
 };
 
-const CircularProgressDemo = () => {
+// Main Demo Component
+export default function CircularProgressDemo() {
   return (
     <div className="circular-progress-demo-container">
       <BasicLoaderDemo />
@@ -107,6 +111,4 @@ const CircularProgressDemo = () => {
       <BlockingActionDemo />
     </div>
   );
-};
-
-export default CircularProgressDemo;
+}
