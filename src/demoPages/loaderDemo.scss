@@ -1,61 +1,177 @@
-// =============================================================================
-// LOADER DEMO STYLES
-// =============================================================================
-
-.loader-demo {
-    padding: 2rem;
+// Loader Demo Styles - Light and Simple
+.loader-demo-container {
     max-width: 1200px;
     margin: 0 auto;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    padding: 1rem;
+    font-family: inherit;
 
-    h1 {
-        margin: 0 0 1.5rem 0;
-        font-size: 1.75rem;
-        font-weight: 700;
-        color: #2c3e50;
+    * {
+        &:focus,
+        &:focus-within,
+        &:focus-visible {
+            outline: none;
+        }
     }
 
+    // Demo Section Styles - Simple and Clean
     .demo-section {
         margin-bottom: 2rem;
-        padding: 1.5rem;
-        border: 1px solid #e1e5e9;
-        border-radius: 12px;
         background: #ffffff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border: 1px solid #e1e5e9;
+        border-radius: 6px;
+        overflow: hidden;
+        outline: none;
 
-        h2 {
-            margin: 0 0 1rem 0;
-            font-size: 1.25rem;
+        &:focus,
+        &:focus-within,
+        &:focus-visible {
+            outline: none;
+        }
+
+        .demo-title {
+            background: #f8f9fa;
+            color: #333333;
+            margin: 0;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e1e5e9;
         }
 
-        h3 {
-            margin: 0.75rem 0 0.5rem 0;
-            font-size: 1rem;
-            color: #34495e;
-        }
+        .demo-content {
+            padding: 1.5rem;
 
-        .demo-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.75rem;
-        }
+            // Row Layout
+            .row {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
 
-        p {
-            margin: 0.25rem 0 0 0;
-            color: #6c757d;
+                > div {
+                    width: 100%;
+
+                    p {
+                        margin: 0 0 0.5rem 0;
+                        font-size: 0.875rem;
+                        color: #666666;
+                    }
+                }
+            }
+
+            p {
+                margin: 0.5rem 0 0 0;
+                font-size: 0.875rem;
+                color: #666666;
+            }
+
+            label {
+                display: block;
+                font-size: 0.875rem;
+                color: #333333;
+                margin-bottom: 0.5rem;
+            }
+
+            input[type="range"] {
+                width: 100%;
+                margin: 0.5rem 0;
+            }
+
+            button {
+                padding: 0.5rem 1rem;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                font-family: inherit;
+
+                &:hover {
+                    background-color: #0056b3;
+                    transform: translateY(-1px);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+            }
         }
     }
 
-    @media (max-width: 768px) {
-        padding: 1rem;
-        .demo-section {
-            padding: 1rem;
+    // Add spin animation for custom children demo
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 }
 
+// Dark Mode Support
+[data-theme='dark'] .loader-demo-container,
+.theme-dark .loader-demo-container,
+html[data-theme='dark'] .loader-demo-container {
+    .demo-section {
+        background: #2a2a2a;
+        border-color: #555555;
 
+        .demo-title {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-bottom-color: #555555;
+        }
+
+        .demo-content {
+            p,
+            label {
+                color: #cccccc;
+            }
+
+            button {
+                background-color: #007bff;
+                color: #ffffff;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+            }
+        }
+    }
+}
+
+// Additional dark mode selectors
+.dark .loader-demo-container,
+[class*="dark"] .loader-demo-container,
+.theme-dark .loader-demo-container {
+    .demo-section {
+        background: #2a2a2a;
+        border-color: #555555;
+
+        .demo-title {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-bottom-color: #555555;
+        }
+
+        .demo-content {
+            p,
+            label {
+                color: #cccccc;
+            }
+
+            button {
+                background-color: #007bff;
+                color: #ffffff;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+            }
+        }
+    }
+}
