@@ -1,0 +1,167 @@
+// Side Panel Demo Styles - Light and Simple
+.side-panel-demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    font-family: inherit;
+
+    * {
+        &:focus,
+        &:focus-within,
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    // Demo Section Styles - Simple and Clean
+    .demo-section {
+        margin-bottom: 2rem;
+        background: #ffffff;
+        border: 1px solid #e1e5e9;
+        border-radius: 6px;
+        overflow: hidden;
+        outline: none;
+
+        &:focus,
+        &:focus-within,
+        &:focus-visible {
+            outline: none;
+        }
+
+        .demo-title {
+            background: #f8f9fa;
+            color: #333333;
+            margin: 0;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .demo-content {
+            padding: 1.5rem;
+
+            p {
+                margin: 0.5rem 0 0 0;
+                font-size: 0.875rem;
+                color: #666666;
+            }
+
+            .button-group {
+                display: flex;
+                gap: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            .demo-button {
+                padding: 0.5rem 1rem;
+                background-color: #007bff;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-size: 0.875rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                font-family: inherit;
+
+                &:hover {
+                    background-color: #0056b3;
+                    transform: translateY(-1px);
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                }
+
+                &:active {
+                    transform: translateY(0);
+                }
+
+                &.secondary {
+                    background-color: #6c757d;
+
+                    &:hover {
+                        background-color: #5a6268;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Dark Mode Support
+[data-theme='dark'] .side-panel-demo-container,
+.theme-dark .side-panel-demo-container,
+html[data-theme='dark'] .side-panel-demo-container {
+    .demo-section {
+        background: #2a2a2a;
+        border-color: #555555;
+
+        .demo-title {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-bottom-color: #555555;
+        }
+
+        .demo-content {
+            p {
+                color: #cccccc;
+            }
+
+            .demo-button {
+                background-color: #007bff;
+                color: #ffffff;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+
+                &.secondary {
+                    background-color: #6c757d;
+
+                    &:hover {
+                        background-color: #5a6268;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Additional dark mode selectors
+.dark .side-panel-demo-container,
+[class*="dark"] .side-panel-demo-container,
+.theme-dark .side-panel-demo-container {
+    .demo-section {
+        background: #2a2a2a;
+        border-color: #555555;
+
+        .demo-title {
+            background: #3a3a3a;
+            color: #ffffff;
+            border-bottom-color: #555555;
+        }
+
+        .demo-content {
+            p {
+                color: #cccccc;
+            }
+
+            .demo-button {
+                background-color: #007bff;
+                color: #ffffff;
+
+                &:hover {
+                    background-color: #0056b3;
+                }
+
+                &.secondary {
+                    background-color: #6c757d;
+
+                    &:hover {
+                        background-color: #5a6268;
+                    }
+                }
+            }
+        }
+    }
+}
+
