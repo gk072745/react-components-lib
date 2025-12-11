@@ -1,29 +1,23 @@
 # Tooltip
 
-A flexible tooltip component with smart positioning, collision handling, triggers, and optional arrow.
+A flexible tooltip component with smart positioning, collision handling, multiple triggers, and customizable styling.
 
-## Features
+## Overview
 
-- **Positions**: `top`, `bottom`, `left`, `right`, plus corners `top-left`, `top-right`, `bottom-left`, `bottom-right`
-- **Triggers**: `hover` (default), `click`, `focus`
-- **Collision handling**: Auto flip and viewport-bound adjustments
-- **Arrow**: Toggle visibility with `showArrow`
-- **Custom content**: Accepts string or React node via `content` or `tooltip`
+The BasicTooltip component provides:
 
-## Basic Usage
-
-```jsx
-import BasicTooltip from '../components/sharedComponents/BasicTooltip';
-
-export default function Example() {
-  return (
-    <BasicTooltip content="Hello" position="top">
-      <button>Hover me</button>
-    </BasicTooltip>
-  );
-}
-```
+- Multiple positioning options (8 positions including corners)
+- Three trigger types (hover, click, focus)
+- Automatic collision detection and position flipping
+- Viewport boundary adjustments
+- Customizable arrow display
+- Multiple style variants
+- Custom content support (string or React node)
+- Configurable delays and offsets
+- Accessibility features with proper ARIA attributes
 
 [API Reference →](./api)
 
 [View Code →](./code)
+
+[View Demos →](./demo)

@@ -1,25 +1,29 @@
 import {
-  HoverPositionsExample,
-  CornerPositionsExample,
-  ClickTriggerExample,
-  FocusTriggerExample,
-  VariantsAndArrowExample
+  BasicPositionsDemo,
+  CornerPositionsDemo,
+  ClickTriggerDemo,
+  FocusTriggerDemo,
+  VariantsDemo,
+  ArrowOptionsDemo,
+  CustomContentDemo,
+  DelayOptionsDemo,
 } from "@site/src/demoPages/TooltipDemo.jsx";
 
 # Demo
 
-This page alternates code examples with their corresponding interactive demos.
+This page demonstrates the Tooltip component with various configurations and examples.
 
-## Hover Trigger (default)
+## Demo 1: Basic Positions
 
 ### Code Example
 
 ```jsx
-import BasicTooltip from '../components/sharedComponents/BasicTooltip';
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
 
-export default function HoverPositionsExample() {
+const BasicPositionsExample = () => {
   return (
-    <>
+    <div>
       <BasicTooltip content="Top tooltip" position="top">
         <button>Hover Top</button>
       </BasicTooltip>
@@ -32,106 +36,251 @@ export default function HoverPositionsExample() {
       <BasicTooltip content="Right tooltip" position="right">
         <button>Hover Right</button>
       </BasicTooltip>
-    </>
+    </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<HoverPositionsExample />
+<BasicPositionsDemo />
 
-## Corner Positions
+## Demo 2: Corner Positions
 
 ### Code Example
 
 ```jsx
-import BasicTooltip from '../components/sharedComponents/BasicTooltip';
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
 
-export default function CornerPositionsExample() {
+const CornerPositionsExample = () => {
   return (
-    <>
-      <BasicTooltip content="Top Left" position="top-left"><button>Top Left</button></BasicTooltip>
-      <BasicTooltip content="Top Right" position="top-right"><button>Top Right</button></BasicTooltip>
-      <BasicTooltip content="Bottom Left" position="bottom-left"><button>Bottom Left</button></BasicTooltip>
-      <BasicTooltip content="Bottom Right" position="bottom-right"><button>Bottom Right</button></BasicTooltip>
-    </>
+    <div>
+      <BasicTooltip content="Top Left" position="top-left">
+        <button>Top Left</button>
+      </BasicTooltip>
+      <BasicTooltip content="Top Right" position="top-right">
+        <button>Top Right</button>
+      </BasicTooltip>
+      <BasicTooltip content="Bottom Left" position="bottom-left">
+        <button>Bottom Left</button>
+      </BasicTooltip>
+      <BasicTooltip content="Bottom Right" position="bottom-right">
+        <button>Bottom Right</button>
+      </BasicTooltip>
+    </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<CornerPositionsExample />
+<CornerPositionsDemo />
 
-## Click Trigger
+## Demo 3: Click Trigger
 
 ### Code Example
 
 ```jsx
-import BasicTooltip from '../components/sharedComponents/BasicTooltip';
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
 
-export default function ClickTriggerExample() {
+const ClickTriggerExample = () => {
   return (
-    <>
-      <BasicTooltip content="Click to toggle" position="top" trigger="click"><button>Click Me</button></BasicTooltip>
-      <BasicTooltip content="Click outside to close" position="bottom" trigger="click"><button>Click Outside</button></BasicTooltip>
-    </>
+    <div>
+      <BasicTooltip content="Click to toggle" position="top" trigger="click">
+        <button>Click Me</button>
+      </BasicTooltip>
+      <BasicTooltip
+        content="Click outside to close"
+        position="bottom"
+        trigger="click"
+      >
+        <button>Click Outside</button>
+      </BasicTooltip>
+    </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<ClickTriggerExample />
+<ClickTriggerDemo />
 
-## Focus Trigger
+## Demo 4: Focus Trigger
 
 ### Code Example
 
 ```jsx
-import BasicTooltip from '../components/sharedComponents/BasicTooltip';
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
 
-export default function FocusTriggerExample() {
+const FocusTriggerExample = () => {
   return (
-    <>
+    <div>
       <BasicTooltip content="Focus on input" position="top" trigger="focus">
         <input placeholder="Focus me" />
       </BasicTooltip>
-      <BasicTooltip content={<span><b>Formatted</b> content allowed</span>} position="right" trigger="focus">
+      <BasicTooltip
+        tooltip={
+          <span>
+            <b>Formatted</b> content allowed
+          </span>
+        }
+        position="right"
+        trigger="focus"
+      >
         <button>Focusable Button</button>
       </BasicTooltip>
-    </>
+    </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<FocusTriggerExample />
+<FocusTriggerDemo />
 
-## Variants and Arrow
+## Demo 5: Variants
 
 ### Code Example
 
 ```jsx
-import BasicTooltip from '../components/sharedComponents/BasicTooltip';
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
 
-export default function VariantsAndArrowExample() {
+const VariantsExample = () => {
   return (
-    <>
-      <BasicTooltip content="Light variant" customClass="tooltip-light" position="top"><button>Light</button></BasicTooltip>
-      <BasicTooltip content="Success variant" customClass="tooltip-success" position="top"><button>Success</button></BasicTooltip>
-      <BasicTooltip content="Error variant" customClass="tooltip-error" position="top"><button>Error</button></BasicTooltip>
-      <BasicTooltip content="Warning variant" customClass="tooltip-warning" position="top"><button>Warning</button></BasicTooltip>
-      <BasicTooltip content="No arrow" showArrow={false} position="top"><button>No Arrow</button></BasicTooltip>
-    </>
+    <div>
+      <BasicTooltip
+        content="Light variant"
+        customClass="tooltip-light"
+        position="top"
+      >
+        <button>Light</button>
+      </BasicTooltip>
+      <BasicTooltip
+        content="Success variant"
+        customClass="tooltip-success"
+        position="top"
+      >
+        <button>Success</button>
+      </BasicTooltip>
+      <BasicTooltip
+        content="Error variant"
+        customClass="tooltip-error"
+        position="top"
+      >
+        <button>Error</button>
+      </BasicTooltip>
+      <BasicTooltip
+        content="Warning variant"
+        customClass="tooltip-warning"
+        position="top"
+      >
+        <button>Warning</button>
+      </BasicTooltip>
+    </div>
   );
-}
+};
 ```
 
 ### Interactive Demo
 
-<VariantsAndArrowExample />
+<VariantsDemo />
 
+## Demo 6: Arrow Options
 
+### Code Example
+
+```jsx
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
+
+const ArrowOptionsExample = () => {
+  return (
+    <div>
+      <BasicTooltip content="With arrow (default)" position="top">
+        <button>With Arrow</button>
+      </BasicTooltip>
+      <BasicTooltip content="No arrow" showArrow={false} position="top">
+        <button>No Arrow</button>
+      </BasicTooltip>
+    </div>
+  );
+};
+```
+
+### Interactive Demo
+
+<ArrowOptionsDemo />
+
+## Demo 7: Custom Content
+
+### Code Example
+
+```jsx
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
+
+const CustomContentExample = () => {
+  return (
+    <div>
+      <BasicTooltip
+        tooltip={
+          <span>
+            <b>Bold</b> and <i>italic</i> content
+          </span>
+        }
+        position="top"
+      >
+        <button>Rich Content</button>
+      </BasicTooltip>
+      <BasicTooltip
+        tooltip={
+          <div>
+            <div>Line 1</div>
+            <div>Line 2</div>
+          </div>
+        }
+        position="top"
+      >
+        <button>Multi-line</button>
+      </BasicTooltip>
+    </div>
+  );
+};
+```
+
+### Interactive Demo
+
+<CustomContentDemo />
+
+## Demo 8: Delay Options
+
+### Code Example
+
+```jsx
+import React from "react";
+import BasicTooltip from "../components/sharedComponents/BasicTooltip";
+
+const DelayOptionsExample = () => {
+  return (
+    <div>
+      <BasicTooltip content="No delay" position="top" delay={0}>
+        <button>No Delay</button>
+      </BasicTooltip>
+      <BasicTooltip content="500ms delay" position="top" delay={500}>
+        <button>500ms Delay</button>
+      </BasicTooltip>
+      <BasicTooltip content="1000ms delay" position="top" delay={1000}>
+        <button>1000ms Delay</button>
+      </BasicTooltip>
+    </div>
+  );
+};
+```
+
+### Interactive Demo
+
+<DelayOptionsDemo />
