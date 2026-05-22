@@ -12,10 +12,10 @@ function HomepageHeader() {
     <header className={clsx('hero hero--primary', styles.heroBanner)}>
       <div className="container">
         <Heading as="h1" className="hero__title">
-          React UI Components Library
+          Govind&apos;s React UI Components Library
         </Heading>
         <p className="hero__subtitle">
-          Beautiful, customizable React components built with SCSS. 
+          Govind&apos;s beautiful, customizable React components built with SCSS. 
           From checkboxes to complex form elements, everything you need for modern web applications.
         </p>
         <div className={styles.buttons}>
@@ -95,8 +95,8 @@ export default function Home() {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title="React UI Components Library"
-      description="A comprehensive collection of custom React UI components built with SCSS for modern web applications">
+      title="Govind's React UI Components Library"
+      description="Govind's comprehensive collection of custom React UI components built with SCSS for modern web applications">
       <HomepageHeader />
       <main>
         <HomepageFeatures />

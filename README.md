@@ -1,41 +1,24 @@
-# Website
+# Govind's React Component Library
 
-This website is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
+Copy-paste React UI components with SCSS styling and Docusaurus documentation.
 
-## Installation
+## Repository
 
-```bash
-yarn
-```
+https://github.com/gk072745/react-components-lib
 
-## Local Development
+## Local development
 
 ```bash
-yarn start
+npm install
+npm start
 ```
 
-This command starts a local development server and opens up a browser window. Most changes are reflected live without having to restart the server.
-
-## Build
+## Build docs
 
 ```bash
-yarn build
+npm run build
 ```
 
-This command generates static content into the `build` directory and can be served using any static contents hosting service.
+## Usage
 
-## Deployment
-
-Using SSH:
-
-```bash
-USE_SSH=true yarn deploy
-```
-
-Not using SSH:
-
-```bash
-GIT_USER=<Your GitHub username> yarn deploy
-```
-
-If you are using GitHub pages for hosting, this command is a convenient way to build the website and push to the `gh-pages` branch.
+Browse the docs, copy components from `src/components/sharedComponents/` into your React project, and customize styles as needed.
