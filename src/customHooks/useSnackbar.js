@@ -44,7 +44,13 @@ const defaultIcons = {
 
 // Convert rem to pixels
 const convertRemToPixels = (rem) => {
-  return rem * parseInt(getComputedStyle(document.documentElement).fontSize);
+  if (typeof rem !== 'number' || Number.isNaN(rem)) return 0;
+  if (typeof window === 'undefined' || typeof getComputedStyle === 'undefined') {
+    return rem * 16;
+  }
+
+  const rootFontSize = parseFloat(getComputedStyle(document.documentElement).fontSize);
+  return rem * (Number.isNaN(rootFontSize) ? 16 : rootFontSize);
 };
 
 export const useSnackbar = () => {
